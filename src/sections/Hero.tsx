@@ -1,19 +1,92 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Play, Shield, Crown, Sparkles } from 'lucide-react';
+import { ArrowRight, Play, Shield, Crown, Sparkles, RefreshCw } from 'lucide-react';
 
 interface HeroProps {
   onNavigate: (section: string) => void;
+}
+
+type Season = 'spring' | 'summer' | 'autumn' | 'winter';
+
+const SEASON_IMAGES: Record<Season, string> = {
+  spring: '/images/hero-landscape-1.jpg',
+  summer: '/images/hero-landscape-2.jpg',
+  autumn: '/images/hero-landscape-3.jpg',
+  winter: '/images/hero-landscape-4.jpg',
+};
+
+const SEASON_NAMES: Record<Season, string> = {
+  spring: '春季',
+  summer: '夏季',
+  autumn: '秋季',
+  winter: '冬季',
+};
+
+const SEASONS: Season[] = ['spring', 'summer', 'autumn', 'winter'];
+
+function getCurrentSeason(): Season {
+  const month = new Date().getMonth() + 1;
+  if (month >= 3 && month <= 5) return 'spring';
+  if (month >= 6 && month <= 8) return 'summer';
+  if (month >= 9 && month <= 11) return 'autumn';
+  return 'winter';
+}
+
+function getNextSeason(currentSeason: Season): Season {
+  const currentIndex = SEASONS.indexOf(currentSeason);
+  return SEASONS[(currentIndex + 1) % SEASONS.length];
 }
 
 export function Hero({ onNavigate }: HeroProps) {
   const heroRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [currentSeason, setCurrentSeason] = useState<Season>(getCurrentSeason());
+  const [currentImage, setCurrentImage] = useState<string>(SEASON_IMAGES[getCurrentSeason()]);
+  const [nextImage, setNextImage] = useState<string>('');
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set([SEASON_IMAGES[getCurrentSeason()]]));
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  const preloadImage = (url: string): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      if (loadedImages.has(url)) {
+        resolve();
+        return;
+      }
+      const img = new Image();
+      img.onload = () => {
+        setLoadedImages(prev => new Set(prev).add(url));
+        resolve();
+      };
+      img.onerror = reject;
+      img.src = url;
+    });
+  };
+
+  const switchSeason = async () => {
+    if (isTransitioning) return;
+    
+    const nextSeason = getNextSeason(currentSeason);
+    const nextSeasonImage = SEASON_IMAGES[nextSeason];
+    
+    if (nextSeasonImage === currentImage) return;
+    
+    setIsTransitioning(true);
+    setNextImage(nextSeasonImage);
+    
+    await preloadImage(nextSeasonImage);
+    
+    setTimeout(() => {
+      setCurrentImage(nextSeasonImage);
+      setCurrentSeason(nextSeason);
+      setNextImage('');
+      setIsTransitioning(false);
+    }, 100);
+  };
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -52,9 +125,21 @@ export function Hero({ onNavigate }: HeroProps) {
         }}
       >
         <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/images/hero-landscape.jpg)' }}
+          className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
+          style={{ 
+            backgroundImage: `url(${currentImage})`,
+            opacity: isTransitioning ? 0 : 1
+          }}
         />
+        {nextImage && (
+          <div
+            className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
+            style={{ 
+              backgroundImage: `url(${nextImage})`,
+              opacity: isTransitioning ? 1 : 0
+            }}
+          />
+        )}
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
         {/* Vignette Effect */}
@@ -136,14 +221,25 @@ export function Hero({ onNavigate }: HeroProps) {
             开始冒险
             <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
           </Button>
-          <Button
-            variant="outline"
-            onClick={() => scrollToSection('kingdoms')}
-            className="group px-8 py-6 text-lg rounded-xl border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50"
-          >
-            <Play className="w-5 h-5 mr-2" />
-            了解更多
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              onClick={() => scrollToSection('kingdoms')}
+              className="group px-8 py-6 text-lg rounded-xl border-2 border-white/60 text-white bg-black/40 hover:bg-black/60 hover:border-white/80 hover:text-white"
+            >
+              <Play className="w-5 h-5 mr-2" />
+              了解更多
+            </Button>
+            <Button
+              variant="outline"
+              onClick={switchSeason}
+              disabled={isTransitioning}
+              className="group px-4 py-6 rounded-xl border-2 border-white/60 text-white bg-black/40 hover:bg-black/60 hover:border-white/80 hover:text-white disabled:opacity-50"
+              title={`切换到${SEASON_NAMES[getNextSeason(currentSeason)]}`}
+            >
+              <RefreshCw className={`w-5 h-5 ${isTransitioning ? 'animate-spin' : ''}`} />
+            </Button>
+          </div>
         </div>
 
         {/* Stats */}
