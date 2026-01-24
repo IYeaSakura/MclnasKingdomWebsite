@@ -17,8 +17,11 @@ import {
 } from '@/components/ui/dialog';
 import { Search, Trophy, Shield, Sword, Scale, HelpCircle, Star } from 'lucide-react';
 import type { Player, FactionType } from '@/types';
-import { hallOfFamePlayers } from '@/data/mockData';
+import { hallOfFameData } from '@/data';
 import { preloadImages } from '@/utils/imageCache';
+import { usePagination } from '@/hooks/usePagination';
+import { Pagination } from '@/components/Pagination';
+import { FirstLetterIcon } from '@/components/FirstLetterIcon';
 
 const factionConfig: Record<FactionType, { label: string; color: string; icon: typeof Shield }> = {
   all: { label: '全部', color: 'gray', icon: HelpCircle },
@@ -34,11 +37,11 @@ export function HallOfFame() {
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
   useEffect(() => {
-    preloadImages(hallOfFamePlayers.map(player => player.image));
+    preloadImages(hallOfFameData.map(player => player.image));
   }, []);
 
   const filteredPlayers = useMemo(() => {
-    let players = [...hallOfFamePlayers];
+    let players = [...hallOfFameData];
 
     // Search filter
     if (searchTerm) {
@@ -56,6 +59,13 @@ export function HallOfFame() {
 
     return players;
   }, [searchTerm, factionFilter]);
+
+  const {
+    currentPage,
+    totalPages,
+    paginatedData: displayPlayers,
+    goToPage,
+  } = usePagination(filteredPlayers, { pageSize: 9 });
 
   const getFactionLabel = (faction: string) => {
     return factionConfig[faction as FactionType]?.label || faction;
@@ -118,7 +128,7 @@ export function HallOfFame() {
 
         {/* Players Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPlayers.map((player, index) => (
+          {displayPlayers.map((player, index) => (
             <Card
               key={player.id}
               className="mc-card group cursor-pointer overflow-hidden"
@@ -126,10 +136,12 @@ export function HallOfFame() {
               onClick={() => setSelectedPlayer(player)}
             >
               <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
-                <img
-                  src={player.image}
+                <FirstLetterIcon
+                  text={player.name}
+                  imageUrl={player.image}
                   alt={player.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  size="xl"
+                  className="w-full h-full transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
@@ -224,6 +236,13 @@ export function HallOfFame() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Pagination */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={goToPage}
+      />
     </section>
   );
 }

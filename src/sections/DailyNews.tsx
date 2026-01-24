@@ -18,8 +18,11 @@ import {
 import { Search, Newspaper, Calendar, Clock, ChevronRight } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import type { DailyNews, DateFilter } from '@/types';
-import { dailyNews } from '@/data/mockData';
+import { dailyNewsData } from '@/data';
 import { preloadImages } from '@/utils/imageCache';
+import { usePagination } from '@/hooks/usePagination';
+import { Pagination } from '@/components/Pagination';
+import { FirstLetterIcon } from '@/components/FirstLetterIcon';
 
 const dateFilterConfig: Record<DateFilter, string> = {
   all: '全部时间',
@@ -36,11 +39,11 @@ export function DailyNews() {
   const [selectedNews, setSelectedNews] = useState<DailyNews | null>(null);
 
   useEffect(() => {
-    preloadImages(dailyNews.map(news => news.image));
+    preloadImages(dailyNewsData.map(news => news.image));
   }, []);
 
   const filteredNews = useMemo(() => {
-    let items = [...dailyNews];
+    let items = [...dailyNewsData];
 
     // Search filter
     if (searchTerm) {
@@ -81,6 +84,13 @@ export function DailyNews() {
 
     return items;
   }, [searchTerm, dateFilter]);
+
+  const {
+    currentPage,
+    totalPages,
+    paginatedData: displayNews,
+    goToPage,
+  } = usePagination(filteredNews, { pageSize: 6 });
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
@@ -136,7 +146,7 @@ export function DailyNews() {
 
         {/* News Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {filteredNews.map((news, index) => (
+          {displayNews.map((news, index) => (
             <Card
               key={news.id}
               className={`mc-card group cursor-pointer overflow-hidden ${
@@ -149,10 +159,12 @@ export function DailyNews() {
                   index === 0 ? 'aspect-[16/10]' : 'aspect-video'
                 }`}
               >
-                <img
-                  src={news.image}
+                <FirstLetterIcon
+                  text={news.title}
+                  imageUrl={news.image}
                   alt={news.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  size="xl"
+                  className="w-full h-full transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
@@ -231,6 +243,13 @@ export function DailyNews() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Pagination */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={goToPage}
+      />
     </section>
   );
 }

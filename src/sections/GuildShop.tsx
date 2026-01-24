@@ -27,8 +27,11 @@ import {
 } from 'recharts';
 import { Search, TrendingUp, Flower2, Coins, Info, ArrowUpDown } from 'lucide-react';
 import type { GuildShopItem, ShopItemType, PriceSort } from '@/types';
-import { guildShopItems } from '@/data/mockData';
+import { guildShopData } from '@/data';
 import { preloadImages } from '@/utils/imageCache';
+import { usePagination } from '@/hooks/usePagination';
+import { Pagination } from '@/components/Pagination';
+import { FirstLetterIcon } from '@/components/FirstLetterIcon';
 
 export function GuildShop() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -37,11 +40,11 @@ export function GuildShop() {
   const [selectedItem, setSelectedItem] = useState<GuildShopItem | null>(null);
 
   useEffect(() => {
-    preloadImages(guildShopItems.map(item => item.image));
+    preloadImages(guildShopData.map(item => item.image));
   }, []);
 
   const filteredItems = useMemo(() => {
-    let items = [...guildShopItems];
+    let items = [...guildShopData];
 
     // Search filter
     if (searchTerm) {
@@ -68,6 +71,13 @@ export function GuildShop() {
 
     return items;
   }, [searchTerm, typeFilter, sortBy]);
+
+  const {
+    currentPage,
+    totalPages,
+    paginatedData: displayItems,
+    goToPage,
+  } = usePagination(filteredItems, { pageSize: 12 });
 
   return (
     <section id="guild" className="py-20 bg-gradient-to-b from-[#f8f9fa] to-white">
@@ -122,7 +132,7 @@ export function GuildShop() {
 
         {/* Items Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredItems.map((item, index) => (
+          {displayItems.map((item, index) => (
             <Card
               key={item.id}
               className="mc-card group cursor-pointer overflow-hidden border-purple-200 hover:border-purple-400"
@@ -130,10 +140,12 @@ export function GuildShop() {
               onClick={() => setSelectedItem(item)}
             >
               <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-purple-100 to-purple-200">
-                <img
-                  src={item.image}
+                <FirstLetterIcon
+                  text={item.name}
+                  imageUrl={item.image}
                   alt={item.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  size="xl"
+                  className="w-full h-full transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute top-2 right-2 flex gap-1">
                   {item.type === 'buy_only' ? (
@@ -293,6 +305,13 @@ export function GuildShop() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Pagination */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={goToPage}
+      />
     </section>
   );
 }

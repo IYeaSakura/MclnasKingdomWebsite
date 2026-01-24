@@ -17,8 +17,11 @@ import {
 } from '@/components/ui/dialog';
 import { Search, Building2, Shield, Sword, Scale, HelpCircle, MapPin, Crown } from 'lucide-react';
 import type { Kingdom, FactionType, KingdomLevel, RegionType } from '@/types';
-import { kingdoms } from '@/data/mockData';
+import { kingdomsData } from '@/data';
 import { preloadImages } from '@/utils/imageCache';
+import { usePagination } from '@/hooks/usePagination';
+import { Pagination } from '@/components/Pagination';
+import { FirstLetterIcon } from '@/components/FirstLetterIcon';
 
 const factionConfig: Record<FactionType, { label: string; color: string; icon: typeof Shield }> = {
   all: { label: '全部', color: 'gray', icon: HelpCircle },
@@ -56,11 +59,11 @@ export function Kingdoms() {
   const [selectedKingdom, setSelectedKingdom] = useState<Kingdom | null>(null);
 
   useEffect(() => {
-    preloadImages(kingdoms.map(kingdom => kingdom.image));
+    preloadImages(kingdomsData.map(kingdom => kingdom.image));
   }, []);
 
   const filteredKingdoms = useMemo(() => {
-    let items = [...kingdoms];
+    let items = [...kingdomsData];
 
     // Search filter
     if (searchTerm) {
@@ -87,7 +90,14 @@ export function Kingdoms() {
     }
 
     return items;
-  }, [searchTerm, factionFilter, levelFilter, regionFilter]);
+    }, [searchTerm, factionFilter, levelFilter, regionFilter]);
+
+  const {
+    currentPage,
+    totalPages,
+    paginatedData: displayKingdoms,
+    goToPage,
+  } = usePagination(filteredKingdoms, { pageSize: 9 });
 
   const getFactionLabel = (faction: string) => {
     return factionConfig[faction as FactionType]?.label || faction;
@@ -196,7 +206,7 @@ export function Kingdoms() {
 
         {/* Kingdoms Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredKingdoms.map((kingdom, index) => (
+          {displayKingdoms.map((kingdom, index) => (
             <Card
               key={kingdom.id}
               className="mc-card group cursor-pointer overflow-hidden"
@@ -204,10 +214,12 @@ export function Kingdoms() {
               onClick={() => setSelectedKingdom(kingdom)}
             >
               <div className="relative aspect-[3/2] overflow-hidden">
-                <img
-                  src={kingdom.image}
+                <FirstLetterIcon
+                  text={kingdom.name}
+                  imageUrl={kingdom.image}
                   alt={kingdom.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  size="xl"
+                  className="w-full h-full transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute top-3 left-3 right-3 flex gap-2">
@@ -327,6 +339,13 @@ export function Kingdoms() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Pagination */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={goToPage}
+      />
     </section>
   );
 }

@@ -27,8 +27,11 @@ import {
 } from 'recharts';
 import { Search, TrendingUp, ShoppingCart, Coins, ArrowUpDown } from 'lucide-react';
 import type { SystemShopItem, ShopItemType, PriceSort } from '@/types';
-import { systemShopItems } from '@/data/mockData';
+import { systemShopData } from '@/data';
 import { preloadImages } from '@/utils/imageCache';
+import { usePagination } from '@/hooks/usePagination';
+import { Pagination } from '@/components/Pagination';
+import { FirstLetterIcon } from '@/components/FirstLetterIcon';
 
 export function SystemShop() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -37,11 +40,11 @@ export function SystemShop() {
   const [selectedItem, setSelectedItem] = useState<SystemShopItem | null>(null);
 
   useEffect(() => {
-    preloadImages(systemShopItems.map(item => item.image));
+    preloadImages(systemShopData.map(item => item.image));
   }, []);
 
   const filteredItems = useMemo(() => {
-    let items = [...systemShopItems];
+    let items = [...systemShopData];
 
     // Search filter
     if (searchTerm) {
@@ -67,6 +70,13 @@ export function SystemShop() {
 
     return items;
   }, [searchTerm, typeFilter, sortBy]);
+
+  const {
+    currentPage,
+    totalPages,
+    paginatedData: displayItems,
+    goToPage,
+  } = usePagination(filteredItems, { pageSize: 12 });
 
   return (
     <section id="shop" className="py-20 bg-[#f8f9fa]">
@@ -121,7 +131,7 @@ export function SystemShop() {
 
         {/* Items Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredItems.map((item, index) => (
+          {displayItems.map((item, index) => (
             <Card
               key={item.id}
               className="mc-card group cursor-pointer overflow-hidden"
@@ -129,10 +139,12 @@ export function SystemShop() {
               onClick={() => setSelectedItem(item)}
             >
               <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
-                <img
-                  src={item.image}
+                <FirstLetterIcon
+                  text={item.name}
+                  imageUrl={item.image}
                   alt={item.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  size="xl"
+                  className="w-full h-full transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute top-2 right-2">
                   {item.type === 'buy_only' ? (
@@ -253,6 +265,13 @@ export function SystemShop() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Pagination */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={goToPage}
+      />
     </section>
   );
 }
