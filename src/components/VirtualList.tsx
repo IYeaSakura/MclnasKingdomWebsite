@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { useVirtualScroll } from '@/hooks/useVirtualScroll';
 
 interface VirtualListProps<T> {

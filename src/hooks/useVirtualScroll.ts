@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
 interface UseVirtualScrollOptions {
   itemCount: number;
@@ -21,7 +21,6 @@ export function useVirtualScroll({
   overscan = 3,
 }: UseVirtualScrollOptions): UseVirtualScrollReturn {
   const [scrollTop, setScrollTop] = useState(0);
-  const scrollRef = useRef<HTMLDivElement>(null);
 
   const totalHeight = itemCount * itemHeight;
 

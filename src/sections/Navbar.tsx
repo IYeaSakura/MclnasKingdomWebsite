@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Menu, X, Store, Users, Building2, Newspaper } from 'lucide-react';
 
 interface NavbarProps {
-  activeSection: string;
   onSectionChange: (section: string) => void;
 }
 
@@ -16,7 +15,7 @@ const navItems = [
   { id: 'daily', label: '日报', icon: Newspaper, path: '/daily-news' },
 ];
 
-export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
+export function Navbar({ onSectionChange }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();

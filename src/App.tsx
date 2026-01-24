@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { Navbar } from './sections/Navbar';
 import { Hero } from './sections/Hero';
 import { GameGallery } from './sections/GameGallery';
@@ -14,8 +14,7 @@ import DailyNewsPage from './pages/DailyNewsPage';
 import './App.css';
 
 function App() {
-  const [activeSection, setActiveSection] = useState('home');
-  const location = useLocation();
+  const [, setActiveSection] = useState('home');
 
   const handleScroll = () => {
     const scrollY = window.scrollY;
@@ -33,16 +32,16 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#f8f9fa]">
-      <Navbar activeSection={activeSection} onSectionChange={setActiveSection} />
+      <Navbar onSectionChange={setActiveSection} />
       <Routes>
         <Route path="/" element={
           <>
-            <Hero onNavigate={setActiveSection} />
-            <GameGallery />
-            <GameFeatures />
-            <CTA />
-            <Footer />
-          </>
+          <Hero onNavigate={setActiveSection} />
+          <GameGallery />
+          <GameFeatures />
+          <CTA />
+          <Footer />
+        </>
         } />
         <Route path="/system-shop" element={<SystemShopPage />} />
         <Route path="/guild-shop" element={<GuildShopPage />} />
