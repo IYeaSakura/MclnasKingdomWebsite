@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Crown, Users, Trophy, MessageCircle, Globe, Radio } from 'lucide-react';
+import { Crown, Users, Trophy, MessageCircle, Globe, Radio, Sparkles } from 'lucide-react';
 
 export function CTA() {
   const [displayText, setDisplayText] = useState('');
@@ -22,7 +22,7 @@ export function CTA() {
   }, []);
 
   return (
-    <section id="cta" className="py-32 bg-gradient-to-br from-blue-50 via-purple-50/30 to-white relative overflow-hidden">
+    <section id="cta" className="py-32 bg-gradient-to-br from-blue-50 via-purple-50/50 to-white relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute top-1/2 right-1/4 w-80 h-80 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
@@ -31,16 +31,24 @@ export function CTA() {
 
       <div className="section-container relative z-10">
         <div className="max-w-4xl mx-auto text-center mb-24">
-          <h2 className={`text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-8 min-h-[80px] transition-all duration-1000 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+          <div
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 transition-all duration-700 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
+          >
+            <Sparkles className="w-4 h-4 text-[#0071e3]" />
+            <span className="text-sm font-medium text-gray-700">开启你的传奇之旅</span>
+          </div>
+          <h2 className={`text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-8 min-h-[80px] transition-all duration-700 delay-100 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}>
             {displayText}
             <span className="animate-pulse text-blue-600">|</span>
           </h2>
         </div>
 
-        <div className={`max-w-5xl mx-auto mb-24 transition-all duration-1000 delay-200 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+        <div className={`max-w-5xl mx-auto mb-24 transition-all duration-700 delay-200 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
           <div className="bg-white rounded-3xl p-10 md:p-14 shadow-2xl border border-gray-100 hover:shadow-3xl transition-all duration-500">
             <div className="flex items-center gap-4 mb-8">
@@ -72,16 +80,16 @@ export function CTA() {
           </div>
         </div>
 
-        <div className={`max-w-6xl mx-auto transition-all duration-1000 delay-400 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-        }`}>
+        <div className={`max-w-6xl mx-auto transition-all duration-700 delay-300 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}>
           <h3 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-16">
             加入服务器
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             <div className="group relative bg-white rounded-3xl p-10 border border-gray-100 hover:shadow-2xl hover:border-blue-300 transition-all duration-500 hover:-translate-y-2 overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items items-center justify-center mx-auto mb-8 shadow-lg shadow-blue-500/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mx-auto mb-8 shadow-lg shadow-blue-500/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
                 <MessageCircle className="w-10 h-10 text-white" />
               </div>
               <h4 className="text-2xl font-bold text-gray-900 mb-6 group-hover:text-blue-600 transition-colors duration-300">游戏QQ群</h4>

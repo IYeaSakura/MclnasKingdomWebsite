@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Shield, Zap, Crown, Users, Map, Trophy } from 'lucide-react';
+import { Shield, Zap, Crown, Users, Map, Trophy, Sparkles } from 'lucide-react';
 
 const features = [
   {
@@ -49,24 +49,33 @@ export function GameFeatures() {
   }, []);
 
   return (
-    <section className="py-32 bg-gradient-to-b from-white via-blue-50/20 to-white relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-blue-400/5 to-purple-400/5 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-br from-purple-400/5 to-pink-400/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+    <section className="py-32 bg-gradient-to-b from-white via-blue-50/50 to-white relative overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-pink-400/10 to-orange-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
       </div>
 
       <div className="section-container relative z-10">
         <div className="text-center mb-24">
+          <div
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 transition-all duration-700 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
+          >
+            <Sparkles className="w-4 h-4 text-[#0071e3]" />
+            <span className="text-sm font-medium text-gray-700">独特玩法设计</span>
+          </div>
           <h2
-            className={`text-5xl md:text-6xl font-bold text-gray-900 mb-6 transition-all duration-1000 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            className={`text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 transition-all duration-700 delay-100 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
             游戏特色
           </h2>
           <p
-            className={`text-xl text-gray-600 max-w-2xl mx-auto transition-all duration-1000 delay-200 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            className={`text-lg md:text-xl text-gray-600 max-w-2xl mx-auto transition-all duration-700 delay-200 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
             丰富的游戏系统，独特的玩法设计，为你带来前所未有的游戏体验

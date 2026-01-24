@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { preloadImages } from '@/utils/imageCache';
 
 const gameImages = [
@@ -73,19 +73,33 @@ export function GameGallery() {
   };
 
   return (
-    <section className="py-32 bg-gradient-to-b from-white via-blue-50/30 to-white relative overflow-hidden">
-      <div className="section-container">
+    <section className="py-32 bg-gradient-to-b from-white via-blue-50/50 to-white relative overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-pink-400/10 to-orange-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+      </div>
+
+      <div className="section-container relative z-10">
         <div className="text-center mb-20">
+          <div
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 transition-all duration-700 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
+          >
+            <Sparkles className="w-4 h-4 text-[#0071e3]" />
+            <span className="text-sm font-medium text-gray-700">探索无限可能</span>
+          </div>
           <h2
-            className={`text-5xl md:text-6xl font-bold text-gray-900 mb-6 transition-all duration-1000 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            className={`text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 transition-all duration-700 delay-100 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
             游戏世界
           </h2>
           <p
-            className={`text-xl text-gray-600 max-w-2xl mx-auto transition-all duration-1000 delay-200 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            className={`text-lg md:text-xl text-gray-600 max-w-2xl mx-auto transition-all duration-700 delay-200 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
             探索无限可能，发现隐藏的宝藏，建立属于你的传奇王国
@@ -94,8 +108,8 @@ export function GameGallery() {
 
         <div
           ref={containerRef}
-          className={`relative max-w-7xl mx-auto transition-all duration-1000 delay-400 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+          className={`relative max-w-7xl mx-auto transition-all duration-700 delay-300 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
           <div className="relative aspect-[16/9] rounded-3xl overflow-hidden shadow-2xl group bg-gradient-to-br from-gray-100 to-gray-200">
@@ -154,9 +168,6 @@ export function GameGallery() {
           </div>
         </div>
       </div>
-
-      <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
     </section>
   );
 }
