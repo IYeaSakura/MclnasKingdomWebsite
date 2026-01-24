@@ -162,23 +162,19 @@ img {
   animation: scale-in 0.3s ease-out forwards;
 }
 
-/* Scrollbar styling */
+/* Scrollbar styling - Hide scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 0px;
+  height: 0px;
+  display: none;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #a1a1a1;
+  background: transparent;
 }
 
 /* Loading skeleton */
