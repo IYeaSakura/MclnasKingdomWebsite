@@ -56,8 +56,8 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
           onClick={scrollToTop}
           className="flex items-center gap-2 group cursor-pointer"
         >
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#0071e3] to-[#ff6f2c] flex items-center justify-center transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-            <Sword className="w-6 h-6 text-white" />
+          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#0071e3] to-[#ff6f2c] flex items-center justify-center transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 overflow-hidden">
+            <img src="/images/mc-logo.png" alt="MC Logo" className="w-full h-full object-contain p-1" />
           </div>
           <span className={`font-bold text-lg transition-colors duration-300 ${
             isScrolled ? 'text-gray-800' : 'text-white'

@@ -1,4 +1,4 @@
-import { Sword, Store, Users, Building2, Newspaper, ExternalLink } from 'lucide-react';
+import { Store, Users, Building2, Newspaper, ExternalLink } from 'lucide-react';
 
 const footerLinks = {
   navigation: [
@@ -38,8 +38,8 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#0071e3] to-[#ff6f2c] flex items-center justify-center">
-                <Sword className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#0071e3] to-[#ff6f2c] flex items-center justify-center overflow-hidden">
+                <img src="/images/mc-logo.png" alt="MC Logo" className="w-full h-full object-contain p-1" />
               </div>
               <span className="font-bold text-lg">王国之争 × 花葬</span>
             </div>
