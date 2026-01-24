@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Sparkles, Crown, Shield, Zap, Map, Users, Trophy, Sword } from 'lucide-react';
+import { Sparkles, Crown, Shield, Zap, Map, Users, Trophy, Sword, MessageCircle, Globe, Radio } from 'lucide-react';
 
 export function CTA() {
   const [displayText, setDisplayText] = useState('');
@@ -117,29 +117,55 @@ export function CTA() {
           </div>
         </div>
 
-        {/* Features Grid */}
-        <div className="max-w-6xl mx-auto">
+        {/* Join Server Info */}
+        <div className="max-w-5xl mx-auto">
           <h3 className="text-2xl md:text-3xl font-bold text-white text-center mb-10">
             <Sparkles className="inline-block w-8 h-8 mr-2 text-[#ff6f2c]" />
-            核心玩法
+            加入服务器
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#ff6f2c] to-[#ff8c42] flex items-center justify-center">
-                    <feature.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <h4 className="text-xl font-bold text-white">{feature.title}</h4>
-                </div>
-                <p className="text-white/80 text-sm leading-relaxed">
-                  {feature.description}
-                </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl text-center"
+            >
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#ff6f2c] to-[#ff8c42] flex items-center justify-center mx-auto mb-4">
+                <MessageCircle className="w-8 h-8 text-white" />
               </div>
-            ))}
+              <h4 className="text-xl font-bold text-white mb-3">游戏QQ群</h4>
+              <p className="text-white/80 text-sm leading-relaxed mb-4">
+                加入官方游戏群，与玩家交流互动，获取最新服务器资讯和活动信息
+              </p>
+              <div className="bg-white/10 rounded-lg px-4 py-2">
+                <p className="text-white font-mono text-sm">群号：123456789</p>
+              </div>
+            </div>
+            <div
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl text-center"
+            >
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0071e3] to-[#0056b3] flex items-center justify-center mx-auto mb-4">
+                <Globe className="w-8 h-8 text-white" />
+              </div>
+              <h4 className="text-xl font-bold text-white mb-3">Mc部落官网</h4>
+              <p className="text-white/80 text-sm leading-relaxed mb-4">
+                访问官方网站，了解更多服务器详情、玩法介绍和最新更新日志
+              </p>
+              <div className="bg-white/10 rounded-lg px-4 py-2">
+                <p className="text-white font-mono text-sm">Mclans.cn</p>
+              </div>
+            </div>
+            <div
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl text-center"
+            >
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#9b59b6] to-[#8e44ad] flex items-center justify-center mx-auto mb-4">
+                <Radio className="w-8 h-8 text-white" />
+              </div>
+              <h4 className="text-xl font-bold text-white mb-3">QQ频道</h4>
+              <p className="text-white/80 text-sm leading-relaxed mb-4">
+                加入QQ频道，实时获取服务器动态，参与社区讨论和活动
+              </p>
+              <div className="bg-white/10 rounded-lg px-4 py-2">
+                <p className="text-white font-mono text-sm">频道ID：Mc部落</p>
+              </div>
+            </div>
           </div>
         </div>
 

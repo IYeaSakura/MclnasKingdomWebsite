@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Sparkles, Image as ImageIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const gameImages = [
   {
@@ -119,29 +119,6 @@ export function GameGallery() {
               />
             ))}
           </div>
-        </div>
-
-        <div
-          className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-12 transition-all duration-700 delay-500 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          {gameImages.map((image, index) => (
-            <div
-              key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`relative aspect-square rounded-xl overflow-hidden cursor-pointer group ${
-                index === currentIndex ? 'ring-4 ring-[#ff6f2c] ring-offset-2' : ''
-              }`}
-            >
-              <img
-                src={image.src}
-                alt={image.title}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300" />
-            </div>
-          ))}
         </div>
       </div>
     </section>
