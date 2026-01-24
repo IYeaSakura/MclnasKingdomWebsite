@@ -173,7 +173,7 @@ export function Hero({ onNavigate }: HeroProps) {
           }`}
         >
           <Shield className="w-4 h-4 text-[#0071e3]" />
-          <span className="text-sm font-medium text-gray-700">史诗级Minecraft王国服务器</span>
+          <span className="text-sm font-medium text-gray-700">Minecraft中国版最大派系战争服务器</span>
         </div>
 
         {/* Main Title */}
@@ -185,7 +185,7 @@ export function Hero({ onNavigate }: HeroProps) {
           <span className="block mb-2">王国之争</span>
           <span className="block text-4xl md:text-5xl lg:text-6xl">
             <span className="text-[#0071e3]">×</span>
-            <span className="gradient-text"> 花葬</span>
+            <span className="gradient-text"> 吱吱</span>
           </span>
         </h1>
 
@@ -195,7 +195,7 @@ export function Hero({ onNavigate }: HeroProps) {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          史诗级Minecraft王国服务器，探索无尽的可能
+          百人同屏战斗，攻城略地，共争天下之主！
         </p>
 
         {/* Description */}
@@ -204,7 +204,7 @@ export function Hero({ onNavigate }: HeroProps) {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          加入数千名玩家，建立你的王国，结成联盟，在充满魔法与战争的史诗世界中书写你的传奇
+          加入数千名玩家，建立你的王国，结成联盟，在充满战争的世界中书写你的传奇
         </p>
 
         {/* CTA Buttons */}
@@ -249,9 +249,9 @@ export function Hero({ onNavigate }: HeroProps) {
           }`}
         >
           {[
-            { value: '5000+', label: '活跃玩家' },
-            { value: '100+', label: '王国数量' },
-            { value: '3年+', label: '运营时间' },
+            { value: '300+', label: '活跃玩家' },
+            { value: '1000+', label: '王国数量' },
+            { value: '10年+', label: '运营时间' },
           ].map((stat, index) => (
             <div
               key={index}

@@ -3,7 +3,7 @@ import { Sword, Store, Users, Building2, Newspaper, ExternalLink } from 'lucide-
 const footerLinks = {
   navigation: [
     { label: '系统商店', href: '#shop', icon: Store },
-    { label: '花葬商会', href: '#guild', icon: Store },
+    { label: '吱吱商会', href: '#guild', icon: Store },
     { label: '名人堂', href: '#fame', icon: Users },
     { label: '王国传', href: '#kingdoms', icon: Building2 },
     { label: '日报', href: '#daily', icon: Newspaper },
@@ -41,10 +41,10 @@ export function Footer() {
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#0071e3] to-[#ff6f2c] flex items-center justify-center overflow-hidden">
                 <img src="/images/mc-logo.png" alt="MC Logo" className="w-full h-full object-contain p-1" />
               </div>
-              <span className="font-bold text-lg">王国之争 × 花葬</span>
+              <span className="font-bold text-lg">王国之争 × 吱吱</span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
-              史诗级Minecraft王国服务器体验。加入数千名玩家，建立你的王国，在充满魔法与战争的史诗世界中书写你的传奇。
+              百人同屏战斗，攻城略地，共争天下之主！加入数千名玩家，建立你的王国，在充满战争的世界中书写你的传奇。
             </p>
           </div>
 
@@ -109,7 +109,7 @@ export function Footer() {
       <div className="border-t border-gray-800">
         <div className="section-container py-4 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-gray-500 text-sm">
-            © 2024 王国之争 × 花葬。保留所有权利。
+            © 2024 王国之争 × 吱吱。保留所有权利。
           </p>
           <div className="flex items-center gap-4">
             <span className="text-gray-500 text-sm">服务器状态:</span>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Sword, Store, Users, Building2, Newspaper } from 'lucide-react';
+import { Menu, X, Store, Users, Building2, Newspaper } from 'lucide-react';
 
 interface NavbarProps {
   activeSection: string;
@@ -8,16 +9,17 @@ interface NavbarProps {
 }
 
 const navItems = [
-  { id: 'shop', label: '系统商店', icon: Store },
-  { id: 'guild', label: '花葬商会', icon: Sword },
-  { id: 'fame', label: '名人堂', icon: Users },
-  { id: 'kingdoms', label: '王国传', icon: Building2 },
-  { id: 'daily', label: '日报', icon: Newspaper },
+  { id: 'shop', label: '系统商店', icon: Store, path: '/system-shop' },
+  { id: 'guild', label: '吱吱商会', icon: X, path: '/guild-shop' },
+  { id: 'fame', label: '名人堂', icon: Users, path: '/hall-of-fame' },
+  { id: 'kingdoms', label: '王国传', icon: Building2, path: '/kingdoms' },
+  { id: 'daily', label: '日报', icon: Newspaper, path: '/daily-news' },
 ];
 
 export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,15 +29,6 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const scrollToSection = (sectionId: string) => {
-    onSectionChange(sectionId);
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    setIsMobileMenuOpen(false);
-  };
 
   const scrollToTop = () => {
     onSectionChange('home');
@@ -52,7 +45,8 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
     >
       <div className="section-container h-full flex items-center justify-between">
         {/* Logo */}
-        <button
+        <Link
+          to="/"
           onClick={scrollToTop}
           className="flex items-center gap-2 group cursor-pointer"
         >
@@ -64,16 +58,16 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
           }`}>
             王国之争
           </span>
-        </button>
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-1">
           {navItems.map((item) => (
-            <button
+            <Link
               key={item.id}
-              onClick={() => scrollToSection(item.id)}
+              to={item.path}
               className={`relative px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300 ${
-                activeSection === item.id
+                location.pathname === item.path
                   ? 'text-[#0071e3] bg-[#0071e3]/10'
                   : isScrolled
                   ? 'text-gray-600 hover:text-[#0071e3] hover:bg-gray-100'
@@ -84,20 +78,20 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
                 <item.icon className="w-4 h-4" />
                 {item.label}
               </span>
-              {activeSection === item.id && (
+              {location.pathname === item.path && (
                 <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#0071e3]" />
               )}
-            </button>
+            </Link>
           ))}
         </div>
 
         {/* CTA Button */}
         <div className="hidden md:block">
           <Button
-            onClick={() => scrollToSection('cta')}
+            onClick={() => scrollToTop()}
             className="mc-button-primary rounded-lg px-6"
           >
-            加入我们
+            首页
           </Button>
         </div>
 
@@ -120,24 +114,28 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
       >
         <div className="p-4 space-y-2">
           {navItems.map((item) => (
-            <button
+            <Link
               key={item.id}
-              onClick={() => scrollToSection(item.id)}
+              to={item.path}
+              onClick={() => setIsMobileMenuOpen(false)}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors ${
-                activeSection === item.id
+                location.pathname === item.path
                   ? 'text-[#0071e3] bg-[#0071e3]/10'
                   : 'text-gray-600 hover:bg-gray-100'
               }`}
             >
               <item.icon className="w-5 h-5" />
               {item.label}
-            </button>
+            </Link>
           ))}
           <Button
-            onClick={() => scrollToSection('cta')}
+            onClick={() => {
+              scrollToTop();
+              setIsMobileMenuOpen(false);
+            }}
             className="w-full mc-button-primary mt-4"
           >
-            加入我们
+            首页
           </Button>
         </div>
       </div>

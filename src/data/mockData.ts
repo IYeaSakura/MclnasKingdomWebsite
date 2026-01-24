@@ -148,13 +148,13 @@ export const systemShopItems: SystemShopItem[] = [
   }
 ];
 
-// 花葬商会物品数据
+// 吱吱商会物品数据
 export const guildShopItems: GuildShopItem[] = [
   {
     id: 'guild-001',
     name: '神秘之花',
     image: '/images/item-mystery-flower.jpg',
-    description: '花葬商会特有的神秘花朵，蕴含着古老的魔法力量',
+    description: '吱吱商会特有的神秘花朵，蕴含着古老的魔法力量',
     buyDisplayPrice: 800,
     buyAfterTaxPrice: 760,
     sellPrice: 600,
@@ -419,20 +419,20 @@ export const dailyNews: DailyNews[] = [
   },
   {
     id: 'news-004',
-    name: '花葬商会特惠',
+    name: '吱吱商会特惠',
     date: '2024-12-10',
-    title: '花葬商会推出新年特惠活动',
+    title: '吱吱商会推出新年特惠活动',
     image: '/images/daily-market.jpg',
-    content: `# 花葬商会新年特惠活动开始啦！
+    content: `# 吱吱商会新年特惠活动开始啦！
 
-**商业中心讯** —— 为庆祝新年即将到来，花葬商会今日宣布推出为期一周的新年特惠活动。活动期间，多种热门商品将享受折扣优惠。
+**商业中心讯** —— 为庆祝新年即将到来，吱吱商会今日宣布推出为期一周的新年特惠活动。活动期间，多种热门商品将享受折扣优惠。
 
 据商会负责人介绍，此次活动涵盖了神秘之花、生命水晶、月光花等多种热门商品，折扣力度从10%到30%不等。此外，还有限量版的"新年礼盒"出售，内含多种稀有物品。
 
 商会还特别推出了"新年抽奖"活动，消费满一定金额的玩家可以参与抽奖，奖品包括稀有装备、大量游戏币等。
 
 **活动时间：2024年12月10日 - 2024年12月17日**
-**活动地点：各大主城花葬商会分店**
+**活动地点：各大主城吱吱商会分店**
 
 ---
 

@@ -14,7 +14,7 @@ export interface SystemShopItem extends Item {
   priceTrend: PricePoint[];
 }
 
-// 花葬商会物品
+// 吱吱商会物品
 export interface GuildShopItem extends Item {
   buyDisplayPrice: number;
   buyAfterTaxPrice: number;
