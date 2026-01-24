@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Play, Shield, Crown, Sparkles, RefreshCw } from 'lucide-react';
+import { VideoModal } from '@/components/VideoModal';
 import { preloadImage, preloadImages } from '@/utils/imageCache';
 
 interface HeroProps {
@@ -215,14 +216,20 @@ export function Hero({ onNavigate }: HeroProps) {
             <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
           </Button>
           <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              onClick={() => scrollToSection('kingdoms')}
-              className="group px-8 py-6 text-lg rounded-xl border-2 border-white/60 text-white bg-black/40 hover:bg-black/60 hover:border-white/80 hover:text-white"
-            >
-              <Play className="w-5 h-5 mr-2" />
-              了解更多
-            </Button>
+            <VideoModal
+              trigger={
+                <Button
+                  variant="outline"
+                  className="group px-8 py-6 text-lg rounded-xl border-2 border-white/60 text-white bg-black/40 hover:bg-black/60 hover:border-white/80 hover:text-white"
+                >
+                  <Play className="w-5 h-5 mr-2" />
+                  了解更多
+                </Button>
+              }
+              videoUrl="//player.bilibili.com/player.html?isOutside=true&aid=115190737667571&bvid=BV1SZHrzgERp&cid=32333762208&p=1"
+              title="Mc部落 - 王国之争游戏介绍"
+              description="了解Mc部落的精彩玩法和特色内容"
+            />
             <Button
               variant="outline"
               onClick={switchSeason}
