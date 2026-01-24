@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Store, Users, Building2, Newspaper } from 'lucide-react';
 
@@ -20,6 +20,8 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const isHomePage = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,13 +34,16 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
 
   const scrollToTop = () => {
     onSectionChange('home');
+    navigate('/');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const shouldShowSolidBackground = !isHomePage || isScrolled;
 
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
+        shouldShowSolidBackground
           ? 'bg-white/95 backdrop-blur-xl shadow-lg h-16'
           : 'bg-transparent h-20'
       }`}
@@ -54,7 +59,7 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
             <img src="/images/mc-logo.png" alt="MC Logo" className="w-full h-full object-contain p-1" />
           </div>
           <span className={`font-bold text-lg transition-colors duration-300 ${
-            isScrolled ? 'text-gray-800' : 'text-white'
+            shouldShowSolidBackground ? 'text-gray-800' : 'text-white'
           }`}>
             王国之争
           </span>
@@ -69,7 +74,7 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
               className={`relative px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300 ${
                 location.pathname === item.path
                   ? 'text-[#0071e3] bg-[#0071e3]/10'
-                  : isScrolled
+                  : shouldShowSolidBackground
                   ? 'text-gray-600 hover:text-[#0071e3] hover:bg-gray-100'
                   : 'text-white/90 hover:text-white hover:bg-white/10'
               }`}
@@ -99,7 +104,7 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className={`md:hidden p-2 rounded-lg transition-colors ${
-            isScrolled ? 'text-gray-600 hover:bg-gray-100' : 'text-white hover:bg-white/10'
+            shouldShowSolidBackground ? 'text-gray-600 hover:bg-gray-100' : 'text-white hover:bg-white/10'
           }`}
         >
           {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
