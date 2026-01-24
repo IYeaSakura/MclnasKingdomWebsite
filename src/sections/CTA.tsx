@@ -57,8 +57,10 @@ export function CTA() {
       </div>
 
       {/* Gradient Overlays */}
-      <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-orange-500/10" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/20" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#ff6f2c]/15 via-[#0071e3]/10 to-[#9b59b6]/15" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20" />
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent" />
 
       {/* Floating Minecraft Blocks */}
       <div className="absolute top-20 left-20 w-16 h-16 bg-gradient-to-br from-green-600/20 to-green-800/20 rounded-lg animate-float shadow-2xl backdrop-blur-sm border border-white/10" style={{ animationDelay: '0s' }} />
@@ -118,66 +120,66 @@ export function CTA() {
         </div>
 
         {/* Join Server Info */}
-        <div className="max-w-5xl mx-auto">
-          <h3 className="text-2xl md:text-3xl font-bold text-white text-center mb-10">
+        <div className="max-w-6xl mx-auto">
+          <h3 className="text-2xl md:text-3xl font-bold text-white text-center mb-12">
             <Sparkles className="inline-block w-8 h-8 mr-2 text-[#ff6f2c]" />
             加入服务器
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div
-              className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl text-center"
+              className="group relative bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/30 hover:border-white/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/20 overflow-hidden"
             >
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#ff6f2c] to-[#ff8c42] flex items-center justify-center mx-auto mb-4">
-                <MessageCircle className="w-8 h-8 text-white" />
-              </div>
-              <h4 className="text-xl font-bold text-white mb-3">游戏QQ群</h4>
-              <p className="text-white/80 text-sm leading-relaxed mb-4">
-                加入官方游戏群，与玩家交流互动，获取最新服务器资讯和活动信息
-              </p>
-              <div className="bg-white/10 rounded-lg px-4 py-2">
-                <p className="text-white font-mono text-sm">群号：123456789</p>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#ff6f2c]/30 to-transparent rounded-full blur-2xl group-hover:from-[#ff6f2c]/50 transition-all duration-500" />
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-[#ff8c42]/20 to-transparent rounded-full blur-xl group-hover:from-[#ff8c42]/40 transition-all duration-500" />
+              <div className="relative">
+                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#ff6f2c] to-[#ff8c42] flex items-center justify-center mx-auto mb-6 shadow-lg shadow-orange-500/30 group-hover:shadow-orange-500/50 transition-all duration-500 group-hover:scale-110">
+                  <MessageCircle className="w-10 h-10 text-white" />
+                </div>
+                <h4 className="text-2xl font-bold text-white mb-4 group-hover:text-[#ff6f2c] transition-colors duration-300">游戏QQ群</h4>
+                <p className="text-white/80 text-base leading-relaxed mb-6">
+                  加入官方游戏群，与玩家交流互动，获取最新服务器资讯和活动
+                </p>
+                <div className="bg-gradient-to-r from-white/20 to-white/10 rounded-xl px-6 py-4 border border-white/20 group-hover:border-orange-400/30 transition-all duration-300">
+                  <p className="text-white font-mono text-base font-semibold tracking-wide">群号：123456789</p>
+                </div>
               </div>
             </div>
             <div
-              className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl text-center"
+              className="group relative bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/30 hover:border-white/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 overflow-hidden"
             >
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0071e3] to-[#0056b3] flex items-center justify-center mx-auto mb-4">
-                <Globe className="w-8 h-8 text-white" />
-              </div>
-              <h4 className="text-xl font-bold text-white mb-3">Mc部落官网</h4>
-              <p className="text-white/80 text-sm leading-relaxed mb-4">
-                访问官方网站，了解更多服务器详情、玩法介绍和最新更新日志
-              </p>
-              <div className="bg-white/10 rounded-lg px-4 py-2">
-                <p className="text-white font-mono text-sm">Mclans.cn</p>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#0071e3]/30 to-transparent rounded-full blur-2xl group-hover:from-[#0071e3]/50 transition-all duration-500" />
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-[#0056b3]/20 to-transparent rounded-full blur-xl group-hover:from-[#0056b3]/40 transition-all duration-500" />
+              <div className="relative">
+                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#0071e3] to-[#0056b3] flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-500/30 group-hover:shadow-blue-500/50 transition-all duration-500 group-hover:scale-110">
+                  <Globe className="w-10 h-10 text-white" />
+                </div>
+                <h4 className="text-2xl font-bold text-white mb-4 group-hover:text-[#0071e3] transition-colors duration-300">Mc部落官网</h4>
+                <p className="text-white/80 text-base leading-relaxed mb-6">
+                  访问官方网站，了解更多服务器详情、玩法介绍和最新更新
+                </p>
+                <div className="bg-gradient-to-r from-white/20 to-white/10 rounded-xl px-6 py-4 border border-white/20 group-hover:border-blue-400/30 transition-all duration-300">
+                  <p className="text-white font-mono text-base font-semibold tracking-wide">Mclans.cn</p>
+                </div>
               </div>
             </div>
             <div
-              className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl text-center"
+              className="group relative bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/30 hover:border-white/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 overflow-hidden"
             >
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#9b59b6] to-[#8e44ad] flex items-center justify-center mx-auto mb-4">
-                <Radio className="w-8 h-8 text-white" />
-              </div>
-              <h4 className="text-xl font-bold text-white mb-3">QQ频道</h4>
-              <p className="text-white/80 text-sm leading-relaxed mb-4">
-                加入QQ频道，实时获取服务器动态，参与社区讨论和活动
-              </p>
-              <div className="bg-white/10 rounded-lg px-4 py-2">
-                <p className="text-white font-mono text-sm">频道ID：Mc部落</p>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#9b59b6]/30 to-transparent rounded-full blur-2xl group-hover:from-[#9b59b6]/50 transition-all duration-500" />
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-[#8e44ad]/20 to-transparent rounded-full blur-xl group-hover:from-[#8e44ad]/40 transition-all duration-500" />
+              <div className="relative">
+                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#9b59b6] to-[#8e44ad] flex items-center justify-center mx-auto mb-6 shadow-lg shadow-purple-500/30 group-hover:shadow-purple-500/50 transition-all duration-500 group-hover:scale-110">
+                  <Radio className="w-10 h-10 text-white" />
+                </div>
+                <h4 className="text-2xl font-bold text-white mb-4 group-hover:text-[#9b59b6] transition-colors duration-300">QQ频道</h4>
+                <p className="text-white/80 text-base leading-relaxed mb-6">
+                  加入QQ频道，实时获取服务器动态，参与社区讨论和活动
+                </p>
+                <div className="bg-gradient-to-r from-white/20 to-white/10 rounded-xl px-6 py-4 border border-white/20 group-hover:border-purple-400/30 transition-all duration-300">
+                  <p className="text-white font-mono text-base font-semibold tracking-wide">频道ID：Mc部落</p>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="max-w-3xl mx-auto mt-16 text-center">
-          <div className="bg-gradient-to-r from-[#ff6f2c] to-[#ff8c42] rounded-2xl p-8 md:p-12">
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-              还有更多更多玩法，待您探索与体验...
-            </h3>
-            <p className="text-white/90 text-lg">
-              加入我们，开启你的传奇之旅！
-            </p>
           </div>
         </div>
       </div>
