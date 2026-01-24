@@ -94,7 +94,7 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
         {/* CTA Button */}
         <div className="hidden md:block">
           <Button
-            onClick={() => scrollToSection('guild')}
+            onClick={() => scrollToSection('cta')}
             className="mc-button-primary rounded-lg px-6"
           >
             加入我们
@@ -134,7 +134,7 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
             </button>
           ))}
           <Button
-            onClick={() => scrollToSection('guild')}
+            onClick={() => scrollToSection('cta')}
             className="w-full mc-button-primary mt-4"
           >
             加入我们

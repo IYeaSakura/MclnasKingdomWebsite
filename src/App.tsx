@@ -15,7 +15,7 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['shop', 'guild', 'fame', 'kingdoms', 'daily'];
+      const sections = ['shop', 'guild', 'fame', 'kingdoms', 'daily', 'cta'];
       const scrollPosition = window.scrollY + 200;
 
       for (const section of sections) {

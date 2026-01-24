@@ -35,7 +35,7 @@ export function CTA() {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-[#0071e3] to-[#0056b3] relative overflow-hidden">
+    <section id="cta" className="py-20 bg-gradient-to-br from-[#0071e3] to-[#0056b3] relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{

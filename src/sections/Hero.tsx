@@ -214,7 +214,7 @@ export function Hero({ onNavigate }: HeroProps) {
           }`}
         >
           <Button
-            onClick={() => scrollToSection('guild')}
+            onClick={() => scrollToSection('cta')}
             className="mc-button-secondary group px-8 py-6 text-lg rounded-xl"
           >
             <Crown className="w-5 h-5 mr-2" />
