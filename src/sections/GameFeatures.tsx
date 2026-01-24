@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Shield, Zap, Crown, Users, Map, Trophy, Sparkles } from 'lucide-react';
+import { Shield, Zap, Crown, Users, Map, Trophy } from 'lucide-react';
 
 const features = [
   {
@@ -42,26 +42,31 @@ const features = [
 
 export function GameFeatures() {
   const [isVisible, setIsVisible] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
   return (
-    <section className="py-20 bg-white relative overflow-hidden">
-      <div className="section-container">
-        <div className="text-center mb-16">
+    <section className="py-32 bg-gradient-to-b from-white via-blue-50/20 to-white relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-blue-400/5 to-purple-400/5 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-br from-purple-400/5 to-pink-400/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      </div>
+
+      <div className="section-container relative z-10">
+        <div className="text-center mb-24">
           <h2
-            className={`text-4xl md:text-5xl font-bold text-gray-800 mb-4 transition-all duration-700 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            className={`text-5xl md:text-6xl font-bold text-gray-900 mb-6 transition-all duration-1000 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
             }`}
           >
-            <Sparkles className="inline-block w-10 h-10 mr-3 text-[#ff6f2c]" />
             游戏特色
           </h2>
           <p
-            className={`text-lg text-gray-600 max-w-2xl mx-auto transition-all duration-700 delay-200 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            className={`text-xl text-gray-600 max-w-2xl mx-auto transition-all duration-1000 delay-200 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
             }`}
           >
             丰富的游戏系统，独特的玩法设计，为你带来前所未有的游戏体验
@@ -72,21 +77,26 @@ export function GameFeatures() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className={`group relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 border border-gray-200 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              className={`group relative bg-white rounded-3xl p-8 border border-gray-100 hover:shadow-2xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-2 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
               }`}
               style={{ transitionDelay: `${index * 100 + 300}ms` }}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
             >
-              <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-6 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6`}>
                 <feature.icon className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4 group-hover:text-[#0071e3] transition-colors">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">
                 {feature.title}
               </h3>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-600 leading-relaxed text-base">
                 {feature.description}
               </p>
-              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#ff6f2c]/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              
+              <div className={`absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
+              
+              <div className={`absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-150`} />
             </div>
           ))}
         </div>

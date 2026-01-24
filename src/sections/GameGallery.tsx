@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { preloadImages } from '@/utils/imageCache';
 
 const gameImages = [
@@ -38,10 +38,30 @@ const gameImages = [
 export function GameGallery() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsVisible(true);
     preloadImages(gameImages.map(img => img.src));
+  }, []);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        setMousePosition({
+          x: (e.clientX - rect.left) / rect.width - 0.5,
+          y: (e.clientY - rect.top) / rect.height - 0.5,
+        });
+      }
+    };
+
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener('mousemove', handleMouseMove);
+      return () => container.removeEventListener('mousemove', handleMouseMove);
+    }
   }, []);
 
   const nextImage = () => {
@@ -53,20 +73,19 @@ export function GameGallery() {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-b from-[#f8f9fa] to-gray-100 relative overflow-hidden">
+    <section className="py-32 bg-gradient-to-b from-white via-blue-50/30 to-white relative overflow-hidden">
       <div className="section-container">
-        <div className="text-center mb-12">
+        <div className="text-center mb-20">
           <h2
-            className={`text-4xl md:text-5xl font-bold text-gray-800 mb-4 transition-all duration-700 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            className={`text-5xl md:text-6xl font-bold text-gray-900 mb-6 transition-all duration-1000 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
             }`}
           >
-            <Sparkles className="inline-block w-10 h-10 mr-3 text-[#ff6f2c]" />
             游戏世界
           </h2>
           <p
-            className={`text-lg text-gray-600 max-w-2xl mx-auto transition-all duration-700 delay-200 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            className={`text-xl text-gray-600 max-w-2xl mx-auto transition-all duration-1000 delay-200 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
             }`}
           >
             探索无限可能，发现隐藏的宝藏，建立属于你的传奇王国
@@ -74,48 +93,60 @@ export function GameGallery() {
         </div>
 
         <div
-          className={`relative max-w-5xl mx-auto transition-all duration-700 delay-300 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          ref={containerRef}
+          className={`relative max-w-7xl mx-auto transition-all duration-1000 delay-400 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           }`}
         >
-          <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl group">
-            <img
-              src={gameImages[currentIndex].src}
-              alt={gameImages[currentIndex].title}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-8">
-              <h3 className="text-3xl font-bold text-white mb-2">
+          <div className="relative aspect-[16/9] rounded-3xl overflow-hidden shadow-2xl group bg-gradient-to-br from-gray-100 to-gray-200">
+            <div
+              className="absolute inset-0 transition-transform duration-300 ease-out"
+              style={{
+                transform: `perspective(1000px) rotateY(${mousePosition.x * 5}deg) rotateX(${-mousePosition.y * 5}deg)`,
+              }}
+            >
+              <img
+                src={gameImages[currentIndex].src}
+                alt={gameImages[currentIndex].title}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                }}
+              />
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-300" />
+            <div className="absolute bottom-0 left-0 right-0 p-10 md:p-14">
+              <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 transform transition-transform duration-300 group-hover:translate-x-2">
                 {gameImages[currentIndex].title}
               </h3>
-              <p className="text-white/80 text-lg">
+              <p className="text-white/90 text-lg md:text-xl transform transition-transform duration-300 group-hover:translate-x-2">
                 {gameImages[currentIndex].description}
               </p>
             </div>
 
             <button
               onClick={prevImage}
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 group-hover:scale-110"
+              className="absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 md:w-16 md:h-16 bg-white/95 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white hover:scale-110 transition-all duration-300 shadow-xl hover:shadow-2xl group-hover:-translate-x-2"
             >
-              <ChevronLeft className="w-6 h-6 text-white" />
+              <ChevronLeft className="w-7 h-7 text-gray-800" />
             </button>
             <button
               onClick={nextImage}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 group-hover:scale-110"
+              className="absolute right-6 top-1/2 -translate-y-1/2 w-14 h-14 md:w-16 md:h-16 bg-white/95 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white hover:scale-110 transition-all duration-300 shadow-xl hover:shadow-2xl group-hover:translate-x-2"
             >
-              <ChevronRight className="w-6 h-6 text-white" />
+              <ChevronRight className="w-7 h-7 text-gray-800" />
             </button>
           </div>
 
-          <div className="flex justify-center gap-2 mt-6">
+          <div className="flex justify-center gap-4 mt-10">
             {gameImages.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentIndex
-                    ? 'w-8 bg-[#ff6f2c]'
+                className={`w-4 h-4 rounded-full transition-all duration-300 hover:scale-150 ${
+          index === currentIndex
+                    ? 'w-12 bg-gradient-to-r from-blue-500 to-blue-600 shadow-lg'
                     : 'bg-gray-300 hover:bg-gray-400'
                 }`}
               />
@@ -123,6 +154,9 @@ export function GameGallery() {
           </div>
         </div>
       </div>
+
+      <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
     </section>
   );
 }
