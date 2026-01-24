@@ -38,6 +38,11 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleNavClick = (path: string) => {
+    navigate(path);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const shouldShowSolidBackground = !isHomePage || isScrolled;
 
   return (
@@ -68,9 +73,9 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-1">
           {navItems.map((item) => (
-            <Link
+            <button
               key={item.id}
-              to={item.path}
+              onClick={() => handleNavClick(item.path)}
               className={`relative px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300 ${
                 location.pathname === item.path
                   ? 'text-[#0071e3] bg-[#0071e3]/10'
@@ -86,7 +91,7 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
               {location.pathname === item.path && (
                 <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#0071e3]" />
               )}
-            </Link>
+            </button>
           ))}
         </div>
 
@@ -119,10 +124,12 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
       >
         <div className="p-4 space-y-2">
           {navItems.map((item) => (
-            <Link
+            <button
               key={item.id}
-              to={item.path}
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={() => {
+                handleNavClick(item.path);
+                setIsMobileMenuOpen(false);
+              }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors ${
                 location.pathname === item.path
                   ? 'text-[#0071e3] bg-[#0071e3]/10'
@@ -131,7 +138,7 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
             >
               <item.icon className="w-5 h-5" />
               {item.label}
-            </Link>
+            </button>
           ))}
           <Button
             onClick={() => {
