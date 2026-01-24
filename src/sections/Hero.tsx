@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Play, Shield, Crown, Sparkles, RefreshCw } from 'lucide-react';
+import { preloadImage, preloadImages } from '@/utils/imageCache';
 
 interface HeroProps {
   onNavigate: (section: string) => void;
@@ -45,27 +46,11 @@ export function Hero({ onNavigate }: HeroProps) {
   const [currentImage, setCurrentImage] = useState<string>(SEASON_IMAGES[getCurrentSeason()]);
   const [nextImage, setNextImage] = useState<string>('');
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set([SEASON_IMAGES[getCurrentSeason()]]));
 
   useEffect(() => {
     setIsVisible(true);
+    preloadImages(Object.values(SEASON_IMAGES));
   }, []);
-
-  const preloadImage = (url: string): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      if (loadedImages.has(url)) {
-        resolve();
-        return;
-      }
-      const img = new Image();
-      img.onload = () => {
-        setLoadedImages(prev => new Set(prev).add(url));
-        resolve();
-      };
-      img.onerror = reject;
-      img.src = url;
-    });
-  };
 
   const switchSeason = async () => {
     if (isTransitioning) return;
@@ -184,8 +169,16 @@ export function Hero({ onNavigate }: HeroProps) {
         >
           <span className="block mb-2">王国之争</span>
           <span className="block text-4xl md:text-5xl lg:text-6xl">
-            <span className="text-[#0071e3]">×</span>
-            <span className="gradient-text"> 吱吱</span>
+            <span className="text-[#0071e3] drop-shadow-lg">×</span>
+            <span 
+              className="gradient-text drop-shadow-2xl"
+              style={{
+                textShadow: '0 4px 8px rgba(0, 113, 227, 0.3), 0 8px 16px rgba(255, 111, 44, 0.2)',
+                filter: 'drop-shadow(0 2px 4px rgba(0, 113, 227, 0.4))'
+              }}
+            >
+              吱吱
+            </span>
           </span>
         </h1>
 

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -18,6 +18,7 @@ import {
 import { Search, Trophy, Shield, Sword, Scale, HelpCircle, Star } from 'lucide-react';
 import type { Player, FactionType } from '@/types';
 import { hallOfFamePlayers } from '@/data/mockData';
+import { preloadImages } from '@/utils/imageCache';
 
 const factionConfig: Record<FactionType, { label: string; color: string; icon: typeof Shield }> = {
   all: { label: '全部', color: 'gray', icon: HelpCircle },
@@ -31,6 +32,10 @@ export function HallOfFame() {
   const [searchTerm, setSearchTerm] = useState('');
   const [factionFilter, setFactionFilter] = useState<FactionType>('all');
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+
+  useEffect(() => {
+    preloadImages(hallOfFamePlayers.map(player => player.image));
+  }, []);
 
   const filteredPlayers = useMemo(() => {
     let players = [...hallOfFamePlayers];

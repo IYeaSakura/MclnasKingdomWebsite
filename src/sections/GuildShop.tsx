@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -28,12 +28,17 @@ import {
 import { Search, TrendingUp, Flower2, Coins, Info, ArrowUpDown } from 'lucide-react';
 import type { GuildShopItem, ShopItemType, PriceSort } from '@/types';
 import { guildShopItems } from '@/data/mockData';
+import { preloadImages } from '@/utils/imageCache';
 
 export function GuildShop() {
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState<ShopItemType>('all');
   const [sortBy, setSortBy] = useState<PriceSort>('none');
   const [selectedItem, setSelectedItem] = useState<GuildShopItem | null>(null);
+
+  useEffect(() => {
+    preloadImages(guildShopItems.map(item => item.image));
+  }, []);
 
   const filteredItems = useMemo(() => {
     let items = [...guildShopItems];

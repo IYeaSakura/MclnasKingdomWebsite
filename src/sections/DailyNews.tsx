@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -19,6 +19,7 @@ import { Search, Newspaper, Calendar, Clock, ChevronRight } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import type { DailyNews, DateFilter } from '@/types';
 import { dailyNews } from '@/data/mockData';
+import { preloadImages } from '@/utils/imageCache';
 
 const dateFilterConfig: Record<DateFilter, string> = {
   all: '全部时间',
@@ -33,6 +34,10 @@ export function DailyNews() {
   const [searchTerm, setSearchTerm] = useState('');
   const [dateFilter, setDateFilter] = useState<DateFilter>('all');
   const [selectedNews, setSelectedNews] = useState<DailyNews | null>(null);
+
+  useEffect(() => {
+    preloadImages(dailyNews.map(news => news.image));
+  }, []);
 
   const filteredNews = useMemo(() => {
     let items = [...dailyNews];

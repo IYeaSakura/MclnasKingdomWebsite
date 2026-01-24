@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+import { preloadImages } from '@/utils/imageCache';
 
 const gameImages = [
   {
@@ -40,6 +41,7 @@ export function GameGallery() {
 
   useEffect(() => {
     setIsVisible(true);
+    preloadImages(gameImages.map(img => img.src));
   }, []);
 
   const nextImage = () => {

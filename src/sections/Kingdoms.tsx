@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -18,6 +18,7 @@ import {
 import { Search, Building2, Shield, Sword, Scale, HelpCircle, MapPin, Crown } from 'lucide-react';
 import type { Kingdom, FactionType, KingdomLevel, RegionType } from '@/types';
 import { kingdoms } from '@/data/mockData';
+import { preloadImages } from '@/utils/imageCache';
 
 const factionConfig: Record<FactionType, { label: string; color: string; icon: typeof Shield }> = {
   all: { label: '全部', color: 'gray', icon: HelpCircle },
@@ -53,6 +54,10 @@ export function Kingdoms() {
   const [levelFilter, setLevelFilter] = useState<KingdomLevel>('all');
   const [regionFilter, setRegionFilter] = useState<RegionType>('all');
   const [selectedKingdom, setSelectedKingdom] = useState<Kingdom | null>(null);
+
+  useEffect(() => {
+    preloadImages(kingdoms.map(kingdom => kingdom.image));
+  }, []);
 
   const filteredKingdoms = useMemo(() => {
     let items = [...kingdoms];
