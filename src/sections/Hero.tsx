@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Play, Shield, Crown, Sparkles, RefreshCw } from 'lucide-react';
+import { ArrowRight, Play, Shield, Crown, RefreshCw } from 'lucide-react';
 import { VideoModal } from '@/components/VideoModal';
 import { preloadImage, preloadImages } from '@/utils/imageCache';
+import { useSeason } from '@/contexts/SeasonContext';
 
 interface HeroProps {
   onNavigate: (section: string) => void;
@@ -24,27 +25,12 @@ const SEASON_NAMES: Record<Season, string> = {
   winter: '冬季',
 };
 
-const SEASONS: Season[] = ['spring', 'summer', 'autumn', 'winter'];
-
-function getCurrentSeason(): Season {
-  const month = new Date().getMonth() + 1;
-  if (month >= 3 && month <= 5) return 'spring';
-  if (month >= 6 && month <= 8) return 'summer';
-  if (month >= 9 && month <= 11) return 'autumn';
-  return 'winter';
-}
-
-function getNextSeason(currentSeason: Season): Season {
-  const currentIndex = SEASONS.indexOf(currentSeason);
-  return SEASONS[(currentIndex + 1) % SEASONS.length];
-}
-
 export function Hero({ onNavigate }: HeroProps) {
   const heroRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [currentSeason, setCurrentSeason] = useState<Season>(getCurrentSeason());
-  const [currentImage, setCurrentImage] = useState<string>(SEASON_IMAGES[getCurrentSeason()]);
+  const { currentSeason, setCurrentSeason, getNextSeason } = useSeason();
+  const [currentImage, setCurrentImage] = useState<string>(SEASON_IMAGES[currentSeason]);
   const [nextImage, setNextImage] = useState<string>('');
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -104,7 +90,7 @@ export function Hero({ onNavigate }: HeroProps) {
     >
       {/* Background Image with Parallax */}
       <div
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 pointer-events-none"
         style={{
           transform: `translate(${mousePosition.x}px, ${mousePosition.y}px) scale(1.1)`,
           transition: 'transform 0.3s ease-out',
@@ -132,23 +118,7 @@ export function Hero({ onNavigate }: HeroProps) {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
       </div>
 
-      {/* Floating Particles */}
-      <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <Sparkles
-            key={i}
-            className="absolute text-white/30 animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              width: `${12 + Math.random() * 16}px`,
-              height: `${12 + Math.random() * 16}px`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`,
-            }}
-          />
-        ))}
-      </div>
+
 
       {/* Content */}
       <div className="relative z-20 section-container text-center">
@@ -209,7 +179,7 @@ export function Hero({ onNavigate }: HeroProps) {
         >
           <Button
             onClick={() => scrollToSection('cta')}
-            className="mc-button-secondary group px-8 py-6 text-lg rounded-xl"
+            className="group px-8 py-6 text-lg rounded-xl bg-gradient-to-r from-[#0071e3] to-[#0051a2] text-white hover:from-[#0051a2] hover:to-[#003d7a] transition-all duration-300 hover:scale-105 hover:shadow-lg"
           >
             <Crown className="w-5 h-5 mr-2" />
             开始冒险
@@ -266,8 +236,6 @@ export function Hero({ onNavigate }: HeroProps) {
         </div>
       </div>
 
-      {/* Bottom Gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f8f9fa] to-transparent z-30" />
     </section>
   );
 }

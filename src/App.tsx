@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { SeasonProvider } from './contexts/SeasonContext';
 import { Navbar } from './sections/Navbar';
 import { Hero } from './sections/Hero';
-import { GameGallery } from './sections/GameGallery';
-import { GameFeatures } from './sections/GameFeatures';
-import { CTA } from './sections/CTA';
 import { Footer } from './sections/Footer';
+import { SeasonContent } from './components/SeasonContent';
 import SystemShopPage from './pages/SystemShopPage';
 import GuildShopPage from './pages/GuildShopPage';
 import HallOfFamePage from './pages/HallOfFamePage';
@@ -17,10 +16,10 @@ function App() {
   const [, setActiveSection] = useState('home');
 
   const handleScroll = () => {
-    const scrollY = window.scrollY;
-    const scrollPosition = scrollY + 200;
-
-    if (scrollPosition < 500) {
+    const scrollPosition = window.scrollY;
+    
+    const scrollWithOffset = scrollPosition + 200;
+    if (scrollWithOffset < 500) {
       setActiveSection('home');
     }
   };
@@ -31,25 +30,28 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa]">
-      <Navbar onSectionChange={setActiveSection} />
-      <Routes>
-        <Route path="/" element={
-          <>
-          <Hero onNavigate={setActiveSection} />
-          <GameGallery />
-          <GameFeatures />
-          <CTA />
-          <Footer />
-        </>
-        } />
-        <Route path="/system-shop" element={<SystemShopPage />} />
-        <Route path="/guild-shop" element={<GuildShopPage />} />
-        <Route path="/hall-of-fame" element={<HallOfFamePage />} />
-        <Route path="/kingdoms" element={<KingdomsPage />} />
-        <Route path="/daily-news" element={<DailyNewsPage />} />
-      </Routes>
-    </div>
+    <SeasonProvider>
+      <div className="min-h-screen bg-[#f8f9fa]">
+        <Navbar onSectionChange={setActiveSection} />
+        <Routes>
+          <Route path="/" element={
+            <div className="min-h-screen">
+              {/* Hero Section */}
+              <Hero onNavigate={setActiveSection} />
+              
+              {/* Content Sections */}
+              <SeasonContent />
+              <Footer />
+            </div>
+          } />
+          <Route path="/system-shop" element={<SystemShopPage />} />
+          <Route path="/guild-shop" element={<GuildShopPage />} />
+          <Route path="/hall-of-fame" element={<HallOfFamePage />} />
+          <Route path="/kingdoms" element={<KingdomsPage />} />
+          <Route path="/daily-news" element={<DailyNewsPage />} />
+        </Routes>
+      </div>
+    </SeasonProvider>
   );
 }
 

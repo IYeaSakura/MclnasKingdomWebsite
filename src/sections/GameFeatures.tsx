@@ -54,7 +54,7 @@ export function GameFeatures() {
   }, []);
 
   return (
-    <section className="py-32 bg-gradient-to-b from-[#4A7C4B] to-[#5D8C5E] relative overflow-hidden" style={{ imageRendering: 'pixelated' }}>
+    <section className="min-h-screen flex items-center justify-center py-32 relative overflow-hidden" style={{ imageRendering: 'pixelated' }}>
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-10 left-10 w-32 h-32 bg-[#8C5A2C]/20 border-4 border-[#8C5A2C]/30" />
         <div className="absolute top-40 right-20 w-24 h-24 bg-[#6B8E23]/20 border-4 border-[#6B8E23]/30" />
