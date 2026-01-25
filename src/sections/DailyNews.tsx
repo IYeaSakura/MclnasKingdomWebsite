@@ -50,12 +50,10 @@ export function DailyNews() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(true);
-          } else {
-            setIsVisible(false);
           }
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     );
 
     if (sectionRef.current) {
@@ -131,16 +129,16 @@ export function DailyNews() {
     <section 
       ref={sectionRef}
       id="daily" 
-      className="py-20 relative overflow-hidden"
+      className="py-20 min-h-screen relative overflow-hidden"
       style={{ 
         imageRendering: 'pixelated',
         backgroundImage: 'linear-gradient(to bottom, #f8f9fa 0%, #e8e8e8 100%)'
       }}
     >
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-20 h-20 bg-[#8B4513]/10 border-4 border-[#8B4513]/20" />
-        <div className="absolute top-40 right-20 w-16 h-16 bg-[#D2691E]/10 border-4 border-[#D2691E]/20" />
-        <div className="absolute bottom-40 left-1/4 w-24 h-24 bg-[#A0522D]/10 border-4 border-[#A0522D]/20" />
+      <div className="absolute inset-0 overflow-hidden-reverse pointer-events-none">
+        <div className="absolute top-20 left-10 w-24 h-24 bg-[#8B4513]/10 border-4 border-[#8B4513]/20" />
+        <div className="absolute top-40 right-20 w-20 h-20 bg-[#D2691E]/10 border-4 border-[#D2691E]/20" />
+        <div className="absolute bottom-40 left-1/4 w-16 h-16 bg-[#A0522D]/10 border-4 border-[#A0522D]/20" />
         <div className="absolute bottom-20 right-1/4 w-18 h-18 bg-[#CD853F]/10 border-4 border-[#CD853F]/20" />
       </div>
 

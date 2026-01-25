@@ -70,8 +70,6 @@ export function Kingdoms() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(true);
-          } else {
-            setIsVisible(false);
           }
         });
       },
@@ -178,7 +176,7 @@ export function Kingdoms() {
         backgroundImage: 'linear-gradient(to bottom, #f8f9fa 0%, #e8e8e8 100%)'
       }}
     >
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden-reverse pointer-events-none">
         <div className="absolute top-20 left-10 w-24 h-24 bg-[#8C5A2C]/10 border-4 border-[#8C5A2C]/20" />
         <div className="absolute top-40 right-20 w-20 h-20 bg-[#6B8E23]/10 border-4 border-[#6B8E23]/20" />
         <div className="absolute bottom-40 left-1/4 w-16 h-16 bg-[#556B2F]/10 border-4 border-[#556B2F]/20" />

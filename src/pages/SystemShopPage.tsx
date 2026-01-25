@@ -4,7 +4,9 @@ import { Footer } from '../sections/Footer';
 export default function SystemShopPage() {
   return (
     <div className="min-h-screen bg-[#f8f9fa]">
-      <SystemShop />
+      <div className="pt-20">
+        <SystemShop />
+      </div>
       <Footer />
     </div>
   );

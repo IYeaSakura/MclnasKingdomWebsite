@@ -48,8 +48,6 @@ export function HallOfFame() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(true);
-          } else {
-            setIsVisible(false);
           }
         });
       },
