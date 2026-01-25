@@ -152,12 +152,13 @@ export function Hero({ onNavigate }: HeroProps) {
 
         {/* Main Title - 调整尺寸适应屏幕 */}
         <h1
-          className={`text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 transition-all duration-700 delay-100 ${
+          className={`text-3xl md:text-4xl lg:text-5xl font-black text-white mb-4 transition-all duration-700 delay-100 tracking-wider ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
+          style={{ textShadow: '4px 4px 0 #2A2A2A' }}
         >
           <span className="block mb-2">王国之争</span>
-          <span className="block text-4xl md:text-5xl lg:text-6xl">
+          <span className="block text-3xl md:text-4xl lg:text-5xl">
             <span className="text-[#0071e3] drop-shadow-lg">×</span>
             <span 
               className="gradient-text drop-shadow-2xl"
@@ -197,7 +198,8 @@ export function Hero({ onNavigate }: HeroProps) {
         >
           <Button
             onClick={() => scrollToSection('cta')}
-            className="group px-6 py-4 text-base rounded-xl bg-gradient-to-r from-[#0071e3] to-[#0051a2] text-white hover:from-[#0051a2] hover:to-[#003d7a] transition-all duration-300 hover:scale-105 hover:shadow-lg"
+            className="group px-6 py-4 text-base rounded-xl bg-gradient-to-r from-[#0071e3] to-[#0051a2] text-white hover:from-[#0051a2] hover:to-[#003d7a] transition-all duration-300 hover:scale-105 border-2 border-[#0051a2] hover:border-[#003d7a]"
+            style={{ boxShadow: '4px 4px 0 #003d7a' }}
           >
             <Crown className="w-4 h-4 mr-2" />
             开始冒险
@@ -208,9 +210,10 @@ export function Hero({ onNavigate }: HeroProps) {
               trigger={
                 <Button
                   variant="outline"
-                  className="group px-8 py-6 text-lg rounded-xl border-2 border-white/60 text-white bg-black/40 hover:bg-black/60 hover:border-white/80 hover:text-white"
+                  className="group px-6 py-4 text-base rounded-xl border-2 border-[#4A4A4A] text-white bg-[#4A4A4A] hover:bg-[#5A5A5A] hover:border-[#6A6A6A] hover:text-white"
+                  style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
                 >
-                  <Play className="w-5 h-5 mr-2" />
+                  <Play className="w-4 h-4 mr-2" />
                   了解更多
                 </Button>
               }
@@ -222,8 +225,9 @@ export function Hero({ onNavigate }: HeroProps) {
                 variant="outline"
                 onClick={switchSeason}
                 disabled={isTransitioning}
-                className="group px-4 py-4 rounded-xl border-2 border-white/60 text-white bg-black/40 hover:bg-black/60 hover:border-white/80 hover:text-white disabled:opacity-50"
+                className="group px-6 py-4 rounded-xl border-2 border-[#4A4A4A] text-white bg-[#4A4A4A] hover:bg-[#5A5A5A] hover:border-[#6A6A6A] hover:text-white disabled:opacity-50"
                 title={`切换到${SEASON_NAMES[getNextSeason(currentSeason)]}`}
+                style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
               >
                 <RefreshCw className={`w-4 h-4 ${isTransitioning ? 'animate-spin' : ''}`} />
               </Button>
