@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -15,7 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Search, Newspaper, Calendar, Clock, ChevronRight } from 'lucide-react';
+import { Search, Newspaper, Calendar, Clock, ChevronRight, Sparkles } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import type { DailyNews, DateFilter } from '@/types';
 import { dailyNewsData } from '@/data';
@@ -37,37 +37,13 @@ export function DailyNews() {
   const [searchTerm, setSearchTerm] = useState('');
   const [dateFilter, setDateFilter] = useState<DateFilter>('all');
   const [selectedNews, setSelectedNews] = useState<DailyNews | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     preloadImages(dailyNewsData.map(news => news.image));
   }, []);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          } else {
-            setIsVisible(false);
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
 
   const filteredNews = useMemo(() => {
     let items = [...dailyNewsData];
@@ -127,38 +103,68 @@ export function DailyNews() {
 
   return (
     <section 
-      ref={sectionRef}
       id="daily" 
-      className="py-20 bg-gradient-to-b from-white to-[#f8f9fa]"
+      className="py-20 relative overflow-hidden"
+      style={{ 
+        imageRendering: 'pixelated',
+        backgroundImage: 'linear-gradient(to bottom, #f8f9fa 0%, #e8e8e8 100%)'
+      }}
     >
-      <div className="section-container">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-20 h-20 bg-[#8B4513]/10 border-4 border-[#8B4513]/20" />
+        <div className="absolute top-40 right-20 w-16 h-16 bg-[#D2691E]/10 border-4 border-[#D2691E]/20" />
+        <div className="absolute bottom-40 left-1/4 w-24 h-24 bg-[#A0522D]/10 border-4 border-[#A0522D]/20" />
+        <div className="absolute bottom-20 right-1/4 w-18 h-18 bg-[#CD853F]/10 border-4 border-[#CD853F]/20" />
+      </div>
+
+      <div className="section-container relative z-10">
         <div className={`text-center mb-12 transition-all duration-700 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 text-emerald-700 text-sm font-medium mb-4">
-            <Newspaper className="w-4 h-4" />
-            日报
+          <div
+            className={`inline-flex items-center gap-2 px-4 py-2 bg-[#4A4A4A] border-4 border-[#2A2A2A] mb-6 transition-all duration-700 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
+            style={{ boxShadow: '4px 4px 0 #1A1A1A' }}
+          >
+            <Sparkles className="w-4 h-4 text-[#FFD700]" />
+            <span className="text-sm font-bold text-white tracking-wider">日报</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+          <h2
+            className={`text-4xl md:text-5xl font-black text-gray-800 mb-4 transition-all duration-700 delay-100 tracking-wider ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
+            style={{ textShadow: '4px 4px 0 #2A2A2A' }}
+          >
             王国日报
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p
+            className={`text-base md:text-lg text-gray-600 max-w-2xl mx-auto transition-all duration-700 delay-200 font-medium ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
+          >
             来自王国之争世界的最新新闻和更新，了解服务器内发生的重大事件
           </p>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-4 mb-8">
+        <div className={`flex flex-col md:flex-row gap-4 mb-8 transition-all duration-700 delay-300 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <Input
               placeholder="搜索日报标题或内容..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 h-12"
+              className="pl-10 h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#0071e3] transition-all duration-300"
+              style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
             />
           </div>
           <Select value={dateFilter} onValueChange={(v) => setDateFilter(v as DateFilter)}>
-            <SelectTrigger className="w-[180px] h-12">
+            <SelectTrigger 
+              className="w-[180px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#0071e3] transition-all duration-300"
+              style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
+            >
               <Calendar className="w-4 h-4 mr-2" />
               <SelectValue placeholder="时间筛选" />
             </SelectTrigger>
@@ -172,16 +178,19 @@ export function DailyNews() {
           </Select>
         </div>
 
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-6 transition-all duration-700 delay-200 ${
+        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-6 transition-all duration-700 delay-400 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
           {displayNews.map((news, index) => (
             <Card
               key={news.id}
-              className={`mc-card group cursor-pointer overflow-hidden transition-all duration-500 ${
+              className={`mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#0071e3] hover:-translate-y-2 ${
                 index === 0 ? 'lg:row-span-2' : ''
               }`}
-              style={{ animationDelay: `${index * 100}ms` }}
+              style={{ 
+                animationDelay: `${index * 100}ms`,
+                boxShadow: '6px 6px 0 #2A2A2A'
+              }}
               onClick={() => setSelectedNews(news)}
             >
               <div
@@ -205,7 +214,7 @@ export function DailyNews() {
                     <span>发布于 {news.date}</span>
                   </div>
                   <h3
-                    className={`font-bold text-white group-hover:text-[#0071e3] transition-colors ${
+                    className={`font-black text-white group-hover:text-[#0071e3] transition-colors ${
                       index === 0 ? 'text-2xl' : 'text-lg'
                     }`}
                   >
@@ -220,7 +229,7 @@ export function DailyNews() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="w-full mt-3 text-[#0071e3] hover:bg-[#0071e3]/10"
+                  className="w-full mt-3 text-[#0071e3] hover:bg-[#0071e3]/10 font-bold"
                   onClick={(e) => {
                     e.stopPropagation();
                     setSelectedNews(news);
@@ -237,17 +246,20 @@ export function DailyNews() {
         {filteredNews.length === 0 && (
           <div className="text-center py-16">
             <Newspaper className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-500 mb-2">未找到匹配的日报</h3>
+            <h3 className="text-lg font-bold text-gray-500 mb-2">未找到匹配的日报</h3>
             <p className="text-gray-400">请尝试调整搜索条件或时间筛选</p>
           </div>
         )}
       </div>
 
       <Dialog open={!!selectedNews} onOpenChange={() => setSelectedNews(null)}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent 
+          className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white border-4 border-[#4A4A4A]"
+          style={{ boxShadow: '8px 8px 0 #2A2A2A' }}
+        >
           <DialogHeader>
             <DialogTitle>
-              <div className="relative w-full h-64 rounded-lg overflow-hidden mb-4">
+              <div className="relative w-full h-64 rounded-sm overflow-hidden mb-4 border-4 border-[#4A4A4A]" style={{ boxShadow: '4px 4px 0 #2A2A2A' }}>
                 <img
                   src={selectedNews?.image}
                   alt={selectedNews?.title}
@@ -255,7 +267,7 @@ export function DailyNews() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
-                  <h2 className="text-white font-bold text-2xl mb-2">{selectedNews?.title}</h2>
+                  <h2 className="text-white font-black text-2xl mb-2">{selectedNews?.title}</h2>
                   <div className="flex items-center gap-2 text-white/80 text-sm">
                     <Calendar className="w-4 h-4" />
                     <span>{selectedNews?.date && formatDate(selectedNews.date)}</span>

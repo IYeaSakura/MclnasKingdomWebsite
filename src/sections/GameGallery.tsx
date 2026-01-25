@@ -123,9 +123,9 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
   };
 
   return (
-    <section 
+    <section
       ref={sectionRef}
-      className="h-screen flex items-center justify-center relative overflow-hidden" 
+      className="h-screen flex items-center justify-center relative overflow-hidden"
       style={{ imageRendering: 'pixelated' }}
     >
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -170,7 +170,7 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
             <button
               onClick={prevImage}
               className="w-12 h-12 md:w-14 md:h-14 bg-[#6B8E23] border-3 border-[#4A6B1F] flex items-center justify-center hover:bg-[#7D9E35] hover:scale-110 active:scale-95 active:translate-y-0.5 transition-all duration-300 shrink-0"
-              style={{ 
+              style={{
                 boxShadow: '3px 3px 0 #3A5B0F',
                 imageRendering: 'pixelated'
               }}
@@ -178,7 +178,7 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
               <ChevronLeft className="w-6 h-6 md:w-7 md:h-7 text-white" strokeWidth={3} />
             </button>
 
-            <div 
+            <div
               ref={imageContainerRef}
               className={`relative aspect-[16/9] max-w-3xl flex-1 bg-[#3A3A3A] border-4 border-[#2A2A2A] overflow-hidden transition-all duration-300 ${
                 isMouseInside ? 'border-[#8A8A8A] shadow-lg' : ''
@@ -186,7 +186,7 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
               <div
                 className="absolute inset-0 transition-transform duration-500 ease-out"
                 style={{
-                  transform: `perspective(1000px) rotateY(${mousePosition.x * 5}deg) rotateX(${-mousePosition.y * 5}deg) scale(${isMouseInside ? 1.05 : 1})`
+                  transform: `perspective(1000px) rotateY(${mousePosition.x * 5}deg) rotateX(${-mousePosition.y * 5}deg) scale(${isMouseInside ? 1.08 : 1})`
                 }}
               >
                 <img
@@ -200,14 +200,14 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/95 via-[#1A1A1A]/40 to-transparent transition-opacity duration-300 pointer-events-none" />
               <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 pointer-events-none">
-                <div 
+                <div
                   className="bg-[#2A2A2A]/98 border-4 border-[#4A4A4A] p-4 md:p-5 transition-all duration-300"
-                  style={{ 
+                  style={{
                     boxShadow: '4px 4px 0 #1A1A1A',
                     imageRendering: 'pixelated'
                   }}
                 >
-                  <h3 
+                  <h3
                     className="text-base md:text-lg lg:text-xl font-black text-[#FFD700] mb-2 tracking-wider"
                     style={{ textShadow: '2px 2px 0 #1A1A1A' }}
                   >
@@ -223,7 +223,7 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
             <button
               onClick={nextImage}
               className="w-12 h-12 md:w-14 md:h-14 bg-[#6B8E23] border-3 border-[#4A6B1F] flex items-center justify-center hover:bg-[#7D9E35] hover:scale-110 active:scale-95 active:translate-y-0.5 transition-all duration-300 shrink-0"
-              style={{ 
+              style={{
                 boxShadow: '3px 3px 0 #3A5B0F',
                 imageRendering: 'pixelated'
               }}
@@ -242,7 +242,7 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
                     ? 'bg-[#FFD700] border-[#FFD700] scale-125'
                     : 'bg-[#4A4A4A] border-[#2A2A2A] hover:bg-[#5A5A5A] hover:border-[#3A3A3A]'
                 }`}
-                style={{ 
+                style={{
                   boxShadow: index === currentIndex ? '3px 3px 0 #CC9900' : '2px 2px 0 #1A1A1A',
                   imageRendering: 'pixelated'
                 }}

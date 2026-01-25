@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Store, Users, Building2, Newspaper } from 'lucide-react';
+import { Menu, X, Store, Users, Building2, Newspaper, ShoppingBag } from 'lucide-react';
 
 interface NavbarProps {
   onSectionChange: (section: string) => void;
@@ -9,7 +9,7 @@ interface NavbarProps {
 
 const navItems = [
   { id: 'shop', label: '系统商店', icon: Store, path: '/system-shop' },
-  { id: 'guild', label: '兔吱吱商会', icon: X, path: '/guild-shop' },
+  { id: 'guild', label: '兔吱吱商会', icon: ShoppingBag, path: '/guild-shop' },
   { id: 'fame', label: '名人堂', icon: Users, path: '/hall-of-fame' },
   { id: 'kingdoms', label: '王国传', icon: Building2, path: '/kingdoms' },
   { id: 'daily', label: '日报', icon: Newspaper, path: '/daily-news' },
