@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Sparkles } from 'lucide-react';
+import type { Season } from '@/contexts/SeasonContext';
 import { preloadImage, preloadImages } from '@/utils/imageCache';
-
-type Season = 'spring' | 'summer' | 'autumn' | 'winter';
 
 const SEASON_IMAGES: Record<Season, string> = {
   spring: '/images/hero-landscape-1.jpg',
@@ -14,20 +12,27 @@ const SEASON_IMAGES: Record<Season, string> = {
 interface SeasonBackgroundProps {
   season: Season;
   className?: string;
-  children?: React.ReactNode;
+  children: React.ReactNode;
   showParticles?: boolean;
 }
 
-export function SeasonBackground({ season, className = '', children, showParticles = true }: SeasonBackgroundProps) {
+export function SeasonBackground({ season, className = '', children }: SeasonBackgroundProps) {
   const [currentImage, setCurrentImage] = useState<string>(SEASON_IMAGES[season]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadImage = async () => {
+      console.log('Loading season background:', season, SEASON_IMAGES[season]);
       setIsLoading(true);
-      await preloadImage(SEASON_IMAGES[season]);
-      setCurrentImage(SEASON_IMAGES[season]);
-      setIsLoading(false);
+      try {
+        await preloadImage(SEASON_IMAGES[season]);
+        setCurrentImage(SEASON_IMAGES[season]);
+        console.log('Background loaded successfully:', SEASON_IMAGES[season]);
+      } catch (error) {
+        console.error('Failed to load background image:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     loadImage();
@@ -39,12 +44,13 @@ export function SeasonBackground({ season, className = '', children, showParticl
 
   return (
     <div className={`relative w-full h-full overflow-hidden ${className}`}>
-      {/* Background Image */}
+      {/* Background Image - 确保正确显示 */}
       <div
-        className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ 
           backgroundImage: `url(${currentImage})`,
-          opacity: isLoading ? 0 : 1
+          opacity: isLoading ? 0 : 1,
+          transition: 'opacity 1s ease-in-out'
         }}
       />
       
@@ -54,28 +60,8 @@ export function SeasonBackground({ season, className = '', children, showParticl
       {/* Vignette Effect */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
       
-      {/* Floating Particles - Always visible */}
-      {showParticles && (
-        <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none">
-          {[...Array(20)].map((_, i) => (
-            <Sparkles
-              key={i}
-              className="absolute text-white/30 animate-pulse"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                width: `${12 + Math.random() * 16}px`,
-                height: `${12 + Math.random() * 16}px`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 3}s`,
-              }}
-            />
-          ))}
-        </div>
-      )}
-      
       {/* Content - 确保可以交互 */}
-      <div className="relative z-20 w-full h-full pointer-events-auto">
+      <div className="relative z-10 w-full h-full pointer-events-auto">
         {children}
       </div>
     </div>

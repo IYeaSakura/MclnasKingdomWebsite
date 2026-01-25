@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 
-type Season = 'spring' | 'summer' | 'autumn' | 'winter';
+export type Season = 'spring' | 'summer' | 'autumn' | 'winter';
 
 interface SeasonContextType {
   currentSeason: Season;

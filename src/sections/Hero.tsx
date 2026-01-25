@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Play, Shield, Crown, RefreshCw } from 'lucide-react';
+import { ArrowRight, Play, Shield, Crown, RefreshCw, Sparkles } from 'lucide-react';
 import { VideoModal } from '@/components/VideoModal';
 import { preloadImage, preloadImages } from '@/utils/imageCache';
 import { useSeason } from '@/contexts/SeasonContext';
@@ -86,7 +86,7 @@ export function Hero({ onNavigate }: HeroProps) {
   return (
     <section
       ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative h-screen flex items-center justify-center overflow-hidden"
     >
       {/* Background Image with Parallax */}
       <div
@@ -118,10 +118,28 @@ export function Hero({ onNavigate }: HeroProps) {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
       </div>
 
+      {/* Floating Particles - 原始白色粒子效果 - 提高层级 */}
+      <div className="absolute inset-0 z-30 overflow-hidden pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <Sparkles
+            key={i}
+            className="absolute text-white/40 animate-pulse"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              width: `${12 + Math.random() * 16}px`,
+              height: `${12 + Math.random() * 16}px`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 3}s`,
+            }}
+          />
+        ))}
+      </div>
 
 
-      {/* Content */}
-      <div className="relative z-20 section-container text-center">
+
+      {/* Content - 调整顶部间距避免导航栏重叠 */}
+      <div className="relative z-20 section-container text-center pt-20">  {/* 添加pt-20确保与导航栏有距离 */}
         {/* Badge */}
         <div
           className={`inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 transition-all duration-700 ${
@@ -132,9 +150,9 @@ export function Hero({ onNavigate }: HeroProps) {
           <span className="text-sm font-medium text-gray-700">Minecraft中国版最大派系战争服务器</span>
         </div>
 
-        {/* Main Title */}
+        {/* Main Title - 调整尺寸适应屏幕 */}
         <h1
-          className={`text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 transition-all duration-700 delay-100 ${
+          className={`text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 transition-all duration-700 delay-100 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
@@ -153,37 +171,37 @@ export function Hero({ onNavigate }: HeroProps) {
           </span>
         </h1>
 
-        {/* Subtitle */}
+        {/* Subtitle - 调整尺寸 */}
         <p
-          className={`text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-4 transition-all duration-700 delay-200 ${
+          className={`text-base md:text-lg text-white/80 max-w-2xl mx-auto mb-3 transition-all duration-700 delay-200 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
           百人同屏战斗，攻城略地，共争天下之主！
         </p>
 
-        {/* Description */}
+        {/* Description - 调整尺寸 */}
         <p
-          className={`text-sm md:text-base text-white/60 max-w-xl mx-auto mb-10 transition-all duration-700 delay-300 ${
+          className={`text-sm md:text-base text-white/60 max-w-xl mx-auto mb-8 transition-all duration-700 delay-300 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
           加入数千名玩家，建立你的王国，结成联盟，在充满战争的世界中书写你的传奇
         </p>
 
-        {/* CTA Buttons */}
+        {/* CTA Buttons - 调整尺寸 */}
         <div
-          className={`flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-700 delay-400 ${
+          className={`flex flex-col sm:flex-row items-center justify-center gap-3 transition-all duration-700 delay-400 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
           <Button
             onClick={() => scrollToSection('cta')}
-            className="group px-8 py-6 text-lg rounded-xl bg-gradient-to-r from-[#0071e3] to-[#0051a2] text-white hover:from-[#0051a2] hover:to-[#003d7a] transition-all duration-300 hover:scale-105 hover:shadow-lg"
+            className="group px-6 py-4 text-base rounded-xl bg-gradient-to-r from-[#0071e3] to-[#0051a2] text-white hover:from-[#0051a2] hover:to-[#003d7a] transition-all duration-300 hover:scale-105 hover:shadow-lg"
           >
-            <Crown className="w-5 h-5 mr-2" />
+            <Crown className="w-4 h-4 mr-2" />
             开始冒险
-            <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
           </Button>
           <div className="flex items-center gap-2">
             <VideoModal
@@ -201,20 +219,20 @@ export function Hero({ onNavigate }: HeroProps) {
               description="了解Mc部落的精彩玩法和特色内容"
             />
             <Button
-              variant="outline"
-              onClick={switchSeason}
-              disabled={isTransitioning}
-              className="group px-4 py-6 rounded-xl border-2 border-white/60 text-white bg-black/40 hover:bg-black/60 hover:border-white/80 hover:text-white disabled:opacity-50"
-              title={`切换到${SEASON_NAMES[getNextSeason(currentSeason)]}`}
-            >
-              <RefreshCw className={`w-5 h-5 ${isTransitioning ? 'animate-spin' : ''}`} />
-            </Button>
+                variant="outline"
+                onClick={switchSeason}
+                disabled={isTransitioning}
+                className="group px-4 py-4 rounded-xl border-2 border-white/60 text-white bg-black/40 hover:bg-black/60 hover:border-white/80 hover:text-white disabled:opacity-50"
+                title={`切换到${SEASON_NAMES[getNextSeason(currentSeason)]}`}
+              >
+                <RefreshCw className={`w-4 h-4 ${isTransitioning ? 'animate-spin' : ''}`} />
+              </Button>
           </div>
         </div>
 
-        {/* Stats */}
+        {/* Stats - 调整间距和尺寸 */}
         <div
-          className={`grid grid-cols-3 gap-8 max-w-2xl mx-auto mt-16 transition-all duration-700 delay-500 ${
+          className={`grid grid-cols-3 gap-6 max-w-xl mx-auto mt-12 transition-all duration-700 delay-500 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
@@ -227,10 +245,10 @@ export function Hero({ onNavigate }: HeroProps) {
               key={index}
               className="text-center group cursor-default"
             >
-              <div className="text-2xl md:text-3xl font-bold text-white mb-1 group-hover:text-[#0071e3] transition-colors">
+              <div className="text-xl md:text-2xl font-bold text-white mb-1 group-hover:text-[#0071e3] transition-colors">
                 {stat.value}
               </div>
-              <div className="text-sm text-white/50">{stat.label}</div>
+              <div className="text-xs text-white/50">{stat.label}</div>
             </div>
           ))}
         </div>
