@@ -29,7 +29,11 @@ const gameImages = [
   }
 ];
 
-export function GameGallery() {
+interface GameGalleryProps {
+  isCurrentSection: boolean;
+}
+
+export function GameGallery({ isCurrentSection }: GameGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -41,29 +45,12 @@ export function GameGallery() {
   const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          } else {
-            setIsVisible(false);
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (isCurrentSection) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
     }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
+  }, [isCurrentSection]);
 
   useEffect(() => {
     if (!isPaused) {

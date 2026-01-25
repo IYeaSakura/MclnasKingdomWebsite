@@ -7,6 +7,7 @@ import { useSeason } from '@/contexts/SeasonContext';
 
 interface HeroProps {
   onNavigate: (section: string) => void;
+  isCurrentSection: boolean;
 }
 
 type Season = 'spring' | 'summer' | 'autumn' | 'winter';
@@ -25,7 +26,7 @@ const SEASON_NAMES: Record<Season, string> = {
   winter: '冬季',
 };
 
-export function Hero({ onNavigate }: HeroProps) {
+export function Hero({ onNavigate, isCurrentSection }: HeroProps) {
   const heroRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -35,9 +36,16 @@ export function Hero({ onNavigate }: HeroProps) {
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
-    setIsVisible(true);
     preloadImages(Object.values(SEASON_IMAGES));
   }, []);
+
+  useEffect(() => {
+    if (isCurrentSection) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  }, [isCurrentSection]);
 
   const switchSeason = async () => {
     if (isTransitioning) return;

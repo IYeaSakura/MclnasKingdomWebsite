@@ -73,7 +73,6 @@ export function GuildShop() {
   const filteredItems = useMemo(() => {
     let items = [...guildShopData];
 
-    // Search filter
     if (searchTerm) {
       items = items.filter((item) =>
         item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -82,14 +81,12 @@ export function GuildShop() {
       );
     }
 
-    // Type filter
     if (typeFilter === 'buy') {
       items = items.filter((item) => item.type === 'both' || item.type === 'buy_only');
     } else if (typeFilter === 'sell') {
       items = items.filter((item) => item.type === 'both' || item.type === 'sell_only');
     }
 
-    // Sort
     if (sortBy === 'asc') {
       items.sort((a, b) => a.buyDisplayPrice - b.buyDisplayPrice);
     } else if (sortBy === 'desc') {
@@ -113,7 +110,6 @@ export function GuildShop() {
       className="py-20 bg-gradient-to-b from-[#f8f9fa] to-white"
     >
       <div className="section-container">
-        {/* Header */}
         <div className={`text-center mb-12 transition-all duration-700 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
@@ -129,7 +125,6 @@ export function GuildShop() {
           </p>
         </div>
 
-        {/* Filters */}
         <div className="flex flex-col md:flex-row gap-4 mb-8">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -163,7 +158,6 @@ export function GuildShop() {
           </Select>
         </div>
 
-        {/* Items Grid */}
         <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-all duration-700 delay-200 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
@@ -248,7 +242,6 @@ export function GuildShop() {
           ))}
         </div>
 
-        {/* Empty State */}
         {filteredItems.length === 0 && (
           <div className="text-center py-16">
             <Flower2 className="w-16 h-16 text-gray-300 mx-auto mb-4" />
@@ -258,7 +251,6 @@ export function GuildShop() {
         )}
       </div>
 
-      {/* Price Trend Dialog */}
       <Dialog open={!!selectedItem} onOpenChange={() => setSelectedItem(null)}>
         <DialogContent className="max-w-3xl">
           <DialogHeader>
@@ -341,7 +333,6 @@ export function GuildShop() {
         </DialogContent>
       </Dialog>
 
-      {/* Pagination */}
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}

@@ -48,34 +48,21 @@ const features = [
   }
 ];
 
-export function GameFeatures() {
+interface GameFeaturesProps {
+  isCurrentSection: boolean;
+}
+
+export function GameFeatures({ isCurrentSection }: GameFeaturesProps) {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          } else {
-            setIsVisible(false);
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (isCurrentSection) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
     }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
+  }, [isCurrentSection]);
 
   return (
     <section 

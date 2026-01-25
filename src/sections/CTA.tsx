@@ -1,7 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { Sparkles, MessageCircle, Radio, Video } from 'lucide-react';
 
-export function CTA() {
+interface CTAProps {
+  isCurrentSection: boolean;
+}
+
+export function CTA({ isCurrentSection }: CTAProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [typedText, setTypedText] = useState('');
@@ -10,32 +14,15 @@ export function CTA() {
   const fullText = '准备好开始你的冒险了吗？';
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            setIsTyping(true);
-          } else {
-            setIsVisible(false);
-            setIsTyping(false);
-            setTypedText('');
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (isCurrentSection) {
+      setIsVisible(true);
+      setIsTyping(true);
+    } else {
+      setIsVisible(false);
+      setIsTyping(false);
+      setTypedText('');
     }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
+  }, [isCurrentSection]);
 
   useEffect(() => {
     if (!isTyping) {
@@ -60,7 +47,7 @@ export function CTA() {
     {
       id: 'qq-group',
       icon: MessageCircle,
-      title: '游戏QQ群',
+      title: 'QQ群',
       description: '加入官方游戏群，与玩家交流互动，获取最新服务器资讯和活动',
       info: '群号：123456789',
       color: '#6B8E23',
@@ -72,20 +59,20 @@ export function CTA() {
       icon: Radio,
       title: 'QQ频道',
       description: '加入QQ频道，实时获取服务器动态，参与社区讨论和活动',
-      info: '频道ID：Mc部落',
+      info: '频道ID：ahvw3ph6fv',
       color: '#9370DB',
       borderColor: '#5B3B8C',
-      link: 'https://qun.qq.com/channel/xxx'
+      link: 'https://pd.qq.com/g/ahvw3ph6fv'
     },
     {
       id: 'bilibili',
       icon: Video,
       title: '官方B站',
       description: '关注官方B站账号，观看游戏视频、直播和精彩内容',
-      info: 'B站：@Mc部落',
+      info: 'B站：-IYuChen-',
       color: '#FF69B4',
       borderColor: '#C71585',
-      link: 'https://space.bilibili.com/xxx'
+      link: 'https://space.bilibili.com/646868679'
     }
   ];
 

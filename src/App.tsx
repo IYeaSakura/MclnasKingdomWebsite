@@ -105,27 +105,27 @@ function HomePage() {
       >
         {/* Hero Section - 首屏 */}
         <div className="w-screen h-screen relative overflow-hidden">
-          <Hero onNavigate={() => goToSection(3)} />
+          <Hero onNavigate={() => goToSection(3)} isCurrentSection={currentSection === 0} />
         </div>
         
         {/* Game Gallery Section */}
         <div className="w-screen h-screen relative overflow-hidden">
           <SeasonBackground season={gallerySeason} className="w-full h-full">
-            <GameGallery />
+            <GameGallery isCurrentSection={currentSection === 1} />
           </SeasonBackground>
         </div>
         
         {/* Game Features Section */}
         <div className="w-screen h-screen relative overflow-hidden">
           <SeasonBackground season={featuresSeason} className="w-full h-full">
-            <GameFeatures />
+            <GameFeatures isCurrentSection={currentSection === 2} />
           </SeasonBackground>
         </div>
         
         {/* CTA Section */}
         <div className="w-screen h-screen relative overflow-hidden">
           <SeasonBackground season={ctaSeason} className="w-full h-full">
-            <CTA />
+            <CTA isCurrentSection={currentSection === 3} />
           </SeasonBackground>
         </div>
 

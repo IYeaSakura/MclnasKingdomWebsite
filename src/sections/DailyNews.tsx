@@ -72,7 +72,6 @@ export function DailyNews() {
   const filteredNews = useMemo(() => {
     let items = [...dailyNewsData];
 
-    // Search filter
     if (searchTerm) {
       items = items.filter((news) =>
         news.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -80,7 +79,6 @@ export function DailyNews() {
       );
     }
 
-    // Date filter
     if (dateFilter !== 'all') {
       const now = new Date();
       const cutoffDate = new Date();
@@ -106,7 +104,6 @@ export function DailyNews() {
       items = items.filter((news) => new Date(news.date) >= cutoffDate);
     }
 
-    // Sort by date descending
     items.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     return items;
@@ -135,7 +132,6 @@ export function DailyNews() {
       className="py-20 bg-gradient-to-b from-white to-[#f8f9fa]"
     >
       <div className="section-container">
-        {/* Header */}
         <div className={`text-center mb-12 transition-all duration-700 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
@@ -151,7 +147,6 @@ export function DailyNews() {
           </p>
         </div>
 
-        {/* Filters */}
         <div className="flex flex-col md:flex-row gap-4 mb-8">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -177,7 +172,6 @@ export function DailyNews() {
           </Select>
         </div>
 
-        {/* News Grid */}
         <div className={`grid grid-cols-1 lg:grid-cols-2 gap-6 transition-all duration-700 delay-200 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
@@ -240,7 +234,6 @@ export function DailyNews() {
           ))}
         </div>
 
-        {/* Empty State */}
         {filteredNews.length === 0 && (
           <div className="text-center py-16">
             <Newspaper className="w-16 h-16 text-gray-300 mx-auto mb-4" />
@@ -250,7 +243,6 @@ export function DailyNews() {
         )}
       </div>
 
-      {/* News Detail Dialog */}
       <Dialog open={!!selectedNews} onOpenChange={() => setSelectedNews(null)}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
@@ -280,7 +272,6 @@ export function DailyNews() {
         </DialogContent>
       </Dialog>
 
-      {/* Pagination */}
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
