@@ -8,7 +8,6 @@ import { GameFeatures } from './sections/GameFeatures';
 import { CTA } from './sections/CTA';
 import { SeasonBackground } from './components/SeasonBackground';
 import { useSeason } from './contexts/SeasonContext';
-import { ChevronDown } from 'lucide-react';
 import SystemShopPage from './pages/SystemShopPage';
 import GuildShopPage from './pages/GuildShopPage';
 import HallOfFamePage from './pages/HallOfFamePage';
@@ -145,27 +144,7 @@ function HomePage() {
         ))}
       </div>
 
-      {/* Down Arrow */}
-      {currentSection < 3 && (
-        <button
-          onClick={nextSection}
-          className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-2 transition-all duration-300 hover:scale-110 animate-bounce"
-          aria-label="Next section"
-        >
-          <ChevronDown className="w-4 h-4 text-white" />
-        </button>
-      )}
 
-      {/* Up Arrow */}
-      {currentSection > 0 && (
-        <button
-          onClick={prevSection}
-          className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-2 transition-all duration-300 hover:scale-110"
-          aria-label="Previous section"
-        >
-          <ChevronDown className="w-4 h-4 text-white rotate-180" />
-        </button>
-      )}
     </div>
   );
 }
