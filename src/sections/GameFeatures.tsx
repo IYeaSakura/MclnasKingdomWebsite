@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Sparkles, Shield, Sword, Users, Crown, Castle, Gem } from 'lucide-react';
 
 const features = [
   {
     icon: Shield,
     title: '派系战争系统',
-    description: '加入或创建派系，与其他派系展开激烈的领土争夺战。策略、外交和军事力量将决定你的派系能否在这个充满竞争的世界中生存下来。',
+    description: '加入或创建派系，与其他派系展开激烈的领土争夺战。策略、外交和军事力量将决定你的派系能否在这个' +
+'竞争的世界中生存下来。',
     color: '#FF6B6B',
     borderColor: '#E55555'
   },
@@ -33,7 +34,8 @@ const features = [
   {
     icon: Castle,
     title: '城堡攻防',
-    description: '建造和升级你的城堡，设置防御设施，抵御敌人的进攻。同时组织军队，策划对其他城堡的进攻，体验真实的攻城略地。',
+    description: '建造和升级你的城堡，设置防御设施，抵御敌人的' +
+'进攻。同时组织军队，策划对其他城堡的进攻，体验真实的攻城略地。',
     color: '#BB8FCE',
     borderColor: '#A97FBE'
   },
@@ -48,13 +50,39 @@ const features = [
 
 export function GameFeatures() {
   const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setIsVisible(true);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          } else {
+            setIsVisible(false);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
   }, []);
 
   return (
-    <section className="h-screen flex items-center justify-center relative overflow-hidden" style={{ imageRendering: 'pixelated' }}>
+    <section 
+      ref={sectionRef}
+      className="h-screen flex items-center justify-center relative overflow-hidden" 
+      style={{ imageRendering: 'pixelated' }}
+    >
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-10 left-10 w-32 h-32 bg-[#8C5A2C]/20 border-4 border-[#8C5A2C]/30" />
         <div className="absolute top-40 right-20 w-24 h-24 bg-[#6B8E23]/20 border-4 border-[#6B8E23]/30" />

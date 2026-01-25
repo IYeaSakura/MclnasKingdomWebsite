@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -38,9 +38,36 @@ export function SystemShop() {
   const [typeFilter, setTypeFilter] = useState<ShopItemType>('all');
   const [sortBy, setSortBy] = useState<PriceSort>('none');
   const [selectedItem, setSelectedItem] = useState<SystemShopItem | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     preloadImages(systemShopData.map(item => item.image));
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          } else {
+            setIsVisible(false);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
   }, []);
 
   const filteredItems = useMemo(() => {
@@ -79,10 +106,16 @@ export function SystemShop() {
   } = usePagination(filteredItems, { pageSize: 12 });
 
   return (
-    <section id="shop" className="py-20 bg-[#f8f9fa]">
+    <section 
+      ref={sectionRef}
+      id="shop" 
+      className="py-20 bg-[#f8f9fa]"
+    >
       <div className="section-container">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className={`text-center mb-12 transition-all duration-700 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-4">
             <ShoppingCart className="w-4 h-4" />
             系统商店
@@ -130,12 +163,14 @@ export function SystemShop() {
         </div>
 
         {/* Items Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-all duration-700 delay-200 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           {displayItems.map((item, index) => (
             <Card
               key={item.id}
-              className="mc-card group cursor-pointer overflow-hidden"
-              style={{ animationDelay: `${index * 50}ms` }}
+              className="mc-card group cursor-pointer overflow-hidden transition-all duration-500"
+              style={{ animationDelay: `${index * 100}ms` }}
               onClick={() => setSelectedItem(item)}
             >
               <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">

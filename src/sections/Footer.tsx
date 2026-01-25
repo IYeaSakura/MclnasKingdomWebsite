@@ -4,7 +4,7 @@ import { Store, Users, Building2, Newspaper, ExternalLink, Clock, Trophy } from 
 const footerLinks = {
   navigation: [
     { label: '系统商店', href: '#shop', icon: Store },
-    { label: '1.12.2商会', href: '#guild', icon: Store },
+    { label: '兔吱吱商会', href: '#guild', icon: Store },
     { label: '名人堂', href: '#fame', icon: Users },
     { label: '王国传', href: '#kingdoms', icon: Building2 },
     { label: '日报', href: '#daily', icon: Newspaper },

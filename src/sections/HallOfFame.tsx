@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -35,9 +35,36 @@ export function HallOfFame() {
   const [searchTerm, setSearchTerm] = useState('');
   const [factionFilter, setFactionFilter] = useState<FactionType>('all');
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     preloadImages(hallOfFameData.map(player => player.image));
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          } else {
+            setIsVisible(false);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
   }, []);
 
   const filteredPlayers = useMemo(() => {
@@ -82,10 +109,16 @@ export function HallOfFame() {
   };
 
   return (
-    <section id="fame" className="py-20 bg-white">
+    <section 
+      ref={sectionRef}
+      id="fame" 
+      className="py-20 bg-white"
+    >
       <div className="section-container">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className={`text-center mb-12 transition-all duration-700 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-100 text-yellow-700 text-sm font-medium mb-4">
             <Trophy className="w-4 h-4" />
             名人堂
@@ -127,12 +160,14 @@ export function HallOfFame() {
         </div>
 
         {/* Players Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-700 delay-200 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           {displayPlayers.map((player, index) => (
             <Card
               key={player.id}
-              className="mc-card group cursor-pointer overflow-hidden"
-              style={{ animationDelay: `${index * 50}ms` }}
+              className="mc-card group cursor-pointer overflow-hidden transition-all duration-500"
+              style={{ animationDelay: `${index * 100}ms` }}
               onClick={() => setSelectedPlayer(player)}
             >
               <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">

@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -57,9 +57,36 @@ export function Kingdoms() {
   const [levelFilter, setLevelFilter] = useState<KingdomLevel>('all');
   const [regionFilter, setRegionFilter] = useState<RegionType>('all');
   const [selectedKingdom, setSelectedKingdom] = useState<Kingdom | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     preloadImages(kingdomsData.map(kingdom => kingdom.image));
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          } else {
+            setIsVisible(false);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
   }, []);
 
   const filteredKingdoms = useMemo(() => {
@@ -136,10 +163,16 @@ export function Kingdoms() {
   };
 
   return (
-    <section id="kingdoms" className="py-20 bg-[#f8f9fa]">
+    <section 
+      ref={sectionRef}
+      id="kingdoms" 
+      className="py-20 bg-[#f8f9fa]"
+    >
       <div className="section-container">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className={`text-center mb-12 transition-all duration-700 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 text-sm font-medium mb-4">
             <Building2 className="w-4 h-4" />
             王国传
@@ -205,12 +238,14 @@ export function Kingdoms() {
         </div>
 
         {/* Kingdoms Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-700 delay-200 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           {displayKingdoms.map((kingdom, index) => (
             <Card
               key={kingdom.id}
-              className="mc-card group cursor-pointer overflow-hidden"
-              style={{ animationDelay: `${index * 50}ms` }}
+              className="mc-card group cursor-pointer overflow-hidden transition-all duration-500"
+              style={{ animationDelay: `${index * 100}ms` }}
               onClick={() => setSelectedKingdom(kingdom)}
             >
               <div className="relative aspect-[3/2] overflow-hidden">

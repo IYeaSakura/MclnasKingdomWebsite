@@ -35,11 +35,49 @@ export function GameGallery() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
   const [isMouseInside, setIsMouseInside] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const imageContainerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    setIsVisible(true);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          } else {
+            setIsVisible(false);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
   }, []);
+
+  useEffect(() => {
+    if (!isPaused) {
+      autoPlayRef.current = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % gameImages.length);
+      }, 5000);
+    }
+
+    return () => {
+      if (autoPlayRef.current) {
+        clearInterval(autoPlayRef.current);
+      }
+    };
+  }, [isPaused]);
 
   useEffect(() => {
     const imageContainer = imageContainerRef.current;
@@ -54,10 +92,12 @@ export function GameGallery() {
 
     const handleMouseEnter = () => {
       setIsMouseInside(true);
+      setIsPaused(true);
     };
 
     const handleMouseLeave = () => {
       setIsMouseInside(false);
+      setIsPaused(false);
       setMousePosition({ x: 0, y: 0 });
     };
 
@@ -96,7 +136,11 @@ export function GameGallery() {
   };
 
   return (
-    <section className="h-screen flex items-center justify-center relative overflow-hidden" style={{ imageRendering: 'pixelated' }}>
+    <section 
+      ref={sectionRef}
+      className="h-screen flex items-center justify-center relative overflow-hidden" 
+      style={{ imageRendering: 'pixelated' }}
+    >
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-10 left-10 w-32 h-32 bg-[#8C5A2C]/20 border-4 border-[#8C5A2C]/30" />
         <div className="absolute top-40 right-20 w-24 h-24 bg-[#6B8E23]/20 border-4 border-[#6B8E23]/30" />
@@ -135,65 +179,86 @@ export function GameGallery() {
         <div className={`relative max-w-5xl mx-auto transition-all duration-700 delay-300 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
-          <div 
-            ref={imageContainerRef}
-            className={`relative aspect-[16/9] max-w-3xl mx-auto bg-[#3A3A3A] border-4 border-[#2A2A2A] overflow-hidden transition-all duration-300 ${
-              isMouseInside ? 'border-[#8A8A8A] shadow-lg' : ''
-            }`} style={{ boxShadow: '4px 4px 0 #1A1A1A' }}>
-            <div
-              className="absolute inset-0 transition-transform duration-500 ease-out"
-              style={{
-                transform: `perspective(1000px) rotateY(${mousePosition.x * 5}deg) rotateX(${-mousePosition.y * 5}deg)`
+          <div className="flex items-center justify-center gap-4 md:gap-6">
+            <button
+              onClick={prevImage}
+              className="w-12 h-12 md:w-14 md:h-14 bg-[#6B8E23] border-3 border-[#4A6B1F] flex items-center justify-center hover:bg-[#7D9E35] hover:scale-110 active:scale-95 active:translate-y-0.5 transition-all duration-300 shrink-0"
+              style={{ 
+                boxShadow: '3px 3px 0 #3A5B0F',
+                imageRendering: 'pixelated'
               }}
             >
-              <img
-                src={getImageSrc(currentIndex)}
-                alt={gameImages[currentIndex].title}
-                className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                style={{ imageRendering: 'pixelated' }}
-                onLoad={() => handleImageLoad(currentIndex)}
-                onError={() => handleImageError(currentIndex)}
-              />
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/90 via-[#1A1A1A]/30 to-transparent transition-opacity duration-300" />
-            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
-              <div className="bg-[#4A4A4A]/95 border-3 border-[#6A6A6A] p-3" style={{ boxShadow: '3px 3px 0 #2A2A2A' }}>
-                <h3 className="text-lg md:text-xl font-black text-white mb-1 transform transition-transform duration-300 group-hover:translate-x-2 tracking-wider">
-                  {gameImages[currentIndex].title}
-                </h3>
-                <p className="text-[#E8E8E8] text-xs md:text-sm transform transition-transform duration-300 group-hover:translate-x-2 font-medium">
-                  {gameImages[currentIndex].description}
-                </p>
+              <ChevronLeft className="w-6 h-6 md:w-7 md:h-7 text-white" strokeWidth={3} />
+            </button>
+
+            <div 
+              ref={imageContainerRef}
+              className={`relative aspect-[16/9] max-w-3xl flex-1 bg-[#3A3A3A] border-4 border-[#2A2A2A] overflow-hidden transition-all duration-300 ${
+                isMouseInside ? 'border-[#8A8A8A] shadow-lg' : ''
+              }`} style={{ boxShadow: '4px 4px 0 #1A1A1A' }}>
+              <div
+                className="absolute inset-0 transition-transform duration-500 ease-out"
+                style={{
+                  transform: `perspective(1000px) rotateY(${mousePosition.x * 5}deg) rotateX(${-mousePosition.y * 5}deg) scale(${isMouseInside ? 1.05 : 1})`
+                }}
+              >
+                <img
+                  src={getImageSrc(currentIndex)}
+                  alt={gameImages[currentIndex].title}
+                  className="w-full h-full object-cover"
+                  style={{ imageRendering: 'pixelated' }}
+                  onLoad={() => handleImageLoad(currentIndex)}
+                  onError={() => handleImageError(currentIndex)}
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/95 via-[#1A1A1A]/40 to-transparent transition-opacity duration-300 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 pointer-events-none">
+                <div 
+                  className="bg-[#2A2A2A]/98 border-4 border-[#4A4A4A] p-4 md:p-5 transition-all duration-300"
+                  style={{ 
+                    boxShadow: '4px 4px 0 #1A1A1A',
+                    imageRendering: 'pixelated'
+                  }}
+                >
+                  <h3 
+                    className="text-base md:text-lg lg:text-xl font-black text-[#FFD700] mb-2 tracking-wider"
+                    style={{ textShadow: '2px 2px 0 #1A1A1A' }}
+                  >
+                    {gameImages[currentIndex].title}
+                  </h3>
+                  <p className="text-[#E8E8E8] text-xs md:text-sm font-medium leading-relaxed">
+                    {gameImages[currentIndex].description}
+                  </p>
+                </div>
               </div>
             </div>
 
             <button
-              onClick={prevImage}
-              className="absolute left-1 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 bg-[#6B8E23] border-2 border-[#4A6B1F] flex items-center justify-center hover:bg-[#7D9E35] hover:scale-105 transition-all duration-300"
-              style={{ boxShadow: '2px 2px 0 #3A5B0F' }}
-            >
-              <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 text-white" />
-            </button>
-            <button
               onClick={nextImage}
-              className="absolute right-1 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 bg-[#6B8E23] border-2 border-[#4A6B1F] flex items-center justify-center hover:bg-[#7D9E35] hover:scale-105 transition-all duration-300"
-              style={{ boxShadow: '2px 2px 0 #3A5B0F' }}
+              className="w-12 h-12 md:w-14 md:h-14 bg-[#6B8E23] border-3 border-[#4A6B1F] flex items-center justify-center hover:bg-[#7D9E35] hover:scale-110 active:scale-95 active:translate-y-0.5 transition-all duration-300 shrink-0"
+              style={{ 
+                boxShadow: '3px 3px 0 #3A5B0F',
+                imageRendering: 'pixelated'
+              }}
             >
-              <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-white" />
+              <ChevronRight className="w-6 h-6 md:w-7 md:h-7 text-white" strokeWidth={3} />
             </button>
           </div>
 
-          <div className="flex justify-center gap-1 mt-4">
+          <div className="flex justify-center gap-2 mt-4">
             {gameImages.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`w-3 h-3 border-2 border-[#2A2A2A] transition-all duration-300 hover:scale-125 ${
+                className={`w-4 h-4 border-2 transition-all duration-300 hover:scale-125 ${
                   index === currentIndex
-                    ? 'bg-[#FFD700] shadow-lg'
-                    : 'bg-[#4A4A4A] hover:bg-[#5A5A5A]'
+                    ? 'bg-[#FFD700] border-[#FFD700] scale-125'
+                    : 'bg-[#4A4A4A] border-[#2A2A2A] hover:bg-[#5A5A5A] hover:border-[#3A3A3A]'
                 }`}
-                style={{ boxShadow: index === currentIndex ? '2px 2px 0 #CC9900' : '1px 1px 0 #1A1A1A' }}
+                style={{ 
+                  boxShadow: index === currentIndex ? '3px 3px 0 #CC9900' : '2px 2px 0 #1A1A1A',
+                  imageRendering: 'pixelated'
+                }}
               />
             ))}
           </div>

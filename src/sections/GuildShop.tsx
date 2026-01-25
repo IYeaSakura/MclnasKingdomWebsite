@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -38,9 +38,36 @@ export function GuildShop() {
   const [typeFilter, setTypeFilter] = useState<ShopItemType>('all');
   const [sortBy, setSortBy] = useState<PriceSort>('none');
   const [selectedItem, setSelectedItem] = useState<GuildShopItem | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     preloadImages(guildShopData.map(item => item.image));
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          } else {
+            setIsVisible(false);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
   }, []);
 
   const filteredItems = useMemo(() => {
@@ -80,19 +107,25 @@ export function GuildShop() {
   } = usePagination(filteredItems, { pageSize: 12 });
 
   return (
-    <section id="guild" className="py-20 bg-gradient-to-b from-[#f8f9fa] to-white">
+    <section 
+      ref={sectionRef}
+      id="guild" 
+      className="py-20 bg-gradient-to-b from-[#f8f9fa] to-white"
+    >
       <div className="section-container">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className={`text-center mb-12 transition-all duration-700 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-100 text-purple-700 text-sm font-medium mb-4">
             <Flower2 className="w-4 h-4" />
-            1.12.2商会
+            兔吱吱商会
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
             稀有物品交易中心
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            来自遥远土地的稀有物品，由1.12.2商会独家供应。每一件物品都蕴含独特的故事和力量
+            来自遥远土地的稀有物品，由兔吱吱商会独家供应。每一件物品都蕴含独特的故事和力量
           </p>
         </div>
 
@@ -131,12 +164,14 @@ export function GuildShop() {
         </div>
 
         {/* Items Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-all duration-700 delay-200 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           {displayItems.map((item, index) => (
             <Card
               key={item.id}
-              className="mc-card group cursor-pointer overflow-hidden border-purple-200 hover:border-purple-400"
-              style={{ animationDelay: `${index * 50}ms` }}
+              className="mc-card group cursor-pointer overflow-hidden border-purple-200 hover:border-purple-400 transition-all duration-500"
+              style={{ animationDelay: `${index * 100}ms` }}
               onClick={() => setSelectedItem(item)}
             >
               <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-purple-100 to-purple-200">

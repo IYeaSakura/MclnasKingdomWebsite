@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -37,9 +37,36 @@ export function DailyNews() {
   const [searchTerm, setSearchTerm] = useState('');
   const [dateFilter, setDateFilter] = useState<DateFilter>('all');
   const [selectedNews, setSelectedNews] = useState<DailyNews | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     preloadImages(dailyNewsData.map(news => news.image));
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          } else {
+            setIsVisible(false);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
   }, []);
 
   const filteredNews = useMemo(() => {
@@ -102,10 +129,16 @@ export function DailyNews() {
   };
 
   return (
-    <section id="daily" className="py-20 bg-gradient-to-b from-white to-[#f8f9fa]">
+    <section 
+      ref={sectionRef}
+      id="daily" 
+      className="py-20 bg-gradient-to-b from-white to-[#f8f9fa]"
+    >
       <div className="section-container">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className={`text-center mb-12 transition-all duration-700 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 text-emerald-700 text-sm font-medium mb-4">
             <Newspaper className="w-4 h-4" />
             日报
@@ -145,13 +178,16 @@ export function DailyNews() {
         </div>
 
         {/* News Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-6 transition-all duration-700 delay-200 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           {displayNews.map((news, index) => (
             <Card
               key={news.id}
-              className={`mc-card group cursor-pointer overflow-hidden ${
+              className={`mc-card group cursor-pointer overflow-hidden transition-all duration-500 ${
                 index === 0 ? 'lg:row-span-2' : ''
               }`}
+              style={{ animationDelay: `${index * 100}ms` }}
               onClick={() => setSelectedNews(news)}
             >
               <div

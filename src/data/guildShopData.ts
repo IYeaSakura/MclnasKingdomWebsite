@@ -6,7 +6,7 @@ export const guildShopData: GuildShopItem[] = [
     id: generateId('guild', 1),
     name: '神秘之花',
     image: '/images/item-mystery-flower.jpg',
-    description: '1.12.2商会特有的神秘花朵，蕴含着古老的魔法力量',
+    description: '兔吱吱商会特有的神秘花朵，蕴含着古老的魔法力量',
     buyDisplayPrice: 800,
     buyAfterTaxPrice: 760,
     sellPrice: 600,
