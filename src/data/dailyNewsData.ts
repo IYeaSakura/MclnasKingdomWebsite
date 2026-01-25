@@ -5,7 +5,7 @@ export const dailyNewsData: DailyNews[] = [
   {
     id: generateId('news', 1),
     name: '龙渊帝国三周年庆典',
-    date: '2024-12-20',
+    date: '2026-12-20',
     title: '龙渊帝国成功举办三周年庆典',
     image: '/images/daily-celebration.jpg',
     content: `# 龙渊帝国三周年庆典盛大举行
@@ -21,12 +21,12 @@ export const dailyNewsData: DailyNews[] = [
 ---
 
 *记者：星辰日报编辑部*
-*发布时间：2024年12月20日*`
+*发布时间：2026年12月20日*`
   },
   {
     id: generateId('news', 2),
     name: '反法联盟突袭',
-    date: '2024-12-18',
+    date: '2026-12-18',
     title: '反法联盟突袭成功，夺取重要据点',
     image: '/images/daily-battle.jpg',
     content: `# 反法联盟发动突袭，成功夺取边境要塞
@@ -42,12 +42,12 @@ export const dailyNewsData: DailyNews[] = [
 ---
 
 *记者：战争前线记者站*
-*发布时间：2024年12月18日*`
+*发布时间：2026年12月18日*`
   },
   {
     id: generateId('news', 3),
     name: '远古遗迹发现',
-    date: '2024-12-15',
+    date: '2026-12-15',
     title: '探险队发现神秘远古遗迹',
     image: '/images/daily-exploration.jpg',
     content: `# 重大发现！探险队发现远古遗迹
@@ -63,12 +63,12 @@ export const dailyNewsData: DailyNews[] = [
 ---
 
 *记者：探索频道记者*
-*发布时间：2024年12月15日*`
+*发布时间：2026年12月15日*`
   },
   {
     id: generateId('news', 4),
     name: '兔吱吱商会特惠',
-    date: '2024-12-10',
+    date: '2026-12-10',
     title: '兔吱吱商会推出新年特惠活动',
     image: '/images/daily-market.jpg',
     content: `# 兔吱吱商会新年特惠活动开始啦！
@@ -79,18 +79,18 @@ export const dailyNewsData: DailyNews[] = [
 
 商会还特别推出了"新年抽奖"活动，消费满一定金额的玩家可以参与抽奖，奖品包括稀有装备、大量游戏币等。
 
-**活动时间：2024年12月10日 - 2024年12月17日**
+**活动时间：2026年12月10日 - 2026年12月17日**
 **活动地点：各大主城兔吱吱商会分店**
 
 ---
 
 *记者：商业快报记者*
-*发布时间：2024年12月10日*`
+*发布时间：2026年12月10日*`
   },
   {
     id: generateId('news', 5),
     name: '天空之城新区域',
-    date: '2024-12-05',
+    date: '2026-12-05',
     title: '天空之城开放新区域',
     image: '/images/kingdom-floating-island.jpg',
     content: `# 天空之城开放全新区域
@@ -106,12 +106,12 @@ export const dailyNewsData: DailyNews[] = [
 ---
 
 *记者：建筑艺术周刊*
-*发布时间：2024年12月5日*`
+*发布时间：2026年12月5日*`
   },
   {
     id: generateId('news', 6),
     name: '价格调整通知',
-    date: '2024-11-28',
+    date: '2026-11-28',
     title: '系统商店价格调整通知',
     image: '/images/item-diamond-sword.jpg',
     content: `# 系统商店价格调整公告
@@ -139,6 +139,6 @@ export const dailyNewsData: DailyNews[] = [
 ---
 
 *记者：系统公告栏*
-*发布时间：2024年11月28日*`
+*发布时间：2026年11月28日*`
   }
 ];

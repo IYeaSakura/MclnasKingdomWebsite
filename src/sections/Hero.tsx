@@ -167,7 +167,7 @@ export function Hero({ onNavigate, isCurrentSection }: HeroProps) {
           <span className="block text-3xl md:text-4xl lg:text-5xl">
             <span className="text-[#0071e3] drop-shadow-lg">×</span>
               <span className="gradient-text relative">
-                1.12.2
+                SAKURAIN
               </span>
           </span>
         </h1>

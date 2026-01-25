@@ -2,7 +2,7 @@ import type { PricePoint } from '@/types';
 
 export const generatePriceTrend = (baseBuy: number, baseSell: number): PricePoint[] => {
   const points: PricePoint[] = [];
-  const dates = ['2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06', '2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12'];
+  const dates = ['2026-01', '2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07', '2026-08', '2026-09', '2026-10', '2026-11', '2026-12'];
 
   dates.forEach((date, index) => {
     const variance = Math.sin(index * 0.5) * 0.2 + Math.random() * 0.1 - 0.05;

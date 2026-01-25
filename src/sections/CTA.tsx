@@ -49,7 +49,7 @@ export function CTA({ isCurrentSection }: CTAProps) {
       icon: MessageCircle,
       title: 'QQ群',
       description: '加入官方游戏群，与玩家交流互动，获取最新服务器资讯和活动',
-      info: '群号：123456789',
+      info: '群号：XXXXXXXXX',
       color: '#6B8E23',
       borderColor: '#4A6B1F',
       link: 'https://qm.qq.com/cgi-bin/qm/qr?k=xxx'

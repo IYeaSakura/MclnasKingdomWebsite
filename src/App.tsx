@@ -14,15 +14,16 @@ import GuildShopPage from './pages/GuildShopPage';
 import HallOfFamePage from './pages/HallOfFamePage';
 import KingdomsPage from './pages/KingdomsPage';
 import DailyNewsPage from './pages/DailyNewsPage';
+import RankingsPage from './pages/RankingsPage';
 import './App.css';
 
 function HomePage() {
   const [currentSection, setCurrentSection] = useState(0);
   const { getSeasonByIndex, currentSeason } = useSeason();
-  
+
   const SEASONS = ['spring', 'summer', 'autumn', 'winter'] as const;
   const heroSeasonIndex = SEASONS.indexOf(currentSeason);
-  
+
   // 计算每个区域对应的季节
   const gallerySeason = getSeasonByIndex((heroSeasonIndex + 1) % 4);
   const featuresSeason = getSeasonByIndex((heroSeasonIndex + 2) % 4);
@@ -33,10 +34,10 @@ function HomePage() {
 
   const goToSection = (index: number) => {
     if (index < 0 || index > 4 || isScrolling) return;
-    
+
     setIsScrolling(true);
     setCurrentSection(index);
-    
+
     setTimeout(() => {
       setIsScrolling(false);
     }, 1000);
@@ -49,7 +50,7 @@ function HomePage() {
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
       if (isScrolling) return;
-      
+
       if (e.deltaY > 10) {
         nextSection();
       } else if (e.deltaY < -10) {
@@ -59,7 +60,7 @@ function HomePage() {
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (isScrolling) return;
-      
+
       switch (e.key) {
         case 'ArrowDown':
         case 'PageDown':
@@ -85,7 +86,7 @@ function HomePage() {
 
     // 禁用默认滚动
     document.body.style.overflow = 'hidden';
-    
+
     window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('keydown', handleKeyDown);
 
@@ -99,7 +100,7 @@ function HomePage() {
   return (
     <div className="fixed inset-0 w-screen h-screen overflow-hidden">
       {/* Sections Container - 严格的100vh每个 */}
-      <div 
+      <div
         className="relative w-full h-full transition-transform duration-1000 ease-in-out"
         style={{ transform: `translateY(-${currentSection * 100}vh)` }}
       >
@@ -107,21 +108,21 @@ function HomePage() {
         <div className="w-screen h-screen relative overflow-hidden">
           <Hero onNavigate={() => goToSection(3)} isCurrentSection={currentSection === 0} />
         </div>
-        
+
         {/* Game Gallery Section */}
         <div className="w-screen h-screen relative overflow-hidden">
           <SeasonBackground season={gallerySeason} className="w-full h-full">
             <GameGallery isCurrentSection={currentSection === 1} />
           </SeasonBackground>
         </div>
-        
+
         {/* Game Features Section */}
         <div className="w-screen h-screen relative overflow-hidden">
           <SeasonBackground season={featuresSeason} className="w-full h-full">
             <GameFeatures isCurrentSection={currentSection === 2} />
           </SeasonBackground>
         </div>
-        
+
         {/* CTA Section */}
         <div className="w-screen h-screen relative overflow-hidden">
           <SeasonBackground season={ctaSeason} className="w-full h-full">
@@ -175,6 +176,7 @@ function App() {
             <Route path="/hall-of-fame" element={<HallOfFamePage />} />
             <Route path="/kingdoms" element={<KingdomsPage />} />
             <Route path="/daily-news" element={<DailyNewsPage />} />
+            <Route path="/rankings" element={<RankingsPage />} />
           </Routes>
         </main>
       </div>

@@ -75,3 +75,43 @@ export type PriceSort = 'none' | 'asc' | 'desc';
 
 // 日期筛选
 export type DateFilter = 'all' | 'week' | 'month' | 'quarter' | 'half-year' | 'year';
+
+// 王国排行榜
+export interface KingdomRank {
+  id: string;
+  name: string;
+  region: 'yangzhou' | 'jiangzhou' | 'qingzhou' | 'yizhou';
+  level: 'private' | 'free-city' | 'weak' | 'small' | 'large' | 'strong' | 'kingdom' | 'holy';
+  faction: 'anti-law' | 'pro-law' | 'neutral' | 'unknown';
+  reputation: number;
+  lastUpdateTime: string;
+  notes?: string;
+}
+
+// 玩家排行榜
+export interface PlayerRank {
+  id: string;
+  name: string;
+  kingdom: string;
+  region: 'yangzhou' | 'jiangzhou' | 'qingzhou' | 'yizhou';
+  faction: 'anti-law' | 'pro-law' | 'neutral' | 'unknown';
+  gold: number;
+  equipmentLevel: string;
+  lastUpdateTime: string;
+  notes?: string;
+}
+
+// 排行榜类型
+export type RankType = 'kingdom' | 'player';
+
+// 玩家排行类型
+export type PlayerRankSort = 'gold' | 'equipment';
+
+// 地区筛选
+export type RankRegionFilter = 'all' | 'yangzhou' | 'jiangzhou' | 'qingzhou' | 'yizhou';
+
+// 阵营筛选
+export type RankFactionFilter = 'all' | 'anti-law' | 'pro-law' | 'neutral' | 'unknown';
+
+// 王国等级筛选
+export type RankKingdomLevelFilter = 'all' | 'private' | 'free-city' | 'weak' | 'small' | 'large' | 'strong' | 'kingdom' | 'holy';
