@@ -61,42 +61,11 @@ export function CTA() {
         <div className={`max-w-5xl mx-auto mb-16 transition-all duration-700 delay-200 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}>
-          <div className="bg-[#4A4A4A] border-4 border-[#6A6A6A] p-8 md:p-10 transition-all duration-500" style={{ boxShadow: '6px 6px 0 #2A2A2A' }}>
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 border-4 flex items-center justify-center" style={{ backgroundColor: '#FFD700', borderColor: '#CC9900', boxShadow: '4px 4px 0 #1A1A1A' }}>
-                <Trophy className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-2xl md:text-3xl font-black text-white tracking-wider" style={{ textShadow: '3px 3px 0 #2A2A2A' }}>Mc部落</h3>
-            </div>
-            <p className="text-[#E8E8E8] text-base leading-relaxed mb-6 font-medium">
-              团队十年积累，耗时两年为热爱 我的世界PVP 的玩家们倾力匠心打造的大型派系战争服务器。当前是国内机制完善，寿命最长久，玩法最优秀，趣味性最强，用户自我扩展性最佳的派系服！
-            </p>
-            <p className="text-[#E8E8E8] text-base leading-relaxed mb-8 font-medium">
-              您可以是通过努力，带领国民发家致富的国王！也可以是带领千军万马征战沙场的传奇将军！您更可以自主创新，颁布各式的发展规则实现您各种奇妙的想法！在王国与王国之间不断的碰撞与交流中，体验万千种不一样的乐趣！
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="group flex items-center gap-3 bg-[#3A3A3A] border-4 border-[#4A4A4A] p-4 hover:border-[#6A6A6A] transition-all duration-300 hover:scale-105" style={{ boxShadow: '4px 4px 0 #2A2A2A' }}>
-                <div className="w-10 h-10 border-4 flex items-center justify-center group-hover:scale-110 transition-all duration-300" style={{ backgroundColor: '#FFD700', borderColor: '#CC9900' }}>
-                  <Crown className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-white font-medium tracking-wider text-sm">百人同屏战斗，攻城略地，共争天下之主！</span>
-              </div>
-              <div className="group flex items-center gap-3 bg-[#3A3A3A] border-4 border-[#4A4A4A] p-4 hover:border-[#6A6A6A] transition-all duration-300 hover:scale-105" style={{ boxShadow: '4px 4px 0 #2A2A2A' }}>
-                <div className="w-10 h-10 border-4 flex items-center justify-center group-hover:scale-110 transition-all duration-300" style={{ backgroundColor: '#9370DB', borderColor: '#5B3B8C' }}>
-                  <Users className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-white font-medium tracking-wider text-sm">职业相互克制与成就，没有最强的人，只有最好的团队配合！</span>
-              </div>
-            </div>
-          </div>
         </div>
 
         <div className={`max-w-6xl mx-auto transition-all duration-700 delay-300 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}>
-          <h3 className="text-2xl md:text-3xl font-black text-white text-center mb-12 tracking-wider" style={{ textShadow: '4px 4px 0 #2A2A2A' }}>
-            加入服务器
-          </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="group relative bg-[#4A4A4A] border-4 border-[#6A6A6A] p-6 hover:border-[#8A8A8A] transition-all duration-500 hover:-translate-y-2 overflow-hidden" style={{ boxShadow: '4px 4px 0 #2A2A2A' }}>
               <div className="w-16 h-16 border-4 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-all duration-500" style={{ backgroundColor: '#6B8E23', borderColor: '#4A6B1F', boxShadow: '4px 4px 0 #1A1A1A' }}>

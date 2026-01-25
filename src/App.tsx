@@ -6,6 +6,7 @@ import { Hero } from './sections/Hero';
 import { GameGallery } from './sections/GameGallery';
 import { GameFeatures } from './sections/GameFeatures';
 import { CTA } from './sections/CTA';
+import { Footer } from './sections/Footer';
 import { SeasonBackground } from './components/SeasonBackground';
 import { useSeason } from './contexts/SeasonContext';
 import SystemShopPage from './pages/SystemShopPage';
@@ -26,11 +27,12 @@ function HomePage() {
   const gallerySeason = getSeasonByIndex((heroSeasonIndex + 1) % 4);
   const featuresSeason = getSeasonByIndex((heroSeasonIndex + 2) % 4);
   const ctaSeason = getSeasonByIndex((heroSeasonIndex + 3) % 4);
+  const footerSeason = getSeasonByIndex((heroSeasonIndex + 0) % 4); // Footer uses same season as hero
 
   const [isScrolling, setIsScrolling] = useState(false);
 
   const goToSection = (index: number) => {
-    if (index < 0 || index > 3 || isScrolling) return;
+    if (index < 0 || index > 4 || isScrolling) return;
     
     setIsScrolling(true);
     setCurrentSection(index);
@@ -76,7 +78,7 @@ function HomePage() {
           break;
         case 'End':
           e.preventDefault();
-          goToSection(3);
+          goToSection(4);
           break;
       }
     };
@@ -126,11 +128,18 @@ function HomePage() {
             <CTA />
           </SeasonBackground>
         </div>
+
+        {/* Footer Section */}
+        <div className="w-screen h-screen relative overflow-hidden">
+          <SeasonBackground season={footerSeason} className="w-full h-full">
+            <Footer />
+          </SeasonBackground>
+        </div>
       </div>
 
       {/* Navigation */}
       <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-50 flex flex-col gap-3">
-        {[0, 1, 2, 3].map((index) => (
+        {[0, 1, 2, 3, 4].map((index) => (
           <button
             key={index}
             onClick={() => goToSection(index)}
