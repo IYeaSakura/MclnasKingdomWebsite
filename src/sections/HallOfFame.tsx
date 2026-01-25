@@ -145,10 +145,10 @@ export function HallOfFame() {
             <span className="text-sm font-bold text-white tracking-wider">名人堂</span>
           </div>
           <h2
-            className={`text-4xl md:text-5xl font-black text-gray-800 mb-4 transition-all duration-700 delay-100 tracking-wider ${
+            className={`text-4xl md:text-5xl font-black text-gray-900 mb-4 transition-all duration-700 delay-100 tracking-wider ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
-            style={{ textShadow: '4px 4px 0 #2A2A2A' }}
+            style={{ textShadow: '4px 4px 0 #B8860B' }}
           >
             传奇玩家殿堂
           </h2>
