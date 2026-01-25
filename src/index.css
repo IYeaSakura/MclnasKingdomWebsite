@@ -176,6 +176,21 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+.text-shadow-bottom {
+  position: relative;
+  display: inline-block;
+}
+
+.text-shadow-bottom::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  color: rgba(0, 0, 0, 0.4);
+  filter: blur(1px);
+  z-index: -1;
+}
+
 @keyframes scale-in {
   from { opacity: 0; transform: scale(0.9); }
   to { opacity: 1; transform: scale(1); }

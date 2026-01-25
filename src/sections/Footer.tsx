@@ -4,7 +4,7 @@ import { Store, Users, Building2, Newspaper, ExternalLink, Clock, Trophy } from 
 const footerLinks = {
   navigation: [
     { label: '系统商店', href: '#shop', icon: Store },
-    { label: '吱吱商会', href: '#guild', icon: Store },
+    { label: '1.12.2商会', href: '#guild', icon: Store },
     { label: '名人堂', href: '#fame', icon: Users },
     { label: '王国传', href: '#kingdoms', icon: Building2 },
     { label: '日报', href: '#daily', icon: Newspaper },
@@ -100,7 +100,7 @@ export function Footer() {
               <div className="w-14 h-14 border-4 border-[#4A4A4A] flex items-center justify-center overflow-hidden" style={{ backgroundColor: '#FFD700', boxShadow: '4px 4px 0 #2A2A2A' }}>
                 <img src="/images/mc-logo.png" alt="MC Logo" className="w-full h-full object-contain p-2" />
               </div>
-              <span className="font-black text-2xl text-white tracking-wider" style={{ textShadow: '3px 3px 0 #2A2A2A' }}>王国之争 × 吱吱</span>
+              <span className="font-black text-2xl text-white tracking-wider" style={{ textShadow: '3px 3px 0 #2A2A2A' }}>王国之争 × 1.12.2</span>
             </div>
             <p className="text-[#E8E8E8] text-base leading-relaxed mb-6 font-medium">
               百人同屏战斗，攻城略地，共争天下之主！加入数千名玩家，建立你的王国，在充满战争的世界中书写你的传奇。
@@ -200,7 +200,7 @@ export function Footer() {
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
           <p className="text-[#E8E8E8] text-base text-center font-medium">
-            © 2024 王国之争 × 吱吱。保留所有权利。
+            © 2024 王国之争 × 1.12.2。保留所有权利。
           </p>
         </div>
       </div>

@@ -41,17 +41,17 @@ export function Hero({ onNavigate }: HeroProps) {
 
   const switchSeason = async () => {
     if (isTransitioning) return;
-    
+
     const nextSeason = getNextSeason(currentSeason);
     const nextSeasonImage = SEASON_IMAGES[nextSeason];
-    
+
     if (nextSeasonImage === currentImage) return;
-    
+
     setIsTransitioning(true);
     setNextImage(nextSeasonImage);
-    
+
     await preloadImage(nextSeasonImage);
-    
+
     setTimeout(() => {
       setCurrentImage(nextSeasonImage);
       setCurrentSeason(nextSeason);
@@ -77,10 +77,7 @@ export function Hero({ onNavigate }: HeroProps) {
 
   const scrollToSection = (sectionId: string) => {
     onNavigate(sectionId);
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    // Let the parent FullPageScroll component handle the scrolling
   };
 
   return (
@@ -98,7 +95,7 @@ export function Hero({ onNavigate }: HeroProps) {
       >
         <div
           className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
-          style={{ 
+          style={{
             backgroundImage: `url(${currentImage})`,
             opacity: isTransitioning ? 0 : 1
           }}
@@ -106,7 +103,7 @@ export function Hero({ onNavigate }: HeroProps) {
         {nextImage && (
           <div
             className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
-            style={{ 
+            style={{
               backgroundImage: `url(${nextImage})`,
               opacity: isTransitioning ? 1 : 0
             }}
@@ -142,33 +139,28 @@ export function Hero({ onNavigate }: HeroProps) {
       <div className="relative z-20 section-container text-center pt-20">  {/* 添加pt-20确保与导航栏有距离 */}
         {/* Badge */}
         <div
-          className={`inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 transition-all duration-700 ${
+          className={`inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-xl border-2 border-white/20 rounded-lg mb-8 transition-all duration-700 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
+          style={{ boxShadow: '2px 2px 0 rgba(0, 0, 0, 0.3)' }}
         >
           <Shield className="w-4 h-4 text-[#0071e3]" />
-          <span className="text-sm font-medium text-gray-700">Minecraft中国版最大派系战争服务器</span>
+          <span className="text-sm font-bold text-gray-800 tracking-wide" style={{ textShadow: '1px 1px 0 rgba(255, 255, 255, 0.5)' }}>Minecraft中国版最大派系战争服务器</span>
         </div>
 
         {/* Main Title - 调整尺寸适应屏幕 */}
         <h1
-          className={`text-3xl md:text-4xl lg:text-5xl font-black text-white mb-4 transition-all duration-700 delay-100 tracking-wider ${
+          className={`text-5xl md:text-6xl lg:text-7xl font-black text-white mb-4 transition-all duration-700 delay-100 tracking-wider ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
-          style={{ textShadow: '4px 4px 0 #2A2A2A' }}
+          style={{ textShadow: '6px 6px 0 #2A2A2A' }}
         >
           <span className="block mb-2">王国之争</span>
           <span className="block text-3xl md:text-4xl lg:text-5xl">
             <span className="text-[#0071e3] drop-shadow-lg">×</span>
-            <span 
-              className="gradient-text drop-shadow-2xl"
-              style={{
-                textShadow: '0 4px 8px rgba(0, 113, 227, 0.3), 0 8px 16px rgba(255, 111, 44, 0.2)',
-                filter: 'drop-shadow(0 2px 4px rgba(0, 113, 227, 0.4))'
-              }}
-            >
-              吱吱
-            </span>
+              <span className="gradient-text relative">
+                1.12.2
+              </span>
           </span>
         </h1>
 
@@ -198,22 +190,22 @@ export function Hero({ onNavigate }: HeroProps) {
         >
           <Button
             onClick={() => scrollToSection('cta')}
-            className="group px-6 py-4 text-base rounded-xl bg-gradient-to-r from-[#0071e3] to-[#0051a2] text-white hover:from-[#0051a2] hover:to-[#003d7a] transition-all duration-300 hover:scale-105 border-2 border-[#0051a2] hover:border-[#003d7a]"
-            style={{ boxShadow: '4px 4px 0 #003d7a' }}
+            className="group px-8 py-5 text-lg rounded-xl bg-gradient-to-r from-[#0071e3] to-[#0051a2] text-white hover:from-[#0051a2] hover:to-[#003d7a] transition-all duration-300 hover:scale-105 border-2 border-[#0051a2] hover:border-[#003d7a]"
+            style={{ boxShadow: '6px 6px 0 #003d7a' }}
           >
-            <Crown className="w-4 h-4 mr-2" />
+            <Crown className="w-5 h-5 mr-2" />
             开始冒险
-            <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
           </Button>
           <div className="flex items-center gap-2">
             <VideoModal
               trigger={
                 <Button
                   variant="outline"
-                  className="group px-6 py-4 text-base rounded-xl border-2 border-[#4A4A4A] text-white bg-[#4A4A4A] hover:bg-[#5A5A5A] hover:border-[#6A6A6A] hover:text-white"
-                  style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
+                  className="group px-8 py-5 text-lg rounded-xl border-2 border-[#4A4A4A] text-white bg-[#4A4A4A] hover:bg-[#5A5A5A] hover:border-[#6A6A6A] hover:text-white"
+                  style={{ boxShadow: '6px 6px 0 #2A2A2A' }}
                 >
-                  <Play className="w-4 h-4 mr-2" />
+                  <Play className="w-5 h-5 mr-2" />
                   了解更多
                 </Button>
               }
@@ -225,11 +217,11 @@ export function Hero({ onNavigate }: HeroProps) {
                 variant="outline"
                 onClick={switchSeason}
                 disabled={isTransitioning}
-                className="group px-6 py-4 rounded-xl border-2 border-[#4A4A4A] text-white bg-[#4A4A4A] hover:bg-[#5A5A5A] hover:border-[#6A6A6A] hover:text-white disabled:opacity-50"
+                className="group px-8 py-5 rounded-xl border-2 border-[#4A4A4A] text-white bg-[#4A4A4A] hover:bg-[#5A5A5A] hover:border-[#6A6A6A] hover:text-white disabled:opacity-50"
                 title={`切换到${SEASON_NAMES[getNextSeason(currentSeason)]}`}
-                style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
+                style={{ boxShadow: '6px 6px 0 #2A2A2A' }}
               >
-                <RefreshCw className={`w-4 h-4 ${isTransitioning ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`w-5 h-5 ${isTransitioning ? 'animate-spin' : ''}`} />
               </Button>
           </div>
         </div>

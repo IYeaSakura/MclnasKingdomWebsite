@@ -13,7 +13,7 @@
 ### 新结构
 数据已拆分为多个独立文件：
 - `src/data/systemShopData.ts` - 系统商店数据
-- `src/data/guildShopData.ts` - 吱吱商会数据
+- `src/data/guildShopData.ts` - 1.12.2商会数据
 - `src/data/hallOfFameData.ts` - 名人堂数据
 - `src/data/kingdomsData.ts` - 王国数据
 - `src/data/dailyNewsData.ts` - 日报数据

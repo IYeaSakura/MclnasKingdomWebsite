@@ -86,13 +86,13 @@ export function GuildShop() {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-100 text-purple-700 text-sm font-medium mb-4">
             <Flower2 className="w-4 h-4" />
-            吱吱商会
+            1.12.2商会
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
             稀有物品交易中心
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            来自遥远土地的稀有物品，由吱吱商会独家供应。每一件物品都蕴含独特的故事和力量
+            来自遥远土地的稀有物品，由1.12.2商会独家供应。每一件物品都蕴含独特的故事和力量
           </p>
         </div>
 

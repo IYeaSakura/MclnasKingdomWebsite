@@ -136,11 +136,15 @@ export function FullPageScroll({ children, onSectionChange }: FullPageScrollProp
           <button
             key={index}
             onClick={() => goToSection(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+            className={`w-4 h-4 transition-all duration-300 ${
               currentSection === index
-                ? 'bg-white scale-125 w-3 h-3'
-                : 'bg-white/50 hover:bg-white/75'
+                ? 'bg-[#FFD700] border-2 border-[#FFFFFF] scale-125'
+                : 'bg-[#4A4A4A]/80 border-2 border-[#6A6A6A] hover:bg-[#6A6A6A] hover:border-[#8A8A8A] hover:shadow-[2px_2px_0_#2A2A2A] hover:-translate-y-0.5'
             }`}
+            style={{
+              imageRendering: 'pixelated',
+              boxShadow: currentSection === index ? '3px 3px 0 #2A2A2A' : 'none'
+            }}
             aria-label={`Go to section ${index + 1}`}
           />
         ))}
