@@ -27,7 +27,7 @@ import {
 } from 'recharts';
 import { Search, TrendingUp, Flower2, Coins, Info, ArrowUpDown, Sparkles } from 'lucide-react';
 import type { GuildShopItem, ShopItemType, PriceSort } from '@/types';
-import { guildShopData } from '@/data';
+import { loadGuildShopData } from '@/data';
 import { preloadImages } from '@/utils/imageCache';
 import { usePagination } from '@/hooks/usePagination';
 import { Pagination } from '@/components/Pagination';
@@ -39,10 +39,20 @@ export function GuildShop() {
   const [sortBy, setSortBy] = useState<PriceSort>('none');
   const [selectedItem, setSelectedItem] = useState<GuildShopItem | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [guildShopData, setGuildShopData] = useState<GuildShopItem[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    preloadImages(guildShopData.map(item => item.image));
+    async function loadData() {
+      try {
+        const data = await loadGuildShopData();
+        setGuildShopData(data);
+        preloadImages(data.map(item => item.image));
+      } catch (error) {
+        console.error('Failed to load guild shop data:', error);
+      }
+    }
+    loadData();
   }, []);
 
   useEffect(() => {
@@ -92,7 +102,7 @@ export function GuildShop() {
     }
 
     return items;
-  }, [searchTerm, typeFilter, sortBy]);
+  }, [searchTerm, typeFilter, sortBy, guildShopData]);
 
   const {
     currentPage,

@@ -18,7 +18,7 @@ import {
 import { Search, Newspaper, Calendar, Clock, ChevronRight, Sparkles } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import type { DailyNews, DateFilter } from '@/types';
-import { dailyNewsData } from '@/data';
+import { loadDailyNewsData } from '@/data';
 import { preloadImages } from '@/utils/imageCache';
 import { usePagination } from '@/hooks/usePagination';
 import { Pagination } from '@/components/Pagination';
@@ -38,10 +38,20 @@ export function DailyNews() {
   const [dateFilter, setDateFilter] = useState<DateFilter>('all');
   const [selectedNews, setSelectedNews] = useState<DailyNews | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [dailyNewsData, setDailyNewsData] = useState<DailyNews[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    preloadImages(dailyNewsData.map(news => news.image));
+    async function loadData() {
+      try {
+        const data = await loadDailyNewsData();
+        setDailyNewsData(data);
+        preloadImages(data.map(news => news.image));
+      } catch (error) {
+        console.error('Failed to load daily news data:', error);
+      }
+    }
+    loadData();
   }, []);
 
   useEffect(() => {
@@ -107,7 +117,7 @@ export function DailyNews() {
     items.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     return items;
-  }, [searchTerm, dateFilter]);
+  }, [searchTerm, dateFilter, dailyNewsData]);
 
   const {
     currentPage,

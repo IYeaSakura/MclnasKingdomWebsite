@@ -15,9 +15,11 @@ import type {
   PlayerRankSort, 
   RankRegionFilter, 
   RankFactionFilter, 
-  RankKingdomLevelFilter 
+  RankKingdomLevelFilter,
+  KingdomRank,
+  PlayerRank
 } from '@/types';
-import { kingdomRankingsData, playerRankingsData } from '@/data';
+import { loadKingdomRankingsData, loadPlayerRankingsData } from '@/data';
 
 const regionConfig: Record<RankRegionFilter, { label: string; color: string }> = {
   all: { label: '全部', color: 'gray' },
@@ -65,8 +67,27 @@ export function Rankings() {
   const [playerFactionFilter, setPlayerFactionFilter] = useState<RankFactionFilter>('all');
   const [playerRankSort, setPlayerRankSort] = useState<PlayerRankSort>('gold');
   
+  const [kingdomRankingsData, setKingdomRankingsData] = useState<KingdomRank[]>([]);
+  const [playerRankingsData, setPlayerRankingsData] = useState<PlayerRank[]>([]);
+  
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const [kingdomData, playerData] = await Promise.all([
+          loadKingdomRankingsData(),
+          loadPlayerRankingsData()
+        ]);
+        setKingdomRankingsData(kingdomData);
+        setPlayerRankingsData(playerData);
+      } catch (error) {
+        console.error('Failed to load rankings data:', error);
+      }
+    }
+    loadData();
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -114,7 +135,7 @@ export function Rankings() {
     }
 
     return kingdoms;
-  }, [kingdomSearchTerm, kingdomRegionFilter, kingdomFactionFilter, kingdomLevelFilter]);
+  }, [kingdomSearchTerm, kingdomRegionFilter, kingdomFactionFilter, kingdomLevelFilter, kingdomRankingsData]);
 
   const filteredPlayers = useMemo(() => {
     let players = [...playerRankingsData];
@@ -142,7 +163,7 @@ export function Rankings() {
     }
 
     return players;
-  }, [playerSearchTerm, playerRegionFilter, playerFactionFilter, playerRankSort]);
+  }, [playerSearchTerm, playerRegionFilter, playerFactionFilter, playerRankSort, playerRankingsData]);
 
   const getRegionLabel = (region: string) => {
     return regionConfig[region as RankRegionFilter]?.label || region;

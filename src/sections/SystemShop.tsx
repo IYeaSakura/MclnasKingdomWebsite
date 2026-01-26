@@ -27,7 +27,7 @@ import {
 } from 'recharts';
 import { Search, TrendingUp, ShoppingCart, Coins, ArrowUpDown, Sparkles } from 'lucide-react';
 import type { SystemShopItem, ShopItemType, PriceSort } from '@/types';
-import { systemShopData } from '@/data';
+import { loadSystemShopData } from '@/data';
 import { preloadImages } from '@/utils/imageCache';
 import { usePagination } from '@/hooks/usePagination';
 import { Pagination } from '@/components/Pagination';
@@ -39,10 +39,20 @@ export function SystemShop() {
   const [sortBy, setSortBy] = useState<PriceSort>('none');
   const [selectedItem, setSelectedItem] = useState<SystemShopItem | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [systemShopData, setSystemShopData] = useState<SystemShopItem[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    preloadImages(systemShopData.map(item => item.image));
+    async function loadData() {
+      try {
+        const data = await loadSystemShopData();
+        setSystemShopData(data);
+        preloadImages(data.map(item => item.image));
+      } catch (error) {
+        console.error('Failed to load system shop data:', error);
+      }
+    }
+    loadData();
   }, []);
 
   useEffect(() => {
@@ -93,7 +103,7 @@ export function SystemShop() {
     }
 
     return items;
-  }, [searchTerm, typeFilter, sortBy]);
+  }, [searchTerm, typeFilter, sortBy, systemShopData]);
 
   const {
     currentPage,

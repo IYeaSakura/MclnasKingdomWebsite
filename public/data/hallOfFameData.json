@@ -1,0 +1,50 @@
+[
+  {
+    "id": "player-001",
+    "name": "龙傲天",
+    "image": "/images/player-diamond-warrior.jpg",
+    "shortComment": "传奇战士，曾单枪匹马击败凋零风暴",
+    "faction": "pro-law",
+    "detailedExperience": "龙傲天是王国之争中最负盛名的战士之一。他在第三次末地战争中表现出色，单枪匹马击败了来袭的凋零风暴，拯救了整个扬州大陆。他创立的\"龙魂军团\"至今仍是服务器最强大的战斗力量。他的装备\"龙鳞甲\"和\"天启剑\"都是服务器顶级的传奇装备。"
+  },
+  {
+    "id": "player-002",
+    "name": "法神小明",
+    "image": "/images/player-gold-mage.jpg",
+    "shortComment": "最伟大的建筑师，建造了天空之城",
+    "faction": "neutral",
+    "detailedExperience": "法神小明以其惊人的建筑才华闻名于世。他用三年时间建造了著名的\"天空之城\"，这座浮空城市至今仍是服务器最壮观的建筑之一。除了建筑，他还是一位强大的法师，精通各种魔法，尤其擅长传送门技术。他的建筑作品遍布四大洲，影响了整个服务器的建筑风格。"
+  },
+  {
+    "id": "player-003",
+    "name": "箭神无双",
+    "image": "/images/player-iron-archer.jpg",
+    "shortComment": "百步穿杨的神射手，箭无虚发",
+    "faction": "anti-law",
+    "detailedExperience": "箭神无双是服务器最著名的弓箭手，传说他可以在百米外射中一只末影螨。在多次领地争夺战中，他的精准射击为反法联盟立下了汗马功劳。他创立的\"鹰眼猎手团\"是服务器最精英的远程部队，专门执行高难度狙击任务。他的专属弓\"落月\"是服务器最强的远程武器。"
+  },
+  {
+    "id": "player-004",
+    "name": "暗影行者",
+    "image": "/images/player-leather-ranger.jpg",
+    "shortComment": "来无影去无踪的刺客大师",
+    "faction": "other",
+    "detailedExperience": "暗影行者是服务器最神秘的玩家之一，没人知道他的真实身份。他擅长潜行和暗杀，多次在关键时刻改变战局。他建立的\"影刃组织\"是服务器最神秘的势力，成员遍布各大王国。据说他曾经潜入敌国皇宫，在重重守卫中取敌将首级全身而退。"
+  },
+  {
+    "id": "player-005",
+    "name": "北境之王",
+    "image": "/images/player-netherite-knight.jpg",
+    "shortComment": "统治北方冰原的霸主，冰雪的主宰",
+    "faction": "pro-law",
+    "detailedExperience": "北境之王是青州大陆北部的统治者，他建立了强大的\"冰雪王国\"。在他的统治下，原本荒芜的北境变成了繁荣的贸易中心。他身穿下界合金打造的\"极寒战甲\"，手持\"霜之哀伤\"，是服务器最强大的统治者之一。他的王国以严明的法度和强大的军事实力著称。"
+  },
+  {
+    "id": "player-006",
+    "name": "财神到",
+    "image": "/images/player-chain-merchant.jpg",
+    "shortComment": "商业帝国的缔造者，掌控着服务器的经济命脉",
+    "faction": "neutral",
+    "detailedExperience": "财神到是服务器最富有的玩家，他建立的商业帝国\"万通商行\"在四大洲都有分部。他精通经济学，通过贸易积累了巨额财富。他资助了许多新手玩家的发展，也投资了多个大型建筑项目。他的商业头脑和慷慨的性格使他成为服务器最受尊敬的人物之一。"
+  }
+]

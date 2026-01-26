@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/dialog';
 import { Search, Trophy, Shield, Sword, Scale, HelpCircle, Star, Sparkles } from 'lucide-react';
 import type { Player, FactionType } from '@/types';
-import { hallOfFameData } from '@/data';
+import { loadHallOfFameData } from '@/data';
 import { preloadImages } from '@/utils/imageCache';
 import { usePagination } from '@/hooks/usePagination';
 import { Pagination } from '@/components/Pagination';
@@ -36,10 +36,20 @@ export function HallOfFame() {
   const [factionFilter, setFactionFilter] = useState<FactionType>('all');
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [hallOfFameData, setHallOfFameData] = useState<Player[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    preloadImages(hallOfFameData.map(player => player.image));
+    async function loadData() {
+      try {
+        const data = await loadHallOfFameData();
+        setHallOfFameData(data);
+        preloadImages(data.map(item => item.image));
+      } catch (error) {
+        console.error('Failed to load hall of fame data:', error);
+      }
+    }
+    loadData();
   }, []);
 
   useEffect(() => {
@@ -81,7 +91,7 @@ export function HallOfFame() {
     }
 
     return players;
-  }, [searchTerm, factionFilter]);
+  }, [searchTerm, factionFilter, hallOfFameData]);
 
   const {
     currentPage,

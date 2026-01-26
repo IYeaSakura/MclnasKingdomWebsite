@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/dialog';
 import { Search, Building2, Shield, Sword, Scale, HelpCircle, MapPin, Crown, Sparkles } from 'lucide-react';
 import type { Kingdom, FactionType, KingdomLevel, RegionType } from '@/types';
-import { kingdomsData } from '@/data';
+import { loadKingdomsData } from '@/data';
 import { preloadImages } from '@/utils/imageCache';
 import { usePagination } from '@/hooks/usePagination';
 import { Pagination } from '@/components/Pagination';
@@ -58,10 +58,20 @@ export function Kingdoms() {
   const [regionFilter, setRegionFilter] = useState<RegionType>('all');
   const [selectedKingdom, setSelectedKingdom] = useState<Kingdom | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [kingdomsData, setKingdomsData] = useState<Kingdom[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    preloadImages(kingdomsData.map(kingdom => kingdom.image));
+    async function loadData() {
+      try {
+        const data = await loadKingdomsData();
+        setKingdomsData(data);
+        preloadImages(data.map(kingdom => kingdom.image));
+      } catch (error) {
+        console.error('Failed to load kingdoms data:', error);
+      }
+    }
+    loadData();
   }, []);
 
   useEffect(() => {
@@ -111,7 +121,7 @@ export function Kingdoms() {
     }
 
     return items;
-  }, [searchTerm, factionFilter, levelFilter, regionFilter]);
+  }, [searchTerm, factionFilter, levelFilter, regionFilter, kingdomsData]);
 
   const {
     currentPage,

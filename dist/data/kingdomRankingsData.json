@@ -1,0 +1,186 @@
+[
+  {
+    "id": "1",
+    "name": "风尘商会",
+    "region": "yangzhou",
+    "level": "kingdom",
+    "faction": "anti-law",
+    "reputation": 985000,
+    "lastUpdateTime": "2026-01-25 10:30:00",
+    "notes": "九州皇所在国, 扬州王诸侯国"
+  },
+  {
+    "id": "2",
+    "name": "镜花水月",
+    "region": "jiangzhou",
+    "level": "holy",
+    "faction": "pro-law",
+    "reputation": 972000,
+    "lastUpdateTime": "2026-01-25 10:30:00"
+  },
+  {
+    "id": "3",
+    "name": "虎啸联邦",
+    "region": "qingzhou",
+    "level": "holy",
+    "faction": "pro-law",
+    "reputation": 958000,
+    "lastUpdateTime": "2026-01-25 10:30:00"
+  },
+  {
+    "id": "4",
+    "name": "麒麟圣域",
+    "region": "yizhou",
+    "level": "holy",
+    "faction": "pro-law",
+    "reputation": 945000,
+    "lastUpdateTime": "2026-01-25 10:30:00",
+    "notes": "神圣王国，受到众神庇佑"
+  },
+  {
+    "id": "5",
+    "name": "玄武要塞",
+    "region": "yangzhou",
+    "level": "strong",
+    "faction": "anti-law",
+    "reputation": 920000,
+    "lastUpdateTime": "2026-01-25 10:30:00"
+  },
+  {
+    "id": "6",
+    "name": "朱雀天宫",
+    "region": "jiangzhou",
+    "level": "strong",
+    "faction": "pro-law",
+    "reputation": 895000,
+    "lastUpdateTime": "2026-01-25 10:30:00"
+  },
+  {
+    "id": "7",
+    "name": "白虎军团",
+    "region": "qingzhou",
+    "level": "strong",
+    "faction": "neutral",
+    "reputation": 870000,
+    "lastUpdateTime": "2026-01-25 10:30:00"
+  },
+  {
+    "id": "8",
+    "name": "青龙神殿",
+    "region": "yizhou",
+    "level": "strong",
+    "faction": "pro-law",
+    "reputation": 845000,
+    "lastUpdateTime": "2026-01-25 10:30:00"
+  },
+  {
+    "id": "9",
+    "name": "天机城",
+    "region": "yangzhou",
+    "level": "large",
+    "faction": "anti-law",
+    "reputation": 820000,
+    "lastUpdateTime": "2026-01-25 10:30:00"
+  },
+  {
+    "id": "10",
+    "name": "逍遥阁",
+    "region": "jiangzhou",
+    "level": "large",
+    "faction": "neutral",
+    "reputation": 795000,
+    "lastUpdateTime": "2026-01-25 10:30:00"
+  },
+  {
+    "id": "11",
+    "name": "凌霄宝殿",
+    "region": "qingzhou",
+    "level": "large",
+    "faction": "pro-law",
+    "reputation": 770000,
+    "lastUpdateTime": "2026-01-25 10:30:00"
+  },
+  {
+    "id": "12",
+    "name": "蓬莱仙岛",
+    "region": "yizhou",
+    "level": "large",
+    "faction": "anti-law",
+    "reputation": 745000,
+    "lastUpdateTime": "2026-01-25 10:30:00"
+  },
+  {
+    "id": "13",
+    "name": "昆仑仙境",
+    "region": "yangzhou",
+    "level": "small",
+    "faction": "neutral",
+    "reputation": 720000,
+    "lastUpdateTime": "2026-01-25 10:30:00"
+  },
+  {
+    "id": "14",
+    "name": "瑶池圣地",
+    "region": "jiangzhou",
+    "level": "small",
+    "faction": "pro-law",
+    "reputation": 695000,
+    "lastUpdateTime": "2026-01-25 10:30:00"
+  },
+  {
+    "id": "15",
+    "name": "东海龙宫",
+    "region": "qingzhou",
+    "level": "small",
+    "faction": "anti-law",
+    "reputation": 670000,
+    "lastUpdateTime": "2026-01-25 10:30:00"
+  },
+  {
+    "id": "16",
+    "name": "南天门",
+    "region": "yizhou",
+    "level": "weak",
+    "faction": "neutral",
+    "reputation": 645000,
+    "lastUpdateTime": "2026-01-25 10:30:00"
+  },
+  {
+    "id": "17",
+    "name": "北天门",
+    "region": "yangzhou",
+    "level": "weak",
+    "faction": "pro-law",
+    "reputation": 620000,
+    "lastUpdateTime": "2026-01-25 10:30:00"
+  },
+  {
+    "id": "18",
+    "name": "自由之城",
+    "region": "jiangzhou",
+    "level": "free-city",
+    "faction": "unknown",
+    "reputation": 595000,
+    "lastUpdateTime": "2026-01-25 10:30:00",
+    "notes": "自由市，不受任何阵营控制"
+  },
+  {
+    "id": "19",
+    "name": "隐世秘境",
+    "region": "qingzhou",
+    "level": "private",
+    "faction": "unknown",
+    "reputation": 570000,
+    "lastUpdateTime": "2026-01-25 10:30:00",
+    "notes": "私人领地，仅限特定人员进入"
+  },
+  {
+    "id": "20",
+    "name": "遗忘之地",
+    "region": "yizhou",
+    "level": "private",
+    "faction": "unknown",
+    "reputation": 545000,
+    "lastUpdateTime": "2026-01-25 10:30:00"
+  }
+]
