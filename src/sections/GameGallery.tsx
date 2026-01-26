@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const gameImages = [
@@ -42,7 +42,9 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
   const [isPaused, setIsPaused] = useState(false);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
+  const lastUpdateTimeRef = useRef<number>(0);
+  const AUTO_PLAY_INTERVAL = 5000;
 
   useEffect(() => {
     if (isCurrentSection) {
@@ -52,19 +54,53 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
     }
   }, [isCurrentSection]);
 
+  const nextImage = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % gameImages.length);
+  }, []);
+
+  const animate = useCallback((timestamp: number) => {
+    if (!isCurrentSection || isPaused || isMouseInside) {
+      animationFrameRef.current = null;
+      return;
+    }
+
+    if (timestamp - lastUpdateTimeRef.current >= AUTO_PLAY_INTERVAL) {
+      nextImage();
+      lastUpdateTimeRef.current = timestamp;
+    }
+
+    animationFrameRef.current = requestAnimationFrame(animate);
+  }, [isCurrentSection, isPaused, isMouseInside, nextImage]);
+
   useEffect(() => {
-    if (!isPaused) {
-      autoPlayRef.current = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1) % gameImages.length);
-      }, 5000);
+    if (isCurrentSection && !isPaused && !isMouseInside) {
+      lastUpdateTimeRef.current = performance.now();
+      animationFrameRef.current = requestAnimationFrame(animate);
     }
 
     return () => {
-      if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
       }
     };
-  }, [isPaused]);
+  }, [isCurrentSection, isPaused, isMouseInside, animate]);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        setIsPaused(true);
+      } else if (isCurrentSection && !isMouseInside) {
+        setIsPaused(false);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [isCurrentSection, isMouseInside]);
 
   useEffect(() => {
     const imageContainer = imageContainerRef.current;
@@ -84,7 +120,9 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
 
     const handleMouseLeave = () => {
       setIsMouseInside(false);
-      setIsPaused(false);
+      if (isCurrentSection && !document.hidden) {
+        setIsPaused(false);
+      }
       setMousePosition({ x: 0, y: 0 });
     };
 
@@ -97,11 +135,7 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
       imageContainer.removeEventListener('mouseleave', handleMouseLeave);
       imageContainer.removeEventListener('mousemove', handleMouseMove);
     };
-  }, []);
-
-  const nextImage = () => {
-    setCurrentIndex((prev) => (prev + 1) % gameImages.length);
-  };
+  }, [isCurrentSection]);
 
   const prevImage = () => {
     setCurrentIndex((prev) => (prev - 1 + gameImages.length) % gameImages.length);
