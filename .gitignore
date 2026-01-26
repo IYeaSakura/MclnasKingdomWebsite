@@ -1,0 +1,12 @@
+node_modules
+dist
+.vscode
+.VSCodeCounter
+
+# 忽略 public/images 目录中的所有生成的文件
+/public/images/*.avif
+/public/images/*.webp
+/public/images/*.jpg
+/public/images/*.jpeg
+/public/images/*.png
+/public/images/*.gif
