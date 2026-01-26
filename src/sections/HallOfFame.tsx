@@ -22,6 +22,7 @@ import { preloadImages } from '@/utils/imageCache';
 import { usePagination } from '@/hooks/usePagination';
 import { Pagination } from '@/components/Pagination';
 import { FirstLetterIcon } from '@/components/FirstLetterIcon';
+import { OptimizedImage } from '@/components/OptimizedImage';
 
 const factionConfig: Record<FactionType, { label: string; color: string; icon: typeof Shield }> = {
   all: { label: '全部', color: 'gray', icon: HelpCircle },
@@ -276,12 +277,13 @@ export function HallOfFame() {
         >
           <DialogHeader>
             <DialogTitle className="flex items-center gap-4">
-              <img
-                src={selectedPlayer?.image}
-                alt={selectedPlayer?.name}
-                className="w-20 h-20 rounded-sm object-cover border-4 border-[#4A4A4A]"
-                style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
-              />
+              <div className="w-20 h-20 rounded-sm object-cover border-4 border-[#4A4A4A]" style={{ boxShadow: '4px 4px 0 #2A2A2A' }}>
+                <OptimizedImage
+                  src={selectedPlayer?.image}
+                  alt={selectedPlayer?.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <Star className="w-6 h-6 text-[#FFD700] fill-[#FFD700]" />

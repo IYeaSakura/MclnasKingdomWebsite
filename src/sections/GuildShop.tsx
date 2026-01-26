@@ -28,6 +28,7 @@ import {
 import { Search, TrendingUp, Flower2, Coins, Info, ArrowUpDown, Sparkles } from 'lucide-react';
 import type { GuildShopItem, ShopItemType, PriceSort } from '@/types';
 import { loadGuildShopData } from '@/data';
+import { OptimizedImage } from '@/components/OptimizedImage';
 import { preloadImages } from '@/utils/imageCache';
 import { usePagination } from '@/hooks/usePagination';
 import { Pagination } from '@/components/Pagination';
@@ -303,7 +304,7 @@ export function GuildShop() {
         >
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3">
-              <img
+              <OptimizedImage
                 src={selectedItem?.image}
                 alt={selectedItem?.name}
                 className="w-12 h-12 rounded-sm object-cover border-4 border-[#4A4A4A]"

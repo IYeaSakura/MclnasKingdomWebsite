@@ -1,6 +1,6 @@
 interface OptimizedImageProps {
-  src: string;
-  alt: string;
+  src?: string;
+  alt?: string;
   className?: string;
   width?: number;
   height?: number;
@@ -10,8 +10,8 @@ interface OptimizedImageProps {
 }
 
 export function OptimizedImage({
-  src,
-  alt,
+  src = '',
+  alt = 'image',
   className = '',
   width,
   height,

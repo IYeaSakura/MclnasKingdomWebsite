@@ -22,6 +22,7 @@ import { preloadImages } from '@/utils/imageCache';
 import { usePagination } from '@/hooks/usePagination';
 import { Pagination } from '@/components/Pagination';
 import { FirstLetterIcon } from '@/components/FirstLetterIcon';
+import { OptimizedImage } from '@/components/OptimizedImage';
 
 const factionConfig: Record<FactionType, { label: string; color: string; icon: typeof Shield }> = {
   all: { label: '全部', color: 'gray', icon: HelpCircle },
@@ -372,10 +373,11 @@ export function Kingdoms() {
           <DialogHeader>
             <DialogTitle>
               <div className="relative w-full h-48 rounded-sm overflow-hidden mb-4 border-4 border-[#4A4A4A]" style={{ boxShadow: '4px 4px 0 #2A2A2A' }}>
-                <img
+                <OptimizedImage
                   src={selectedKingdom?.image}
                   alt={selectedKingdom?.name}
                   className="w-full h-full object-cover"
+                  priority="high"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">

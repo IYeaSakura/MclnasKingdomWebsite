@@ -8,9 +8,9 @@ const __dirname = path.dirname(__filename);
 const projectRoot = path.dirname(__dirname);
 
 const IMAGE_QUALITY = {
-  avif: 75,
-  webp: 82,
-  jpeg: 88
+  avif: 80,
+  webp: 85,
+  jpeg: 80
 };
 
 const IMAGE_SIZES = {
@@ -60,10 +60,10 @@ async function convertImage(inputPath, outputPath, format, quality, width = null
 
     switch (format) {
       case 'avif':
-        await pipeline.avif({ quality, effort: 4 }).toFile(outputPath);
+        await pipeline.avif({ quality, effort: 6 }).toFile(outputPath);
         break;
       case 'webp':
-        await pipeline.webp({ quality, effort: 4 }).toFile(outputPath);
+        await pipeline.webp({ quality, effort: 6 }).toFile(outputPath);
         break;
       case 'jpeg':
         await pipeline.jpeg({ quality, progressive: true }).toFile(outputPath);

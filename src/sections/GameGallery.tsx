@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+import { OptimizedImage } from '@/components/OptimizedImage';
 
 const gameImages = [
   {
@@ -37,7 +38,6 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
   const [isMouseInside, setIsMouseInside] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const imageContainerRef = useRef<HTMLDivElement>(null);
@@ -141,21 +141,6 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
     setCurrentIndex((prev) => (prev - 1 + gameImages.length) % gameImages.length);
   };
 
-  const handleImageError = (index: number) => {
-    setImageErrors(prev => ({ ...prev, [index]: true }));
-  };
-
-  const handleImageLoad = (index: number) => {
-    console.log(`Image loaded successfully: ${gameImages[index].src}`);
-  };
-
-  const getImageSrc = (index: number) => {
-    if (imageErrors[index]) {
-      return '/images/kingdom-main-castle.jpg';
-    }
-    return gameImages[index].src;
-  };
-
   return (
     <section
       ref={sectionRef}
@@ -218,18 +203,17 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
                 isMouseInside ? 'border-[#8A8A8A] shadow-lg' : ''
               }`} style={{ boxShadow: '4px 4px 0 #1A1A1A' }}>
               <div
-                className="absolute inset-0 transition-transform duration-500 ease-out"
+                className="absolute inset-0 transition-transform duration-500 ease"
                 style={{
                   transform: `perspective(1000px) rotateY(${mousePosition.x * 5}deg) rotateX(${-mousePosition.y * 5}deg) scale(${isMouseInside ? 1.08 : 1})`
                 }}
               >
-                <img
-                  src={getImageSrc(currentIndex)}
+                <OptimizedImage
+                  src={gameImages[currentIndex].src}
                   alt={gameImages[currentIndex].title}
                   className="w-full h-full object-cover"
-                  style={{ imageRendering: 'pixelated' }}
-                  onLoad={() => handleImageLoad(currentIndex)}
-                  onError={() => handleImageError(currentIndex)}
+                  priority="high"
+                  loading="eager"
                 />
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/95 via-[#1A1A1A]/40 to-transparent transition-opacity duration-300 pointer-events-none" />

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Store, Users, Building2, Newspaper, ShoppingBag, Trophy } from 'lucide-react';
+import { OptimizedImage } from '@/components/OptimizedImage';
 
 interface NavbarProps {
   onSectionChange: (section: string) => void;
@@ -61,7 +62,7 @@ export function Navbar({ onSectionChange }: NavbarProps) {
           className="flex items-center gap-2 group cursor-pointer"
         >
           <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#0071e3] to-[#ff6f2c] flex items-center justify-center transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 overflow-hidden">
-            <img src="/images/mc-logo.png" alt="MC Logo" className="w-full h-full object-contain p-1" />
+            <OptimizedImage src="/images/mc-logo.png" alt="MC Logo" className="w-full h-full object-contain p-1" />
           </div>
           <span className={`font-bold text-lg transition-colors duration-300 ${
             shouldShowSolidBackground ? 'text-gray-800' : 'text-white'
