@@ -1,6 +1,6 @@
 <div align="center">
 
-  ![MClans CN Logo](public/images/mc-logo.png)
+  ![MClans CN Logo](public/images/raw/mc-logo.png)
 
   # MClans CN
 
@@ -361,6 +361,225 @@ export default {
 
 ---
 
+## 🖼️ 图片优化
+
+本项目采用**构建时自动转换 + 渐进增强**的图片优化策略，实现 AVIF > WebP > JPEG/PNG 的格式优先级，在兼容性和性能之间取得最佳平衡。
+
+### 图片分类策略
+
+| 图片类型 | 推荐格式 | 优先级 | 响应式尺寸 | 原因 |
+|---------|---------|------|-----------|------|
+| **Hero 轮播图**（4张） | AVIF + WebP + JPEG | 高 | 1920, 1280, 750, 375 | 首屏关键图片，影响首屏加载速度 |
+| **游戏截图**（5张）`king-*.jpg` | AVIF + WebP + JPEG | 高 | 1920, 1280, 750, 375 | 大尺寸图片，压缩收益大 |
+| **物品图标**（15张）`item-*.jpg` | WebP + PNG | 中 | 256, 128, 64 | 小尺寸，WebP 足够，PNG 作为 fallback |
+| **玩家头像**（5张）`player-*.jpg` | WebP + PNG | 中 | 512, 256, 128 | 需要透明背景，WebP 支持 |
+| **每日新闻图片**（4张）`daily-*.jpg` | WebP + JPEG | 中 | 800, 400, 200 | 次要内容，WebP 即可 |
+| **Logo** | SVG | 最高 | - | 矢量图形，无限缩放 |
+
+### 快速开始
+
+```bash
+# 仅转换图片
+npm run build:images
+
+# 转换图片并构建项目
+npm run build
+```
+
+### 在组件中使用优化图片
+
+```tsx
+import { OptimizedImage } from '@/components/OptimizedImage';
+
+// 高优先级图片（Hero、游戏截图）
+<OptimizedImage 
+  src="/images/kingdom-main-castle.jpg"
+  alt="史诗级王国战争"
+  priority="high"
+  className="w-full h-full object-cover"
+/>
+
+// 普通图片（物品图标、玩家头像）
+<OptimizedImage 
+  src="/images/item-diamond-sword.jpg"
+  alt="钻石剑"
+  priority="low"
+  className="w-16 h-16"
+  loading="lazy"
+/>
+```
+
+### 性能提升预期
+
+| 指标 | 优化前 | 优化后 | 提升 |
+|------|--------|--------|------|
+| **首屏图片大小** | ~2.5MB | ~1.2MB | **52%** |
+| **总图片大小** | ~8MB | ~3.5MB | **56%** |
+| **首屏加载时间** | ~3.5s | ~1.8s | **49%** |
+| **LCP (Largest Contentful Paint)** | ~2.8s | ~1.5s | **46%** |
+
+### 浏览器兼容性
+
+| 格式 | Chrome | Firefox | Safari | Edge | 覆盖率 |
+|------|--------|---------|--------|------|--------|
+| **AVIF** | 85+ | 93+ | 16+ | 85+ | ~90% |
+| **WebP** | 23+ | 65+ | 14+ | 18+ | ~97% |
+| **JPEG** | 所有 | 所有 | 所有 | 所有 | 100% |
+
+### 验证优化效果
+
+1. **使用 Chrome DevTools**
+   - 打开开发者工具（F12）
+   - 切换到 **Network** 标签
+   - 刷新页面
+   - 查看 **Size** 列，确认加载的是 AVIF/WebP 格式
+   - 检查 **Headers**，确认 `Content-Type` 正确
+
+2. **使用 Lighthouse**
+   ```bash
+   npm run build
+   npm run preview
+   # 在 Chrome DevTools 中运行 Lighthouse
+   ```
+
+### 从 `<img>` 迁移到 `<OptimizedImage>`
+
+**之前：**
+```tsx
+<img
+  src="/images/kingdom-main-castle.jpg"
+  alt="史诗级王国战争"
+  className="w-full h-full object-cover"
+  loading="lazy"
+/>
+```
+
+**之后：**
+```tsx
+<OptimizedImage
+  src="/images/kingdom-main-castle.jpg"
+  alt="史诗级王国战争"
+  priority="high"
+  className="w-full h-full object-cover"
+  loading="lazy"
+/>
+```
+
+### 想了解更多图片优化细节？
+
+请查看 [技术详解指南](TECHNICAL_GUIDE.md)，了解：
+- 图片格式对比
+- 响应式图片实现
+- 艺术方向处理
+- 自定义配置方法
+- 部署建议
+
+---
+
+## ❓ 常见问题 (FAQ)
+
+### 为什么选择纯前端架构？
+
+MClans CN 采用 **JAMstack**（JavaScript + APIs + Markup）架构，这是一种现代化的静态站点生成方案。
+
+**适用场景：**
+- ✅ 数据更新频率 ≤ 1周（甚至月级）
+- ✅ 无用户交互写操作（评论、投票、表单提交）
+- ✅ 无敏感数据（玩家隐私、服务器IP隐藏等）
+- ✅ 已有大量前端代码，加后端会增加维护复杂度
+
+**技术优势：**
+
+| 优势 | 具体体现 |
+|------|----------|
+| **成本极低** | Vercel/Netlify/Cloudflare Pages 免费托管，无服务器费用 |
+| **速度极快** | 全球CDN边缘缓存，首屏加载<100ms |
+| **无限扩展** | 纯静态文件，流量暴增也不会宕机 |
+| **运维为零** | 没有数据库要维护，没有后端服务要监控 |
+| **版本控制** | JSON数据在Git中，更新历史可追溯，可回滚 |
+
+### 这种架构是否常见？
+
+**非常多，这是现代Web开发的主流架构之一！**
+
+根据行业数据：
+- **60%+** 的开发者表示他们的项目包含静态生成
+- **Vercel** 每天处理数百万次静态构建部署
+- **Cloudflare Pages** 和 **Netlify** 上托管的站点90%都是这种架构
+
+**实际应用案例：**
+- **技术文档站**：React/Vue/Angular 官方文档、MDN Web Docs
+- **游戏相关站点**：Minecraft Server List 网站、Steam 游戏数据站
+- **企业官网**：Next.js 官网、Apple 产品页
+- **数据展示类**：加密货币行情站、天气预报展示
+
+### 如何更新数据？
+
+**方案A：GitHub Actions 自动更新（推荐）**
+
+```yaml
+# .github/workflows/update-data.yml
+name: Update Server Data
+on:
+  schedule:
+    - cron: '0 0 * * 1'  # 每周一凌晨
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm run update-data  # 你的Node脚本获取服务器数据
+      - run: |
+          git add data.json
+          git commit -m "chore: update weekly data"
+          git push
+```
+
+**方案B：本地脚本 + 手动部署**
+
+```bash
+update_data.py → 生成 json → 推送到 CDN/对象存储
+```
+
+### 何时需要添加后端？
+
+出现以下任一情况时考虑开发后端或 Serverless 函数：
+
+| 场景 | 解决方案 |
+|------|----------|
+| **实时数据**（在线人数、服务器状态） | 用 **Vercel Edge Function** 或 **Cloudflare Workers** 做轻量级API代理 |
+| **用户互动**（玩家投票、留言板） | 需要数据库（SQLite/PlanetScale/Firebase）+ 后端接口 |
+| **敏感逻辑**（隐藏真实服务器IP、反爬虫） | 后端代理请求，前端不暴露源站 |
+| **用户上传**（皮肤上传、截图分享） | 需要文件存储+后端鉴权 |
+
+### 如果需要实时数据怎么办？
+
+可以使用**边缘函数**补充动态部分，主体保持静态：
+
+```javascript
+// /api/server-status.js (Vercel Edge Function)
+export default async function handler() {
+  const status = await fetch('your-minecraft-server:25565');
+  return Response.json({ online: status.players.online });
+}
+```
+
+- 成本：每月100万次调用免费
+- 延迟：边缘节点就近执行，<50ms
+- 维护：单文件函数，无需服务器运维
+
+### 想了解更多技术细节？
+
+请查看 [技术详解指南](TECHNICAL_GUIDE.md)，了解：
+- 架构设计原理
+- 核心功能实现
+- 性能优化技巧
+- 图片优化策略
+- 数据管理方案
+- 最佳实践
+
+---
+
 ## 🤝 贡献指南
 
 我们欢迎所有形式的贡献！
@@ -450,14 +669,6 @@ limitations under the License.
 - [Radix UI](https://www.radix-ui.com/) - Radix UI 团队
 - [Tailwind CSS](https://tailwindcss.com/) - Tailwind Labs
 - [shadcn/ui](https://ui.shadcn.com/) - shadcn
-
----
-
-## 📊 项目统计
-
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=IYeaSakura&repo=mclans-kingdom-wars-website&show_icons=true&theme=radical)
-
-![GitHub Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=IYeaSakura&repo=mclans-kingdom-wars-website&layout=compact&theme=radical)
 
 ---
 

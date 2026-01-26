@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Play, Shield, Crown, RefreshCw, Sparkles } from 'lucide-react';
 import { VideoModal } from '@/components/VideoModal';
-import { preloadImage, preloadImages } from '@/utils/imageCache';
+import { preloadImage, preloadImages, getOptimizedImageUrl } from '@/utils/imageCache';
 import { useSeason } from '@/contexts/SeasonContext';
 
 interface HeroProps {
@@ -13,10 +13,10 @@ interface HeroProps {
 type Season = 'spring' | 'summer' | 'autumn' | 'winter';
 
 const SEASON_IMAGES: Record<Season, string> = {
-  spring: '/images/hero-landscape-1.jpg',
-  summer: '/images/hero-landscape-2.jpg',
-  autumn: '/images/hero-landscape-3.jpg',
-  winter: '/images/hero-landscape-4.jpg',
+  spring: '/images/hero-landscape-1',
+  summer: '/images/hero-landscape-2',
+  autumn: '/images/hero-landscape-3',
+  winter: '/images/hero-landscape-4',
 };
 
 const SEASON_NAMES: Record<Season, string> = {
@@ -104,7 +104,7 @@ export function Hero({ onNavigate, isCurrentSection }: HeroProps) {
         <div
           className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
           style={{
-            backgroundImage: `url(${currentImage})`,
+            backgroundImage: `url(${getOptimizedImageUrl(currentImage)})`,
             opacity: isTransitioning ? 0 : 1
           }}
         />
@@ -112,7 +112,7 @@ export function Hero({ onNavigate, isCurrentSection }: HeroProps) {
           <div
             className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
             style={{
-              backgroundImage: `url(${nextImage})`,
+              backgroundImage: `url(${getOptimizedImageUrl(nextImage)})`,
               opacity: isTransitioning ? 1 : 0
             }}
           />

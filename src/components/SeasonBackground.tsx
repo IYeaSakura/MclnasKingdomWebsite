@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import type { Season } from '@/contexts/SeasonContext';
-import { preloadImage, preloadImages } from '@/utils/imageCache';
+import { preloadImage, preloadImages, getOptimizedImageUrl } from '@/utils/imageCache';
 
 const SEASON_IMAGES: Record<Season, string> = {
-  spring: '/images/hero-landscape-1.jpg',
-  summer: '/images/hero-landscape-2.jpg',
-  autumn: '/images/hero-landscape-3.jpg',
-  winter: '/images/hero-landscape-4.jpg',
+  spring: '/images/hero-landscape-1',
+  summer: '/images/hero-landscape-2',
+  autumn: '/images/hero-landscape-3',
+  winter: '/images/hero-landscape-4',
 };
 
 interface SeasonBackgroundProps {
@@ -48,7 +48,7 @@ export function SeasonBackground({ season, className = '', children }: SeasonBac
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ 
-          backgroundImage: `url(${currentImage})`,
+          backgroundImage: `url(${getOptimizedImageUrl(currentImage)})`,
           opacity: isLoading ? 0 : 1,
           transition: 'opacity 1s ease-in-out'
         }}

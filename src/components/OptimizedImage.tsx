@@ -24,7 +24,7 @@ export function OptimizedImage({
 
   const generateSrcset = (format: string) => {
     if (isHighPriority) {
-      return sizesList.map(size => 
+      return sizesList.map(size =>
         `${src.replace(/\.(jpg|jpeg|png)$/i, '')}-${size}.${format} ${size}w`
       ).join(', ');
     }

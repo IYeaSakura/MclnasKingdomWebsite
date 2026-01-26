@@ -17,16 +17,16 @@ const IMAGE_SIZES = {
   hero: [1920, 1280, 750, 375],
   game: [1920, 1280, 750, 375],
   item: [256, 128, 64],
-  player: [512, 256, 128],
-  news: [800, 400, 200]
+  player: [1920, 1280, 750, 375],
+  news: [1920, 1280, 750, 375]
 };
 
 const IMAGE_CONFIG = {
   'hero-landscape': { type: 'hero', priority: 'high' },
   'kingdom-': { type: 'game', priority: 'high' },
-  'item-': { type: 'item', priority: 'medium' },
-  'player-': { type: 'player', priority: 'medium' },
-  'daily-': { type: 'news', priority: 'low' }
+  'item-': { type: 'item', priority: 'low' },
+  'player-': { type: 'player', priority: 'high' },
+  'daily-': { type: 'news', priority: 'high' }
 };
 
 function getImageConfig(filename) {

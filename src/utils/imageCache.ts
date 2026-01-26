@@ -1,26 +1,35 @@
 const imageCache = new Map<string, Promise<HTMLImageElement>>();
 const loadedImages = new Set<string>();
 
+export function getOptimizedImageUrl(src: string): string {
+  if (/\.(jpg|jpeg|png)$/i.test(src)) {
+    return src.replace(/\.(jpg|jpeg|png)$/i, '.avif');
+  }
+  return `${src}.avif`;
+}
+
 export function preloadImage(src: string): Promise<HTMLImageElement> {
-  if (loadedImages.has(src)) {
+  const optimizedSrc = getOptimizedImageUrl(src);
+  
+  if (loadedImages.has(optimizedSrc)) {
     return Promise.resolve(new Image());
   }
 
-  if (imageCache.has(src)) {
-    return imageCache.get(src)!;
+  if (imageCache.has(optimizedSrc)) {
+    return imageCache.get(optimizedSrc)!;
   }
 
   const promise = new Promise<HTMLImageElement>((resolve, reject) => {
     const img = new Image();
     img.onload = () => {
-      loadedImages.add(src);
+      loadedImages.add(optimizedSrc);
       resolve(img);
     };
     img.onerror = reject;
-    img.src = src;
+    img.src = optimizedSrc;
   });
 
-  imageCache.set(src, promise);
+  imageCache.set(optimizedSrc, promise);
   return promise;
 }
 
@@ -29,7 +38,8 @@ export function preloadImages(srcs: string[]): Promise<HTMLImageElement[]> {
 }
 
 export function isImageLoaded(src: string): boolean {
-  return loadedImages.has(src);
+  const optimizedSrc = getOptimizedImageUrl(src);
+  return loadedImages.has(optimizedSrc);
 }
 
 export function clearImageCache(): void {
