@@ -1,6 +1,6 @@
 <div align="center">
 
-  ![MClans CN Logo](public/images/raw/mc-logo.png)
+  ![MClans CN Logo](./public/images/raw/mc-logo.png)
 
   # MClans CN
 
