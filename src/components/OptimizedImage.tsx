@@ -32,7 +32,7 @@ export function OptimizedImage({
   };
 
   return (
-    <picture>
+    <picture className={className} style={{ width, height }}>
       {isHighPriority && (
         <source
           srcSet={generateSrcset('avif')}
@@ -62,7 +62,7 @@ export function OptimizedImage({
       <img
         src={src}
         alt={alt}
-        className={className}
+        className="w-full h-full object-cover"
         width={width}
         height={height}
         loading={loading}

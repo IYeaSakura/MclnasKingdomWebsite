@@ -104,7 +104,7 @@ export function Footer() {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           }`}>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-14 h-14 border-4 border-[#4A4A4A] flex items-center justify-center overflow-hidden" style={{ backgroundColor: '#FFD700', boxShadow: '4px 4px 0 #2A2A2A' }}>
+              <div className="w-14 h-14 aspect-square border-4 border-[#4A4A4A] flex items-center justify-center overflow-hidden" style={{ backgroundColor: '#FFD700', boxShadow: '4px 4px 0 #2A2A2A' }}>
                 <OptimizedImage src="/images/mc-logo.png" alt="MC Logo" className="w-full h-full object-contain p-2" />
               </div>
               <span className="font-black text-2xl text-white tracking-wider" style={{ textShadow: '3px 3px 0 #2A2A2A' }}>王国之争 × SAKURAIN</span>

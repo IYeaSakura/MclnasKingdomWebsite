@@ -40,6 +40,7 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isMouseInside, setIsMouseInside] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(true);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number | null>(null);
@@ -53,6 +54,33 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
       setIsVisible(false);
     }
   }, [isCurrentSection]);
+
+  useEffect(() => {
+    const preloadAllImages = async () => {
+      setIsImageLoading(true);
+      const imagePromises = gameImages.map((image) => {
+        return new Promise<void>((resolve) => {
+          const img = new Image();
+          const optimizedSrc = image.src.replace(/\.(jpg|jpeg|png)$/i, '.avif');
+          
+          img.onload = () => {
+            resolve();
+          };
+          
+          img.onerror = () => {
+            resolve();
+          };
+          
+          img.src = optimizedSrc;
+        });
+      });
+
+      await Promise.all(imagePromises);
+      setIsImageLoading(false);
+    };
+
+    preloadAllImages();
+  }, []);
 
   const nextImage = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % gameImages.length);
@@ -202,10 +230,32 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
               className={`relative aspect-[16/9] max-w-3xl flex-1 bg-[#3A3A3A] border-4 border-[#2A2A2A] overflow-hidden transition-all duration-300 ${
                 isMouseInside ? 'border-[#8A8A8A] shadow-lg' : ''
               }`} style={{ boxShadow: '4px 4px 0 #1A1A1A' }}>
+              {isImageLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#2A2A2A] to-[#3A3A3A] z-20">
+                  <div className="text-center space-y-4">
+                    <div className="relative">
+                      <div className="w-16 h-16 border-4 border-[#FFD700] border-t-transparent rounded-full animate-spin mx-auto" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Sparkles className="w-8 h-8 text-[#FFD700] animate-pulse" />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="text-white font-bold text-lg tracking-wider">加载游戏世界...</p>
+                      <div className="flex items-center justify-center gap-2">
+                        <div className="w-2 h-2 bg-[#FFD700] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                        <div className="w-2 h-2 bg-[#FFD700] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                        <div className="w-2 h-2 bg-[#FFD700] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                      </div>
+                    </div>
+                    <p className="text-[#E8E8E8] text-sm font-medium">正在准备精彩内容</p>
+                  </div>
+                </div>
+              )}
               <div
-                className="absolute inset-0 transition-transform duration-500 ease"
+                className="absolute inset-0"
                 style={{
-                  transform: `perspective(1000px) rotateY(${mousePosition.x * 5}deg) rotateX(${-mousePosition.y * 5}deg) scale(${isMouseInside ? 1.08 : 1})`
+                  transform: `perspective(1000px) rotateY(${mousePosition.x * 5}deg) rotateX(${-mousePosition.y * 5}deg) scale(${isMouseInside ? 1.08 : 1})`,
+                  transition: 'transform 0.1s ease-out'
                 }}
               >
                 <OptimizedImage
