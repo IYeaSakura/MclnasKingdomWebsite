@@ -9,6 +9,8 @@ import { CTA } from './sections/CTA';
 import { Footer } from './sections/Footer';
 import { SeasonBackground } from './components/SeasonBackground';
 import { useSeason } from './contexts/SeasonContext';
+import { useMobileDetection } from './hooks/useMobileDetection';
+import { MobileWarning } from './components/MobileWarning';
 import SystemShopPage from './pages/SystemShopPage';
 import GuildShopPage from './pages/GuildShopPage';
 import HallOfFamePage from './pages/HallOfFamePage';
@@ -24,11 +26,10 @@ function HomePage() {
   const SEASONS = ['spring', 'summer', 'autumn', 'winter'] as const;
   const heroSeasonIndex = SEASONS.indexOf(currentSeason);
 
-  // 计算每个区域对应的季节
   const gallerySeason = getSeasonByIndex((heroSeasonIndex + 1) % 4);
   const featuresSeason = getSeasonByIndex((heroSeasonIndex + 2) % 4);
   const ctaSeason = getSeasonByIndex((heroSeasonIndex + 3) % 4);
-  const footerSeason = getSeasonByIndex((heroSeasonIndex + 0) % 4); // Footer uses same season as hero
+  const footerSeason = getSeasonByIndex((heroSeasonIndex + 0) % 4);
 
   const [isScrolling, setIsScrolling] = useState(false);
 
@@ -84,7 +85,6 @@ function HomePage() {
       }
     };
 
-    // 禁用默认滚动
     document.body.style.overflow = 'hidden';
 
     window.addEventListener('wheel', handleWheel, { passive: false });
@@ -99,38 +99,32 @@ function HomePage() {
 
   return (
     <div className="fixed inset-0 w-screen h-screen overflow-hidden">
-      {/* Sections Container - 严格的100vh每个 */}
       <div
         className="relative w-full h-full transition-transform duration-1000 ease-in-out"
         style={{ transform: `translateY(-${currentSection * 100}vh)` }}
       >
-        {/* Hero Section - 首屏 */}
         <div className="w-screen h-screen relative overflow-hidden">
           <Hero onNavigate={() => goToSection(3)} isCurrentSection={currentSection === 0} />
         </div>
 
-        {/* Game Gallery Section */}
         <div className="w-screen h-screen relative overflow-hidden">
           <SeasonBackground season={gallerySeason} className="w-full h-full">
             <GameGallery isCurrentSection={currentSection === 1} />
           </SeasonBackground>
         </div>
 
-        {/* Game Features Section */}
         <div className="w-screen h-screen relative overflow-hidden">
           <SeasonBackground season={featuresSeason} className="w-full h-full">
             <GameFeatures isCurrentSection={currentSection === 2} />
           </SeasonBackground>
         </div>
 
-        {/* CTA Section */}
         <div className="w-screen h-screen relative overflow-hidden">
           <SeasonBackground season={ctaSeason} className="w-full h-full">
             <CTA isCurrentSection={currentSection === 3} />
           </SeasonBackground>
         </div>
 
-        {/* Footer Section */}
         <div className="w-screen h-screen relative overflow-hidden">
           <SeasonBackground season={footerSeason} className="w-full h-full">
             <Footer />
@@ -138,7 +132,6 @@ function HomePage() {
         </div>
       </div>
 
-      {/* Navigation */}
       <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-50 flex flex-col gap-3">
         {[0, 1, 2, 3, 4].map((index) => (
           <button
@@ -146,7 +139,7 @@ function HomePage() {
             onClick={() => goToSection(index)}
             className={`w-4 h-4 transition-all duration-300 ${
               currentSection === index
-                ? 'bg-[#FFD700] border-2 border[white] shadow-[2px_2px_0_#2A2A2A] scale-125'
+                ? 'bg-[#FFD700] border-2 border-white shadow-[2px_2px_0_#2A2A2A] scale-125'
                 : 'bg-[#4A4A4A]/80 border-2 border-[#6A6A6A] hover:bg-[#6A6A6A] hover:border-[#8A8A8A] hover:shadow-[2px_2px_0_#2A2A2A] hover:-translate-y-0.5'
             }`}
             style={{
@@ -157,16 +150,17 @@ function HomePage() {
           />
         ))}
       </div>
-
-
     </div>
   );
 }
 
 function App() {
+  const { isMobile, isDetected } = useMobileDetection();
+
   return (
     <SeasonProvider>
       <div className="min-h-screen bg-[#f8f9fa]">
+        <MobileWarning isOpen={isDetected && isMobile} />
         <Navbar onSectionChange={() => {}} />
         <main>
           <Routes>
