@@ -27,6 +27,25 @@ html {
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
 }
 
+/* Custom button styles */
+.mc-button-secondary {
+  background: linear-gradient(135deg, #0071e3 0%, #0051a2 100%);
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.mc-button-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 113, 227, 0.3);
+}
+
+.mc-button-secondary:active {
+  transform: translateY(0);
+}
+
 /* Image loading placeholder */
 img {
   background-color: #f3f4f6;
@@ -162,23 +181,19 @@ img {
   animation: scale-in 0.3s ease-out forwards;
 }
 
-/* Scrollbar styling */
+/* Scrollbar styling - Hide scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 0px;
+  height: 0px;
+  display: none;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #a1a1a1;
+  background: transparent;
 }
 
 /* Loading skeleton */
@@ -195,4 +210,105 @@ img {
   100% {
     background-position: -200% 0;
   }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out forwards;
+}
+
+@keyframes loading {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-loading {
+  animation: loading 1.5s ease-out forwards;
+}
+
+/* Fixed Background Container */
+.fixed-background-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.fixed-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none; /* 允许点击穿透到下方的内容 */
+}
+
+.fixed-background > * {
+  pointer-events: auto; /* 恢复子元素的交互能力 */
+}
+
+.scrollable-content {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  pointer-events: auto; /* 确保内容区域可以交互 */
+}
+
+.content-spacer {
+  height: 100vh;
+}
+
+/* New layout classes */
+.mt-screen {
+  margin-top: 100vh;
+}
+
+/* Ensure interactive elements are clickable */
+.z-10 {
+  z-index: 10;
+}
+
+.z-20 {
+  z-index: 20;
+}
+
+/* Full screen sections */
+.fullscreen-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Smooth scroll for content sections */
+.scrollable-content > section {
+  transform: translateZ(0);
+  will-change: transform;
 }

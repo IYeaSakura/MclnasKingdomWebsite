@@ -1,23 +1,27 @@
 import { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Sword, Store, Users, Building2, Newspaper } from 'lucide-react';
+import { Menu, X, Store, Users, Building2, Newspaper, ShoppingBag, Trophy } from 'lucide-react';
 
 interface NavbarProps {
-  activeSection: string;
   onSectionChange: (section: string) => void;
 }
 
 const navItems = [
-  { id: 'shop', label: '系统商店', icon: Store },
-  { id: 'guild', label: '花葬商会', icon: Sword },
-  { id: 'fame', label: '名人堂', icon: Users },
-  { id: 'kingdoms', label: '王国传', icon: Building2 },
-  { id: 'daily', label: '日报', icon: Newspaper },
+  { id: 'shop', label: '系统商店', icon: Store, path: '/system-shop' },
+  { id: 'guild', label: '兔吱吱商会', icon: ShoppingBag, path: '/guild-shop' },
+  { id: 'fame', label: '名人堂', icon: Users, path: '/hall-of-fame' },
+  { id: 'kingdoms', label: '王国传', icon: Building2, path: '/kingdoms' },
+  { id: 'daily', label: '日报', icon: Newspaper, path: '/daily-news' },
+  { id: 'rankings', label: '排行榜', icon: Trophy, path: '/rankings' },
 ];
 
-export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
+export function Navbar({ onSectionChange }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHomePage = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,31 +32,31 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    onSectionChange(sectionId);
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    setIsMobileMenuOpen(false);
-  };
-
   const scrollToTop = () => {
     onSectionChange('home');
+    navigate('/');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const handleNavClick = (path: string) => {
+    navigate(path);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const shouldShowSolidBackground = !isHomePage || isScrolled;
 
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
+        shouldShowSolidBackground
           ? 'bg-white/95 backdrop-blur-xl shadow-lg h-16'
           : 'bg-transparent h-20'
       }`}
     >
       <div className="section-container h-full flex items-center justify-between">
         {/* Logo */}
-        <button
+        <Link
+          to="/"
           onClick={scrollToTop}
           className="flex items-center gap-2 group cursor-pointer"
         >
@@ -60,22 +64,22 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
             <img src="/images/mc-logo.png" alt="MC Logo" className="w-full h-full object-contain p-1" />
           </div>
           <span className={`font-bold text-lg transition-colors duration-300 ${
-            isScrolled ? 'text-gray-800' : 'text-white'
+            shouldShowSolidBackground ? 'text-gray-800' : 'text-white'
           }`}>
             王国之争
           </span>
-        </button>
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-1">
           {navItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => scrollToSection(item.id)}
+              onClick={() => handleNavClick(item.path)}
               className={`relative px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300 ${
-                activeSection === item.id
+                location.pathname === item.path
                   ? 'text-[#0071e3] bg-[#0071e3]/10'
-                  : isScrolled
+                  : shouldShowSolidBackground
                   ? 'text-gray-600 hover:text-[#0071e3] hover:bg-gray-100'
                   : 'text-white/90 hover:text-white hover:bg-white/10'
               }`}
@@ -84,7 +88,7 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
                 <item.icon className="w-4 h-4" />
                 {item.label}
               </span>
-              {activeSection === item.id && (
+              {location.pathname === item.path && (
                 <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#0071e3]" />
               )}
             </button>
@@ -94,10 +98,10 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
         {/* CTA Button */}
         <div className="hidden md:block">
           <Button
-            onClick={() => scrollToSection('guild')}
+            onClick={() => scrollToTop()}
             className="mc-button-primary rounded-lg px-6"
           >
-            加入我们
+            首页
           </Button>
         </div>
 
@@ -105,7 +109,7 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className={`md:hidden p-2 rounded-lg transition-colors ${
-            isScrolled ? 'text-gray-600 hover:bg-gray-100' : 'text-white hover:bg-white/10'
+            shouldShowSolidBackground ? 'text-gray-600 hover:bg-gray-100' : 'text-white hover:bg-white/10'
           }`}
         >
           {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -122,9 +126,12 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
           {navItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => scrollToSection(item.id)}
+              onClick={() => {
+                handleNavClick(item.path);
+                setIsMobileMenuOpen(false);
+              }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors ${
-                activeSection === item.id
+                location.pathname === item.path
                   ? 'text-[#0071e3] bg-[#0071e3]/10'
                   : 'text-gray-600 hover:bg-gray-100'
               }`}
@@ -134,10 +141,13 @@ export function Navbar({ activeSection, onSectionChange }: NavbarProps) {
             </button>
           ))}
           <Button
-            onClick={() => scrollToSection('guild')}
+            onClick={() => {
+              scrollToTop();
+              setIsMobileMenuOpen(false);
+            }}
             className="w-full mc-button-primary mt-4"
           >
-            加入我们
+            首页
           </Button>
         </div>
       </div>
