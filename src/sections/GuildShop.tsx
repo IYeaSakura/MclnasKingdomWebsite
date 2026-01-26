@@ -30,9 +30,13 @@ import type { GuildShopItem, ShopItemType, PriceSort } from '@/types';
 import { loadGuildShopData } from '@/data';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { preloadImages } from '@/utils/imageCache';
+import { createCachedDataLoader } from '@/utils/dataCache';
 import { usePagination } from '@/hooks/usePagination';
 import { Pagination } from '@/components/Pagination';
 import { FirstLetterIcon } from '@/components/FirstLetterIcon';
+import { SkeletonCard } from '@/components/SkeletonCard';
+
+const cachedLoadGuildShopData = createCachedDataLoader('guild-shop', loadGuildShopData);
 
 export function GuildShop() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -40,17 +44,20 @@ export function GuildShop() {
   const [sortBy, setSortBy] = useState<PriceSort>('none');
   const [selectedItem, setSelectedItem] = useState<GuildShopItem | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [guildShopData, setGuildShopData] = useState<GuildShopItem[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function loadData() {
       try {
-        const data = await loadGuildShopData();
+        const data = await cachedLoadGuildShopData();
         setGuildShopData(data);
         preloadImages(data.map(item => item.image));
       } catch (error) {
         console.error('Failed to load guild shop data:', error);
+      } finally {
+        setIsLoading(false);
       }
     }
     loadData();
@@ -201,99 +208,105 @@ export function GuildShop() {
           </Select>
         </div>
 
-        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-all duration-700 delay-400 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}>
-          {displayItems.map((item, index) => (
-            <Card
-              key={item.id}
-              className="mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#9B59B6] hover:-translate-y-2"
-              style={{ 
-                animationDelay: `${index * 100}ms`,
-                boxShadow: '6px 6px 0 #2A2A2A'
-              }}
-              onClick={() => setSelectedItem(item)}
-            >
-              <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-purple-100 to-purple-200">
-                <FirstLetterIcon
-                  text={item.name}
-                  imageUrl={item.image}
-                  alt={item.name}
-                  size="xl"
-                  className="w-full h-full transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute top-2 right-2 flex gap-1">
-                  {item.type === 'buy_only' ? (
-                    <span className="px-2 py-1 rounded-sm bg-[#4CAF50] text-white text-xs font-bold border-2 border-[#388E3C]">
-                      仅收购
-                    </span>
-                  ) : item.type === 'sell_only' ? (
-                    <span className="px-2 py-1 rounded-sm bg-[#2196F3] text-white text-xs font-bold border-2 border-[#1976D2]">
-                      仅出售
-                    </span>
-                  ) : (
-                    <span className="px-2 py-1 rounded-sm bg-[#607D8B] text-white text-xs font-bold border-2 border-[#455A64]">
-                      双向
-                    </span>
-                  )}
-                  {item.notes && (
-                    <span className="px-2 py-1 rounded-sm bg-[#9B59B6] text-white text-xs font-bold border-2 border-[#8E44AD]">
-                      <Info className="w-3 h-3" />
-                    </span>
-                  )}
-                </div>
-              </div>
-              <CardContent className="p-4">
-                <h3 className="font-black text-lg text-gray-800 mb-2 group-hover:text-[#9B59B6] transition-colors">
-                  {item.name}
-                </h3>
-                <p className="text-sm text-gray-600 mb-3 line-clamp-2">{item.description}</p>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500 font-bold">收购标价:</span>
-                    <span className="text-[#4CAF50] font-black flex items-center gap-1">
-                      <Coins className="w-3 h-3" />
-                      {item.buyDisplayPrice}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500 font-bold">收购税后:</span>
-                    <span className="text-[#2E7D32] font-black flex items-center gap-1">
-                      <Coins className="w-3 h-3" />
-                      {item.buyAfterTaxPrice}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500 font-bold">出售价:</span>
-                    <span className="text-[#FF9800] font-black flex items-center gap-1">
-                      <Coins className="w-3 h-3" />
-                      {item.sellPrice}
-                    </span>
-                  </div>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="w-full mt-3 text-[#9B59B6] hover:bg-[#9B59B6]/10 font-bold"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedItem(item);
+        {isLoading ? (
+          <SkeletonCard count={12} />
+        ) : (
+          <>
+            <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-all duration-700 delay-400 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}>
+              {displayItems.map((item, index) => (
+                <Card
+                  key={item.id}
+                  className="mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#9B59B6] hover:-translate-y-2"
+                  style={{ 
+                    animationDelay: `${index * 100}ms`,
+                    boxShadow: '6px 6px 0 #2A2A2A'
                   }}
+                  onClick={() => setSelectedItem(item)}
                 >
-                  <TrendingUp className="w-4 h-4 mr-1" />
-                  查看价格趋势
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                  <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-purple-100 to-purple-200">
+                    <FirstLetterIcon
+                      text={item.name}
+                      imageUrl={item.image}
+                      alt={item.name}
+                      size="xl"
+                      className="w-full h-full transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute top-2 right-2 flex gap-1">
+                      {item.type === 'buy_only' ? (
+                        <span className="px-2 py-1 rounded-sm bg-[#4CAF50] text-white text-xs font-bold border-2 border-[#388E3C]">
+                          仅收购
+                        </span>
+                      ) : item.type === 'sell_only' ? (
+                        <span className="px-2 py-1 rounded-sm bg-[#2196F3] text-white text-xs font-bold border-2 border-[#1976D2]">
+                          仅出售
+                        </span>
+                      ) : (
+                        <span className="px-2 py-1 rounded-sm bg-[#607D8B] text-white text-xs font-bold border-2 border-[#455A64]">
+                          双向
+                        </span>
+                      )}
+                      {item.notes && (
+                        <span className="px-2 py-1 rounded-sm bg-[#9B59B6] text-white text-xs font-bold border-2 border-[#8E44AD]">
+                          <Info className="w-3 h-3" />
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <CardContent className="p-4">
+                    <h3 className="font-black text-lg text-gray-800 mb-2 group-hover:text-[#9B59B6] transition-colors">
+                      {item.name}
+                    </h3>
+                    <p className="text-sm text-gray-600 mb-3 line-clamp-2">{item.description}</p>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-500 font-bold">收购标价:</span>
+                        <span className="text-[#4CAF50] font-black flex items-center gap-1">
+                          <Coins className="w-3 h-3" />
+                          {item.buyDisplayPrice}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-500 font-bold">收购税后:</span>
+                        <span className="text-[#2E7D32] font-black flex items-center gap-1">
+                          <Coins className="w-3 h-3" />
+                          {item.buyAfterTaxPrice}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-500 font-bold">出售价:</span>
+                        <span className="text-[#FF9800] font-black flex items-center gap-1">
+                          <Coins className="w-3 h-3" />
+                          {item.sellPrice}
+                        </span>
+                      </div>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full mt-3 text-[#9B59B6] hover:bg-[#9B59B6]/10 font-bold"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedItem(item);
+                      }}
+                    >
+                      <TrendingUp className="w-4 h-4 mr-1" />
+                      查看价格趋势
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
 
-        {filteredItems.length === 0 && (
-          <div className="text-center py-16">
-            <Flower2 className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-gray-500 mb-2">未找到匹配的物品</h3>
-            <p className="text-gray-400">请尝试调整搜索条件或筛选选项</p>
-          </div>
+            {filteredItems.length === 0 && (
+              <div className="text-center py-16">
+                <Flower2 className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                <h3 className="text-lg font-bold text-gray-500 mb-2">未找到匹配的物品</h3>
+                <p className="text-gray-400">请尝试调整搜索条件或筛选选项</p>
+              </div>
+            )}
+          </>
         )}
       </div>
 

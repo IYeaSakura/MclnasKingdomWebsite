@@ -20,10 +20,14 @@ import ReactMarkdown from 'react-markdown';
 import type { DailyNews, DateFilter } from '@/types';
 import { loadDailyNewsData } from '@/data';
 import { preloadImages } from '@/utils/imageCache';
+import { createCachedDataLoader } from '@/utils/dataCache';
 import { usePagination } from '@/hooks/usePagination';
 import { Pagination } from '@/components/Pagination';
 import { FirstLetterIcon } from '@/components/FirstLetterIcon';
 import { OptimizedImage } from '@/components/OptimizedImage';
+import { SkeletonCard } from '@/components/SkeletonCard';
+
+const cachedLoadDailyNewsData = createCachedDataLoader('daily-news', loadDailyNewsData);
 
 const dateFilterConfig: Record<DateFilter, string> = {
   all: '全部时间',
@@ -39,17 +43,20 @@ export function DailyNews() {
   const [dateFilter, setDateFilter] = useState<DateFilter>('all');
   const [selectedNews, setSelectedNews] = useState<DailyNews | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [dailyNewsData, setDailyNewsData] = useState<DailyNews[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function loadData() {
       try {
-        const data = await loadDailyNewsData();
+        const data = await cachedLoadDailyNewsData();
         setDailyNewsData(data);
         preloadImages(data.map(news => news.image));
       } catch (error) {
         console.error('Failed to load daily news data:', error);
+      } finally {
+        setIsLoading(false);
       }
     }
     loadData();
@@ -214,77 +221,83 @@ export function DailyNews() {
           </Select>
         </div>
 
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-6 transition-all duration-700 delay-400 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}>
-          {displayNews.map((news, index) => (
-            <Card
-              key={news.id}
-              className={`mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#0071e3] hover:-translate-y-2 ${
-                index === 0 ? 'lg:row-span-2' : ''
-              }`}
-              style={{ 
-                animationDelay: `${index * 100}ms`,
-                boxShadow: '6px 6px 0 #2A2A2A'
-              }}
-              onClick={() => setSelectedNews(news)}
-            >
-              <div
-                className={`relative overflow-hidden ${
-                  index === 0 ? 'aspect-[16/10]' : 'aspect-video'
-                }`}
-              >
-                <FirstLetterIcon
-                  text={news.title}
-                  imageUrl={news.image}
-                  alt={news.title}
-                  size="xl"
-                  className="w-full h-full transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="flex items-center gap-2 text-white/80 text-sm mb-2">
-                    <Calendar className="w-4 h-4" />
-                    <span>{formatDate(news.date)}</span>
-                    <Clock className="w-4 h-4 ml-2" />
-                    <span>发布于 {news.date}</span>
-                  </div>
-                  <h3
-                    className={`font-black text-white group-hover:text-[#0071e3] transition-colors ${
-                      index === 0 ? 'text-2xl' : 'text-lg'
+        {isLoading ? (
+          <SkeletonCard count={6} />
+        ) : (
+          <>
+            <div className={`grid grid-cols-1 lg:grid-cols-2 gap-6 transition-all duration-700 delay-400 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}>
+              {displayNews.map((news, index) => (
+                <Card
+                  key={news.id}
+                  className={`mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#0071e3] hover:-translate-y-2 ${
+                    index === 0 ? 'lg:row-span-2' : ''
+                  }`}
+                  style={{ 
+                    animationDelay: `${index * 100}ms`,
+                    boxShadow: '6px 6px 0 #2A2A2A'
+                  }}
+                  onClick={() => setSelectedNews(news)}
+                >
+                  <div
+                    className={`relative overflow-hidden ${
+                      index === 0 ? 'aspect-[16/10]' : 'aspect-video'
                     }`}
                   >
-                    {news.title}
-                  </h3>
-                </div>
-              </div>
-              <CardContent className="p-4">
-                <div className="prose prose-sm max-w-none text-gray-600 line-clamp-3">
-                  <ReactMarkdown>{news.content.substring(0, 150) + '...'}</ReactMarkdown>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="w-full mt-3 text-[#0071e3] hover:bg-[#0071e3]/10 font-bold"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedNews(news);
-                  }}
-                >
-                  阅读全文
-                  <ChevronRight className="w-4 h-4 ml-1" />
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                    <FirstLetterIcon
+                      text={news.title}
+                      imageUrl={news.image}
+                      alt={news.title}
+                      size="xl"
+                      className="w-full h-full transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <div className="flex items-center gap-2 text-white/80 text-sm mb-2">
+                        <Calendar className="w-4 h-4" />
+                        <span>{formatDate(news.date)}</span>
+                        <Clock className="w-4 h-4 ml-2" />
+                        <span>发布于 {news.date}</span>
+                      </div>
+                      <h3
+                        className={`font-black text-white group-hover:text-[#0071e3] transition-colors ${
+                          index === 0 ? 'text-2xl' : 'text-lg'
+                        }`}
+                      >
+                        {news.title}
+                      </h3>
+                    </div>
+                  </div>
+                  <CardContent className="p-4">
+                    <div className="prose prose-sm max-w-none text-gray-600 line-clamp-3">
+                      <ReactMarkdown>{news.content.substring(0, 150) + '...'}</ReactMarkdown>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full mt-3 text-[#0071e3] hover:bg-[#0071e3]/10 font-bold"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedNews(news);
+                      }}
+                    >
+                      阅读全文
+                      <ChevronRight className="w-4 h-4 ml-1" />
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
 
-        {filteredNews.length === 0 && (
-          <div className="text-center py-16">
-            <Newspaper className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-gray-500 mb-2">未找到匹配的日报</h3>
-            <p className="text-gray-400">请尝试调整搜索条件或时间筛选</p>
-          </div>
+            {filteredNews.length === 0 && (
+              <div className="text-center py-16">
+                <Newspaper className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                <h3 className="text-lg font-bold text-gray-500 mb-2">未找到匹配的日报</h3>
+                <p className="text-gray-400">请尝试调整搜索条件或时间筛选</p>
+              </div>
+            )}
+          </>
         )}
       </div>
 

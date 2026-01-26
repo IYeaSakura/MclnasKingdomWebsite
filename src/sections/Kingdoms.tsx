@@ -19,10 +19,14 @@ import { Search, Building2, Shield, Sword, Scale, HelpCircle, MapPin, Crown, Spa
 import type { Kingdom, FactionType, KingdomLevel, RegionType } from '@/types';
 import { loadKingdomsData } from '@/data';
 import { preloadImages } from '@/utils/imageCache';
+import { createCachedDataLoader } from '@/utils/dataCache';
 import { usePagination } from '@/hooks/usePagination';
 import { Pagination } from '@/components/Pagination';
 import { FirstLetterIcon } from '@/components/FirstLetterIcon';
 import { OptimizedImage } from '@/components/OptimizedImage';
+import { SkeletonCard } from '@/components/SkeletonCard';
+
+const cachedLoadKingdomsData = createCachedDataLoader('kingdoms', loadKingdomsData);
 
 const factionConfig: Record<FactionType, { label: string; color: string; icon: typeof Shield }> = {
   all: { label: '全部', color: 'gray', icon: HelpCircle },
@@ -59,17 +63,20 @@ export function Kingdoms() {
   const [regionFilter, setRegionFilter] = useState<RegionType>('all');
   const [selectedKingdom, setSelectedKingdom] = useState<Kingdom | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [kingdomsData, setKingdomsData] = useState<Kingdom[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function loadData() {
       try {
-        const data = await loadKingdomsData();
+        const data = await cachedLoadKingdomsData();
         setKingdomsData(data);
         preloadImages(data.map(kingdom => kingdom.image));
       } catch (error) {
         console.error('Failed to load kingdoms data:', error);
+      } finally {
+        setIsLoading(false);
       }
     }
     loadData();
@@ -287,81 +294,87 @@ export function Kingdoms() {
           </Select>
         </div>
 
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-700 delay-400 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}>
-          {displayKingdoms.map((kingdom, index) => (
-            <Card
-              key={kingdom.id}
-              className="mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#0071e3] hover:-translate-y-2"
-              style={{ 
-                animationDelay: `${index * 100}ms`,
-                boxShadow: '6px 6px 0 #2A2A2A'
-              }}
-              onClick={() => setSelectedKingdom(kingdom)}
-            >
-              <div className="relative aspect-[3/2] overflow-hidden">
-                <FirstLetterIcon
-                  text={kingdom.name}
-                  imageUrl={kingdom.image}
-                  alt={kingdom.name}
-                  size="xl"
-                  className="w-full h-full transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute top-3 left-3 right-3 flex gap-2">
-                  <span
-                    className={`px-2 py-1 rounded-sm text-xs font-bold border-2 ${getFactionColor(
-                      kingdom.faction
-                    )}`}
-                    style={{ borderColor: getFactionBorderColor(kingdom.faction) }}
-                  >
-                    {getFactionLabel(kingdom.faction)}
-                  </span>
-                  <span
-                    className={`px-2 py-1 rounded-sm text-xs font-bold text-white border-2 ${getLevelColor(
-                      kingdom.level
-                    ).bg}`}
-                    style={{ borderColor: getLevelColor(kingdom.level).border }}
-                  >
-                    {getLevelLabel(kingdom.level)}
-                  </span>
-                </div>
-                <div className="absolute bottom-3 left-3 right-3">
-                  <h3 className="text-white font-black text-xl mb-1 group-hover:text-[#0071e3] transition-colors">
-                    {kingdom.name}
-                  </h3>
-                  <div className="flex items-center gap-1 text-white/80 text-sm font-medium">
-                    <MapPin className="w-4 h-4" />
-                    <span>{getRegionLabel(kingdom.region)}</span>
-                  </div>
-                </div>
-              </div>
-              <CardContent className="p-4">
-                <p className="text-sm text-gray-600 line-clamp-2 mb-3 font-medium">{kingdom.shortComment}</p>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="w-full text-[#0071e3] hover:bg-[#0071e3]/10 font-bold"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedKingdom(kingdom);
+        {isLoading ? (
+          <SkeletonCard count={9} />
+        ) : (
+          <>
+            <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-700 delay-400 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}>
+              {displayKingdoms.map((kingdom, index) => (
+                <Card
+                  key={kingdom.id}
+                  className="mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#0071e3] hover:-translate-y-2"
+                  style={{ 
+                    animationDelay: `${index * 100}ms`,
+                    boxShadow: '6px 6px 0 #2A2A2A'
                   }}
+                  onClick={() => setSelectedKingdom(kingdom)}
                 >
-                  <Crown className="w-4 h-4 mr-1" />
-                  查看详细介绍
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                  <div className="relative aspect-[3/2] overflow-hidden">
+                    <FirstLetterIcon
+                      text={kingdom.name}
+                      imageUrl={kingdom.image}
+                      alt={kingdom.name}
+                      size="xl"
+                      className="w-full h-full transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    <div className="absolute top-3 left-3 right-3 flex gap-2">
+                      <span
+                        className={`px-2 py-1 rounded-sm text-xs font-bold border-2 ${getFactionColor(
+                          kingdom.faction
+                        )}`}
+                        style={{ borderColor: getFactionBorderColor(kingdom.faction) }}
+                      >
+                        {getFactionLabel(kingdom.faction)}
+                      </span>
+                      <span
+                        className={`px-2 py-1 rounded-sm text-xs font-bold text-white border-2 ${getLevelColor(
+                          kingdom.level
+                        ).bg}`}
+                        style={{ borderColor: getLevelColor(kingdom.level).border }}
+                      >
+                        {getLevelLabel(kingdom.level)}
+                      </span>
+                    </div>
+                    <div className="absolute bottom-3 left-3 right-3">
+                      <h3 className="text-white font-black text-xl mb-1 group-hover:text-[#0071e3] transition-colors">
+                        {kingdom.name}
+                      </h3>
+                      <div className="flex items-center gap-1 text-white/80 text-sm font-medium">
+                        <MapPin className="w-4 h-4" />
+                        <span>{getRegionLabel(kingdom.region)}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <CardContent className="p-4">
+                    <p className="text-sm text-gray-600 line-clamp-2 mb-3 font-medium">{kingdom.shortComment}</p>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-fulltext-[#0071e3] hover:bg-[#0071e3]/10 font-bold"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedKingdom(kingdom);
+                      }}
+                    >
+                      <Crown className="w-4 h-4 mr-1" />
+                      查看详细介绍
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
 
-        {filteredKingdoms.length === 0 && (
-          <div className="text-center py-16">
-            <Building2 className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-gray-500 mb-2">未找到匹配的王国</h3>
-            <p className="text-gray-400">请尝试调整搜索条件或筛选选项</p>
-          </div>
+            {filteredKingdoms.length === 0 && (
+              <div className="text-center py-16">
+                <Building2 className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                <h3 className="text-lg font-bold text-gray-500 mb-2">未找到匹配的王国</h3>
+                <p className="text-gray-400">请尝试调整搜索条件或筛选选项</p>
+              </div>
+            )}
+          </>
         )}
       </div>
 

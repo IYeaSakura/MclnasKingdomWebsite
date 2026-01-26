@@ -20,6 +20,11 @@ import type {
   PlayerRank
 } from '@/types';
 import { loadKingdomRankingsData, loadPlayerRankingsData } from '@/data';
+import { createCachedDataLoader } from '@/utils/dataCache';
+import { SkeletonList } from '@/components/SkeletonList';
+
+const cachedLoadKingdomRankingsData = createCachedDataLoader('kingdom-rankings', loadKingdomRankingsData);
+const cachedLoadPlayerRankingsData = createCachedDataLoader('player-rankings', loadPlayerRankingsData);
 
 const regionConfig: Record<RankRegionFilter, { label: string; color: string }> = {
   all: { label: '全部', color: 'gray' },
@@ -71,19 +76,22 @@ export function Rankings() {
   const [playerRankingsData, setPlayerRankingsData] = useState<PlayerRank[]>([]);
   
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function loadData() {
       try {
         const [kingdomData, playerData] = await Promise.all([
-          loadKingdomRankingsData(),
-          loadPlayerRankingsData()
+          cachedLoadKingdomRankingsData(),
+          cachedLoadPlayerRankingsData()
         ]);
         setKingdomRankingsData(kingdomData);
         setPlayerRankingsData(playerData);
       } catch (error) {
         console.error('Failed to load rankings data:', error);
+      } finally {
+        setIsLoading(false);
       }
     }
     loadData();
@@ -324,7 +332,9 @@ export function Rankings() {
               </div>
 
               <div className="space-y-3">
-                {filteredKingdoms.length === 0 ? (
+                {isLoading ? (
+                  <SkeletonList count={10} />
+                ) : filteredKingdoms.length === 0 ? (
                   <div className="text-center py-16">
                     <Trophy className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                     <h3 className="text-lg font-bold text-gray-500 mb-2">未找到匹配的王国</h3>
@@ -451,7 +461,9 @@ export function Rankings() {
               </div>
 
               <div className="space-y-3">
-                {filteredPlayers.length === 0 ? (
+                {isLoading ? (
+                  <SkeletonList count={10} />
+                ) : filteredPlayers.length === 0 ? (
                   <div className="text-center py-16">
                     <Trophy className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                     <h3 className="text-lg font-bold text-gray-500 mb-2">未找到匹配的玩家</h3>

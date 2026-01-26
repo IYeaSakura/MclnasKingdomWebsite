@@ -19,10 +19,14 @@ import { Search, Trophy, Shield, Sword, Scale, HelpCircle, Star, Sparkles } from
 import type { Player, FactionType } from '@/types';
 import { loadHallOfFameData } from '@/data';
 import { preloadImages } from '@/utils/imageCache';
+import { createCachedDataLoader } from '@/utils/dataCache';
 import { usePagination } from '@/hooks/usePagination';
 import { Pagination } from '@/components/Pagination';
 import { FirstLetterIcon } from '@/components/FirstLetterIcon';
 import { OptimizedImage } from '@/components/OptimizedImage';
+import { SkeletonCard } from '@/components/SkeletonCard';
+
+const cachedLoadHallOfFameData = createCachedDataLoader('hall-of-fame', loadHallOfFameData);
 
 const factionConfig: Record<FactionType, { label: string; color: string; icon: typeof Shield }> = {
   all: { label: '全部', color: 'gray', icon: HelpCircle },
@@ -37,17 +41,20 @@ export function HallOfFame() {
   const [factionFilter, setFactionFilter] = useState<FactionType>('all');
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [hallOfFameData, setHallOfFameData] = useState<Player[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function loadData() {
       try {
-        const data = await loadHallOfFameData();
+        const data = await cachedLoadHallOfFameData();
         setHallOfFameData(data);
         preloadImages(data.map(item => item.image));
       } catch (error) {
         console.error('Failed to load hall of fame data:', error);
+      } finally {
+        setIsLoading(false);
       }
     }
     loadData();
@@ -205,68 +212,74 @@ export function HallOfFame() {
           </Select>
         </div>
 
-        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-700 delay-400 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}>
-          {displayPlayers.map((player, index) => (
-            <Card
-              key={player.id}
-              className="mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#FFD700] hover:-translate-y-2"
-              style={{ 
-                animationDelay: `${index * 100}ms`,
-                boxShadow: '6px 6px 0 #2A2A2A'
-              }}
-              onClick={() => setSelectedPlayer(player)}
-            >
-              <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
-                <FirstLetterIcon
-                  text={player.name}
-                  imageUrl={player.image}
-                  alt={player.name}
-                  size="xl"
-                  className="w-full h-full transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="flex items-center gap-2">
-                    <Star className="w-5 h-5 text-[#FFD700] fill-[#FFD700]" />
-                    <span className="text-white font-black text-lg">{player.name}</span>
-                  </div>
-                  <span
-                    className={`inline-block px-2 py-1 rounded-sm text-xs font-bold mt-2 border-2 ${getFactionColor(
-                      player.faction
-                    )}`}
-                    style={{ borderColor: getFactionBorderColor(player.faction) }}
-                  >
-                    {getFactionLabel(player.faction)}
-                  </span>
-                </div>
-              </div>
-              <CardContent className="p-4">
-                <p className="text-sm text-gray-600 line-clamp-2 font-medium">{player.shortComment}</p>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="w-full mt-3 text-[[FFD700] hover:bg-[#FFD700]/10 font-bold"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedPlayer(player);
+        {isLoading ? (
+          <SkeletonCard count={9} />
+        ) : (
+          <>
+            <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-700 delay-400 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}>
+              {displayPlayers.map((player, index) => (
+                <Card
+                  key={player.id}
+                  className="mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#FFD700] hover:translate-y-2"
+                  style={{ 
+                    animationDelay: `${index * 100}ms`,
+                    boxShadow: '6px 6px 0 #2A2A2A'
                   }}
+                  onClick={() => setSelectedPlayer(player)}
                 >
-                  <Trophy className="w-4 h-4 mr-1" />
-                  查看详细经历
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                  <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+                    <FirstLetterIcon
+                      text={player.name}
+                      imageUrl={player.image}
+                      alt={player.name}
+                      size="xl"
+                      className="w-full h-full transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <div className="flex items-center gap-2">
+                        <Star className="w-5 h-5 text-[#FFD700] fill-[#FFD700]" />
+                        <span className="text-white font-black text-lg">{player.name}</span>
+                      </div>
+                      <span
+                        className={`inline-block px-2 py-1 rounded-sm text-xs font-bold mt-2 border-2 ${getFactionColor(
+                          player.faction
+                        )}`}
+                        style={{ borderColor: getFactionBorderColor(player.faction) }}
+                      >
+                        {getFactionLabel(player.faction)}
+                      </span>
+                    </div>
+                  </div>
+                  <CardContent className="p-4">
+                    <p className="text-sm text-gray-600 line-clamp-2 font-medium">{player.shortComment}</p>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full mt-3 text-[[FFD700] hover:bg-[#FFD700]/10 font-bold"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedPlayer(player);
+                      }}
+                    >
+                      <Trophy className="w-4 h-4 mr-1" />
+                      查看详细经历
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
 
-        {filteredPlayers.length === 0 && (
-          <div className="text-center py-16">
-            <Trophy className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-gray-500 mb-2">未找到匹配的玩家</h3>
-            <p className="text-gray-400">请尝试调整搜索条件或筛选选项</p>
-          </div>
+            {filteredPlayers.length === 0 && (
+              <div className="text-center py-16">
+                <Trophy className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                <h3 className="text-lg font-bold text-gray-500 mb-2">未找到匹配的玩家</h3>
+                <p className="text-gray-400">请尝试调整搜索条件或筛选选项</p>
+              </div>
+            )}
+          </>
         )}
       </div>
 
