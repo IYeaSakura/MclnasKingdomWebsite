@@ -104,8 +104,8 @@ export function Footer() {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           }`}>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-14 h-14 aspect-square border-4 border-[#4A4A4A] flex items-center justify-center overflow-hidden" style={{ backgroundColor: '#FFD700', boxShadow: '4px 4px 0 #2A2A2A' }}>
-                <OptimizedImage src="/images/mc-logo.png" alt="MC Logo" className="w-full h-full object-contain p-2" />
+              <div className="border-4 border-[#4A4A4A] flex items-center justify-center overflow-hidden" style={{ boxShadow: '4px 4px 0 #2A2A2A', boxSizing: 'border-box' }}>
+                <OptimizedImage src="/images/mc-logo.png" alt="MC Logo" className="w-auto h-auto object-contain" />
               </div>
               <span className="font-black text-2xl text-white tracking-wider" style={{ textShadow: '3px 3px 0 #2A2A2A' }}>王国之争 × SAKURAIN</span>
             </div>
@@ -203,7 +203,7 @@ export function Footer() {
       </div>
 
       <div className="border-t-4 border-[#2A2A2A] relative z-10">
-        <div className={`section-container py-8 transition-all duration-1000 delay-400 ${
+        <div className={`section-container py-6 transition-all duration-1000 delay-400 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
           <p className="text-[#E8E8E8] text-base text-center font-medium">
