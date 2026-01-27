@@ -186,14 +186,14 @@ export function Rankings() {
   };
 
   const getRankColor = (rank: number) => {
-    if (rank === 1) return 'text-[#FFD700]';
+    if (rank === 1) return 'text-[#EC4899]';
     if (rank === 2) return 'text-[#C0C0C0]';
     if (rank === 3) return 'text-[#CD7F32]';
     return 'text-gray-600';
   };
 
   const getRankBadge = (rank: number) => {
-    if (rank === 1) return 'bg-[#FFD700]/20 border-[#FFD700]';
+    if (rank === 1) return 'bg-[#EC4899]/20 border-[#EC4899]';
     if (rank === 2) return 'bg-[#C0C0C0]/20 border-[#C0C0C0]';
     if (rank === 3) return 'bg-[#CD7F32]/20 border-[#CD7F32]';
     return 'bg-gray-100 border-gray-300';
@@ -214,7 +214,7 @@ export function Rankings() {
       }}
     >
       <div className="absolute inset-0 overflow-hidden-reverse pointer-events-none">
-        <div className="absolute top-20 left-10 w-24 h-24 bg-[#FFD700]/10 border-4 border-[#FFD700]/20" />
+        <div className="absolute top-20 left-10 w-24 h-24 bg-[#EC4899]/10 border-4 border-[#EC4899]/20" />
         <div className="absolute top-40 right-20 w-20 h-20 bg-[#C0C0C0]/10 border-4 border-[#C0C0C0]/20" />
         <div className="absolute bottom-40 left-1/4 w-16 h-16 bg-[#CD7F32]/10 border-4 border-[#CD7F32]/20" />
         <div className="absolute bottom-20 right-1/4 w-18 h-18 bg-[#4ECDC4]/10 border-4 border-[#4ECDC4]/20" />
@@ -230,14 +230,14 @@ export function Rankings() {
             }`}
             style={{ boxShadow: '4px 4px 0 #1A1A1A' }}
           >
-            <Trophy className="w-4 h-4 text-[#FFD700]" />
+            <Trophy className="w-4 h-4 text-[#EC4899]" />
             <span className="text-sm font-bold text-white tracking-wider">排行榜</span>
           </div>
           <h2
             className={`text-4xl md:text-5xl font-black text-gray-900 mb-4 transition-all duration-700 delay-100 tracking-wider ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
-            style={{ textShadow: '4px 4px 0 #FF6B00' }}
+            style={{ textShadow: '4px 4px 0 #EC4899' }}
           >
             荣耀殿堂
           </h2>
@@ -258,11 +258,11 @@ export function Rankings() {
           }`}
         >
           <TabsList className="grid w-full grid-cols-2 mb-8 bg-white border-4 border-[#4A4A4A] p-2" style={{ boxShadow: '4px 4px 0 #2A2A2A' }}>
-            <TabsTrigger value="kingdom" className="data-[state=active]:bg-[#FFD700] data-[state=active]:text-white font-bold">
+            <TabsTrigger value="kingdom" className="data-[state=active]:bg-[#EC4899] data-[state=active]:text-white font-bold">
               <Crown className="w-4 h-4 mr-2" />
               王国排行榜
             </TabsTrigger>
-            <TabsTrigger value="player" className="data-[state=active]:bg-[#FFD700] data-[state=active]:text-white font-bold">
+            <TabsTrigger value="player" className="data-[state=active]:bg-[#EC4899] data-[state=active]:text-white font-bold">
               <Trophy className="w-4 h-4 mr-2" />
               玩家排行榜
             </TabsTrigger>
@@ -277,13 +277,13 @@ export function Rankings() {
                     placeholder="搜索王国名称或备注..."
                     value={kingdomSearchTerm}
                     onChange={(e) => setKingdomSearchTerm(e.target.value)}
-                    className="pl-10 h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#FFD700] transition-all duration-300"
+                    className="pl-10 h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#EC4899] transition-all duration-300"
                     style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
                   />
                 </div>
                 <Select value={kingdomRegionFilter} onValueChange={(v) => setKingdomRegionFilter(v as RankRegionFilter)}>
                   <SelectTrigger
-                    className="w-[140px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#FFD700] transition-all duration-300"
+                    className="w-[140px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#EC4899] transition-all duration-300"
                     style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
                   >
                     <SelectValue placeholder="地区" />
@@ -296,9 +296,9 @@ export function Rankings() {
                     ))}
                   </SelectContent>
                 </Select>
-                <Select value={kingdomFactionFilter} onValueChange={(v) => setKingdomFactionFilter(v as RankFactionFilter)}>
+                <Select value={kingdomFactionFilter} onValueChange={(f) => setKingdomFactionFilter(f as RankFactionFilter)}>
                   <SelectTrigger
-                    className="w-[140px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#FFD700] transition-all duration-300"
+                    className="w-[140px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#EC4899] transition-all duration-300"
                     style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
                   >
                     <SelectValue placeholder="阵营" />
@@ -316,7 +316,7 @@ export function Rankings() {
                 </Select>
                 <Select value={kingdomLevelFilter} onValueChange={(v) => setKingdomLevelFilter(v as RankKingdomLevelFilter)}>
                   <SelectTrigger
-                    className="w-[140px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#FFD700] transition-all duration-300"
+                    className="w-[140px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#EC4899] transition-all duration-300"
                     style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
                   >
                     <SelectValue placeholder="等级" />
@@ -348,7 +348,7 @@ export function Rankings() {
                       filteredKingdoms.slice(0, 20).map((kingdom, index) => (
                     <Card
                       key={kingdom.id}
-                      className="mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#FFD700] hover:-translate-y-1"
+                      className="mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#EC4899] hover:-translate-y-1"
                       style={{
                         boxShadow: '4px 4px 0 #2A2A2A'
                       }}
@@ -361,7 +361,7 @@ export function Rankings() {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1">
                               <h3 className="text-lg font-black text-gray-900 truncate">{kingdom.name}</h3>
-                              <span className="px-2 py-1 rounded-sm text-xs font-bold bg-[#FFD700]/20 border-2 border-[#FFD700] text-[#FFD700]">
+                              <span className="px-2 py-1 rounded-sm text-xs font-bold bg-[#EC4899]/20 border-2 border-[#EC4899] text-[#EC4899]">
                                 #{index + 1}
                               </span>
                             </div>
@@ -374,7 +374,7 @@ export function Rankings() {
                             </div>
                           </div>
                           <div className="flex-shrink-0 text-right">
-                            <div className="flex items-center gap-1 text-[#FFD700] font-black">
+                            <div className="flex items-center gap-1 text-[#EC4899] font-black">
                               <TrendingUp className="w-4 h-4" />
                               <span className="text-lg">{formatNumber(kingdom.reputation)}</span>
                             </div>
@@ -408,13 +408,13 @@ export function Rankings() {
                     placeholder="搜索玩家名称、王国或备注..."
                     value={playerSearchTerm}
                     onChange={(e) => setPlayerSearchTerm(e.target.value)}
-                    className="pl-10 h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#FFD700] transition-all duration-300"
+                    className="pl-10 h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#EC4899] transition-all duration-300"
                     style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
                   />
                 </div>
                 <Select value={playerRegionFilter} onValueChange={(v) => setPlayerRegionFilter(v as RankRegionFilter)}>
                   <SelectTrigger
-                    className="w-[140px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#FFD700] transition-all duration-300"
+                    className="w-[140px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#EC4899] transition-all duration-300"
                     style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
                   >
                     <SelectValue placeholder="地区" />
@@ -427,9 +427,9 @@ export function Rankings() {
                     ))}
                   </SelectContent>
                 </Select>
-                <Select value={playerFactionFilter} onValueChange={(v) => setPlayerFactionFilter(v as RankFactionFilter)}>
+                <Select value={playerFactionFilter} onValueChange={(f) => setPlayerFactionFilter(f as RankFactionFilter)}>
                   <SelectTrigger
-                    className="w-[140px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#FFD700] transition-all duration-300"
+                    className="w-[140px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#EC4899] transition-all duration-300"
                     style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
                   >
                     <SelectValue placeholder="阵营" />
@@ -447,7 +447,7 @@ export function Rankings() {
                 </Select>
                 <Select value={playerRankSort} onValueChange={(v) => setPlayerRankSort(v as PlayerRankSort)}>
                   <SelectTrigger
-                    className="w-[160px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#FFD700] transition-all duration-300"
+                    className="w-[160px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#EC4899] transition-all duration-300"
                     style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
                   >
                     <TrendingUp className="w-4 h-4 mr-2" />
@@ -483,7 +483,7 @@ export function Rankings() {
                       filteredPlayers.slice(0, 20).map((player, index) => (
                     <Card
                       key={player.id}
-                      className="mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#FFD700] hover:-translate-y-1"
+                      className="mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#EC4899] hover:-translate-y-1"
                       style={{
                         boxShadow: '4px 4px 0 #2A2A2A'
                       }}
@@ -496,7 +496,7 @@ export function Rankings() {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1">
                               <h3 className="text-lg font-black text-gray-900 truncate">{player.name}</h3>
-                              <span className="px-2 py-1 rounded-sm text-xs font-bold bg-[#FFD700]/20 border-2 border-[#FFD700] text-[#FFD700]">
+                              <span className="px-2 py-1 rounded-sm text-xs font-bold bg-[#EC4899]/20 border-2 border-[#EC4899] text-[#EC4899]">
                                 #{index + 1}
                               </span>
                             </div>
@@ -511,7 +511,7 @@ export function Rankings() {
                           <div className="flex-shrink-0 text-right">
                             {playerRankSort === 'gold' ? (
                               <>
-                                <div className="flex items-center gap-1 text-[#FFD700] font-black">
+                                <div className="flex items-center gap-1 text-[#EC4899] font-black">
                                   <Coins className="w-4 h-4" />
                                   <span className="text-lg">{formatNumber(player.gold)}</span>
                                 </div>
@@ -519,7 +519,7 @@ export function Rankings() {
                               </>
                             ) : (
                               <>
-                                <div className="flex items-center gap-1 text-[#FFD700] font-black">
+                                <div className="flex items-center gap-1 text-[#EC4899] font-black">
                                   <ShieldCheck className="w-4 h-4" />
                                   <span className="text-lg truncate max-w-[150px]">{player.equipmentLevel}</span>
                                 </div>

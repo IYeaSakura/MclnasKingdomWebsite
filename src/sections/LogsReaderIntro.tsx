@@ -170,42 +170,42 @@ export function LogsReaderIntro() {
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <FileText className="w-5 h-5 text-blue-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">多格式导出</h5>
                       <p className="text-sm text-gray-600">Excel表格、PDF报告、PNG统计图、JSON结构化数据</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <TrendingUp className="w-5 h-5 text-green-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">智能统计</h5>
                       <p className="text-sm text-gray-600">击杀/死亡排行榜、K/D比率、24小时活跃时段</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <CheckCircle className="w-5 h-5 text-purple-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">数据去重</h5>
                       <p className="text-sm text-gray-600">基于MD5哈希自动去重，确保跨文件数据准确性</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <Shield className="w-5 h-5 text-red-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">安全增强</h5>
                       <p className="text-sm text-gray-600">严格的内容验证，防止伪装日志文件上传</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <BarChart3 className="w-5 h-5 text-orange-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">可视化图表</h5>
                       <p className="text-sm text-gray-600">击杀热力图、武器分布、玩家活跃度矩阵</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <Database className="w-5 h-5 text-cyan-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">跨文件合并</h5>
@@ -228,42 +228,42 @@ export function LogsReaderIntro() {
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <TrendingUp className="w-5 h-5 text-blue-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">全面统计</h5>
                       <p className="text-sm text-gray-600">收购/出售双模式，自动计算净收益和贸易逆差</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <FileText className="w-5 h-5 text-green-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">多维报表</h5>
                       <p className="text-sm text-gray-600">PDF详细报告、JSON结构化数据、PNG图表、Excel表格</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <Activity className="w-5 h-5 text-purple-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">玩家画像</h5>
                       <p className="text-sm text-gray-600">交易金额、商品种类、活跃度评分、交易频率分析</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <CheckCircle className="w-5 h-5 text-orange-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">特殊字符处理</h5>
                       <p className="text-sm text-gray-600">智能清理Minecraft颜色代码、称号前缀、VIP等级</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <Shield className="w-5 h-5 text-red-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">稀有商品识别</h5>
                       <p className="text-sm text-gray-600">自动识别交易次数低于阈值的稀有商品</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <Zap className="w-5 h-5 text-yellow-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">智能分类</h5>
@@ -286,42 +286,42 @@ export function LogsReaderIntro() {
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <Zap className="w-5 h-5 text-yellow-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">高性能API</h5>
                       <p className="text-sm text-gray-600">FastAPI驱动，支持并发处理与异步任务（最大3并发）</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <Lock className="w-5 h-5 text-red-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">企业级安全</h5>
                       <p className="text-sm text-gray-600">路径遍历防护、文件类型验证、灰名单机制、速率限制</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <Terminal className="w-5 h-5 text-green-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">实时通信</h5>
                       <p className="text-sm text-gray-600">WebSocket推送分析进度，支持断线重连和心跳检测</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <Smartphone className="w-5 h-5 text-blue-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">响应式设计</h5>
                       <p className="text-sm text-gray-600">适配PC、平板、手机多端，支持拖拽上传</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <FolderTree className="w-5 h-5 text-purple-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">审计系统</h5>
                       <p className="text-sm text-gray-600">完整的SQLite审计日志，支持灰名单IP监控和黑名单管理</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#FFD700] hover:bg-white hover:shadow-lg hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <Trash2 className="w-5 h-5 text-orange-600 mt-0.5" />
                     <div>
                       <h5 className="font-bold text-gray-900 mb-1">自动清理</h5>

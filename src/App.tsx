@@ -18,6 +18,7 @@ import KingdomsPage from './pages/KingdomsPage';
 import DailyNewsPage from './pages/DailyNewsPage';
 import RankingsPage from './pages/RankingsPage';
 import LogsReaderIntroPage from './pages/LogsReaderIntroPage';
+import NotFoundPage from './pages/NotFoundPage';
 import './App.css';
 
 function HomePage() {
@@ -173,6 +174,7 @@ function App() {
             <Route path="/daily-news" element={<DailyNewsPage />} />
             <Route path="/rankings" element={<RankingsPage />} />
             <Route path="/logs-reader" element={<LogsReaderIntroPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
       </div>

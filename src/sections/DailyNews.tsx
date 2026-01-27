@@ -234,20 +234,14 @@ export function DailyNews() {
               {displayNews.map((news, index) => (
                 <Card
                   key={news.id}
-                  className={`mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#0071e3] hover:-translate-y-2 ${
-                    index === 0 ? 'lg:row-span-2' : ''
-                  }`}
+                  className="mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#0071e3] hover:-translate-y-2"
                   style={{ 
                     animationDelay: `${index * 100}ms`,
                     boxShadow: '6px 6px 0 #2A2A2A'
                   }}
                   onClick={() => setSelectedNews(news)}
                 >
-                  <div
-                    className={`relative overflow-hidden ${
-                      index === 0 ? 'aspect-[16/10]' : 'aspect-video'
-                    }`}
-                  >
+                  <div className="relative overflow-hidden aspect-video">
                     <FirstLetterIcon
                       text={news.title}
                       imageUrl={news.image}
@@ -263,11 +257,7 @@ export function DailyNews() {
                         <Clock className="w-4 h-4 ml-2" />
                         <span>发布于 {news.date}</span>
                       </div>
-                      <h3
-                        className={`font-black text-white group-hover:text-[#0071e3] transition-colors ${
-                          index === 0 ? 'text-2xl' : 'text-lg'
-                        }`}
-                      >
+                      <h3 className="font-black text-white group-hover:text-[#0071e3] transition-colors text-lg">
                         {news.title}
                       </h3>
                     </div>
