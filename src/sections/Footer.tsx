@@ -13,14 +13,14 @@ const footerLinks = {
     { label: '排行榜', href: '#rankings', icon: Trophy },
   ],
   social: [
-    { label: '官方微博', href: '#' },
+    { label: 'QQ频道', href: 'https://pd.qq.com/g/ahvw3ph6fv' },
     { label: 'QQ群: XXXXXXXXX', href: '#' },
-    { label: 'B站频道', href: '#' },
+    { label: '官方B站', href: 'https://space.bilibili.com/646868679' },
   ],
   legal: [
-    { label: '隐私政策', href: '#' },
-    { label: '服务条款', href: '#' },
-    { label: '联系我们', href: '#' },
+    { label: '隐私政策', href: '/privacy' },
+    { label: '服务条款', href: '/terms' },
+    { label: '联系我们', href: '/contact' },
   ],
 };
 
@@ -50,11 +50,21 @@ export function Footer() {
   }, []);
 
   const scrollToSection = (href: string) => {
-    if (href.startsWith('#')) {
-      const element = document.getElementById(href.slice(1));
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+    if (href === '#shop') {
+      navigate('/system-shop');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (href === '#guild') {
+      navigate('/guild-shop');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (href === '#fame') {
+      navigate('/hall-of-fame');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (href === '#kingdoms') {
+      navigate('/kingdoms');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (href === '#daily') {
+      navigate('/daily-news');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (href === '#rankings') {
       navigate('/rankings');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -189,12 +199,12 @@ export function Footer() {
             <ul className="space-y-4">
               {footerLinks.legal.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-[#E8E8E8] hover:text-[#FFD700] transition-colors font-bold text-base tracking-wider group-hover:translate-x-1 block"
+                  <button
+                    onClick={() => navigate(link.href)}
+                    className="text-[#E8E8E8] hover:text-[#FFD700] transition-colors font-bold text-base tracking-wider group-hover:translate-x-1 block text-left"
                   >
                     {link.label}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -206,9 +216,20 @@ export function Footer() {
         <div className={`section-container py-6 transition-all duration-1000 delay-400 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
-          <p className="text-[#E8E8E8] text-base text-center font-medium">
-            © 2026 王国之争 × SAKURAIN。保留所有权利。
-          </p>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+            <p className="text-[#E8E8E8] text-base font-medium">
+              © 2026 王国之争 × SAKURAIN。保留所有权利。
+            </p>
+            <a
+              href="https://gitee.com/IYeaSakura/mclans-kingdom-wars-website"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-[#E8E8E8] hover:text-[#FFD700] transition-colors font-medium"
+            >
+              <ExternalLink className="w-4 h-4" />
+              <span>开源地址</span>
+            </a>
+          </div>
         </div>
       </div>
     </footer>

@@ -18,6 +18,9 @@ import KingdomsPage from './pages/KingdomsPage';
 import DailyNewsPage from './pages/DailyNewsPage';
 import RankingsPage from './pages/RankingsPage';
 import LogsReaderIntroPage from './pages/LogsReaderIntroPage';
+import PrivacyPage from './pages/PrivacyPage';
+import TermsPage from './pages/TermsPage';
+import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
 import './App.css';
 
@@ -174,6 +177,9 @@ function App() {
             <Route path="/daily-news" element={<DailyNewsPage />} />
             <Route path="/rankings" element={<RankingsPage />} />
             <Route path="/logs-reader" element={<LogsReaderIntroPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

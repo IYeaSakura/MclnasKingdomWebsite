@@ -30,6 +30,26 @@ export default defineConfig({
         },
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) {
+            if (id.includes('recharts')) {
+              return 'vendor-recharts';
+            }
+            if (id.includes('lucide-react')) {
+              return 'vendor-lucide';
+            }
+            if (id.includes('date-fns')) {
+              return 'vendor-date-fns';
+            }
+            if (id.includes('radix-ui')) {
+              return 'vendor-radix-ui';
+            }
+            if (id.includes('clsx') || id.includes('tailwind-merge')) {
+              return 'vendor-clsx';
+            }
+            return 'vendor';
+          }
+        },
       },
     },
     assetsInlineLimit: 4096,
