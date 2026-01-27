@@ -331,17 +331,21 @@ export function Rankings() {
                 </Select>
               </div>
 
-              <div className="space-y-3">
+              <div className={`transition-all duration-700 delay-300 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}>
                 {isLoading ? (
                   <SkeletonList count={10} />
-                ) : filteredKingdoms.length === 0 ? (
-                  <div className="text-center py-16">
-                    <Trophy className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-bold text-gray-500 mb-2">未找到匹配的王国</h3>
-                    <p className="text-gray-400">请尝试调整搜索条件或筛选选项</p>
-                  </div>
                 ) : (
-                  filteredKingdoms.slice(0, 20).map((kingdom, index) => (
+                  <div className="space-y-3 transition-all duration-700 delay-100">
+                    {filteredKingdoms.length === 0 ? (
+                      <div className="text-center py-16">
+                        <Trophy className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                        <h3 className="text-lg font-bold text-gray-500 mb-2">未找到匹配的王国</h3>
+                        <p className="text-gray-400">请尝试调整搜索条件或筛选选项</p>
+                      </div>
+                    ) : (
+                      filteredKingdoms.slice(0, 20).map((kingdom, index) => (
                     <Card
                       key={kingdom.id}
                       className="mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#FFD700] hover:-translate-y-1"
@@ -387,7 +391,9 @@ export function Rankings() {
                         </div>
                       </CardContent>
                     </Card>
-                  ))
+                      ))
+                    )}
+                  </div>
                 )}
               </div>
             </div>
@@ -460,17 +466,21 @@ export function Rankings() {
                 </Select>
               </div>
 
-              <div className="space-y-3">
+              <div className={`transition-all duration-700 delay-300 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}>
                 {isLoading ? (
                   <SkeletonList count={10} />
-                ) : filteredPlayers.length === 0 ? (
-                  <div className="text-center py-16">
-                    <Trophy className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-bold text-gray-500 mb-2">未找到匹配的玩家</h3>
-                    <p className="text-gray-400">请尝试调整搜索条件或筛选选项</p>
-                  </div>
                 ) : (
-                  filteredPlayers.slice(0, 20).map((player, index) => (
+                  <div className="space-y-3 transition-all duration-700 delay-100">
+                    {filteredPlayers.length === 0 ? (
+                      <div className="text-center py-16">
+                        <Trophy className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                        <h3 className="text-lg font-bold text-gray-500 mb-2">未找到匹配的玩家</h3>
+                        <p className="text-gray-400">请尝试调整搜索条件或筛选选项</p>
+                      </div>
+                    ) : (
+                      filteredPlayers.slice(0, 20).map((player, index) => (
                     <Card
                       key={player.id}
                       className="mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#FFD700] hover:-translate-y-1"
@@ -528,7 +538,9 @@ export function Rankings() {
                         </div>
                       </CardContent>
                     </Card>
-                  ))
+                      ))
+                    )}
+                  </div>
                 )}
               </div>
             </div>

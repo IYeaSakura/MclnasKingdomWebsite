@@ -210,13 +210,14 @@ export function GuildShop() {
           </Select>
         </div>
 
-        {isLoading ? (
-          <SkeletonCard count={12} />
-        ) : (
-          <>
-            <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-all duration-700 delay-400 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}>
+        <div className={`transition-all duration-700 delay-300 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
+          {isLoading ? (
+            <SkeletonCard count={12} />
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-all duration-700 delay-100">
               {displayItems.map((item, index) => (
                 <Card
                   key={item.id}
@@ -309,7 +310,8 @@ export function GuildShop() {
               </div>
             )}
           </>
-        )}
+          )}
+        </div>
       </div>
 
       <Dialog open={!!selectedItem} onOpenChange={() => setSelectedItem(null)}>

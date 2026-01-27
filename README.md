@@ -26,7 +26,7 @@
 
 这是一个专为 Minecraft 公会打造的现代化中文网站，采用最新的前端技术栈构建。项目提供了丰富的功能模块，包括商店系统、排行榜、新闻资讯、王国展示等，为公会成员提供全方位的游戏信息展示和互动体验。
 
-**演示站点**：[https://mc.sakurain.net/](https://mc.sakurain.net/)
+**演示站点**：[https://mclans.sakurain.net/](https://mclans.sakurain.net/)
 
 ---
 

@@ -211,82 +211,86 @@ export function SystemShop() {
           </Select>
         </div>
 
-        {isLoading ? (
-          <SkeletonCard count={12} />
-        ) : (
-          <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-all duration-700 delay-400 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}>
-            {displayItems.map((item, index) => (
-              <Card
-                key={item.id}
-                className="mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#0071e3] hover:-translate-y-2"
-                style={{ 
-                  animationDelay: `${index * 100}ms`,
-                  boxShadow: '6px 6px 0 #2A2A2A'
-                }}
-                onClick={() => setSelectedItem(item)}
-              >
-                <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
-                  <FirstLetterIcon
-                    text={item.name}
-                    imageUrl={item.image}
-                    alt={item.name}
-                    size="xl"
-                    className="w-full h-full transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute top-2 right-2">
-                    {item.type === 'buy_only' ? (
-                      <span className="px-2 py-1 rounded-sm bg-[#4CAF50] text-white text-xs font-bold border-2 border-[#388E3C]">
-                        仅收购
-                      </span>
-                    ) : item.type === 'sell_only' ? (
-                      <span className="px-2 py-1 rounded-sm bg-[#2196F3] text-white text-xs font-bold border-2 border-[#1976D2]">
-                        仅出售
-                      </span>
-                    ) : (
-                      <span className="px-2 py-1 rounded-sm bg-[#607D8B] text-white text-xs font-bold border-2 border-[#455A64]">
-                        双向
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <CardContent className="p-4">
-                  <h3 className="font-black text-lg text-gray-800 mb-2 group-hover:text-[#0071e3] transition-colors">
-                    {item.name}
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">{item.description}</p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1 text-[#0071e3] font-black">
-                      <Coins className="w-4 h-4" />
-                      <span>{item.buyPrice}</span>
+        <div className={`transition-all duration-700 delay-300 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
+          {isLoading ? (
+            <SkeletonCard count={12} />
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-all duration-700 delay-100">
+                {displayItems.map((item, index) => (
+                  <Card
+                    key={item.id}
+                    className="mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#0071e3] hover:-translate-y-2"
+                    style={{ 
+                      animationDelay: `${index * 100}ms`,
+                      boxShadow: '6px 6px 0 #2A2A2A'
+                    }}
+                    onClick={() => setSelectedItem(item)}
+                  >
+                    <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+                      <FirstLetterIcon
+                        text={item.name}
+                        imageUrl={item.image}
+                        alt={item.name}
+                        size="xl"
+                        className="w-full h-full transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute top-2 right-2">
+                        {item.type === 'buy_only' ? (
+                          <span className="px-2 py-1 rounded-sm bg-[#4CAF50] text-white text-xs font-bold border-2 border-[#388E3C]">
+                            仅收购
+                          </span>
+                        ) : item.type === 'sell_only' ? (
+                          <span className="px-2 py-1 rounded-sm bg-[#2196F3] text-white text-xs font-bold border-2 border-[#1976D2]">
+                            仅出售
+                          </span>
+                        ) : (
+                          <span className="px-2 py-1 rounded-sm bg-[#607D8B] text-white text-xs font-bold border-2 border-[#455A64]">
+                            双向
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-[#0071e3] hover:bg-[#0071e3]/10 font-bold"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedItem(item);
-                      }}
-                    >
-                      <TrendingUp className="w-4 h-4 mr-1" />
-                      查看趋势
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
+                    <CardContent className="p-4">
+                      <h3 className="font-black text-lg text-gray-800 mb-2 group-hover:text-[#0071e3] transition-colors">
+                        {item.name}
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">{item.description}</p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1 text-[#0071e3] font-black">
+                          <Coins className="w-4 h-4" />
+                          <span>{item.buyPrice}</span>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-[#0071e3] hover:bg-[#0071e3]/10 font-bold"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedItem(item);
+                          }}
+                        >
+                          <TrendingUp className="w-4 h-4 mr-1" />
+                          查看趋势
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
 
-        {!isLoading && filteredItems.length === 0 && (
-          <div className="text-center py-16">
-            <ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-gray-500 mb-2">未找到匹配的物品</h3>
-            <p className="text-gray-400">请尝试调整搜索条件或筛选选项</p>
-          </div>
-        )}
+              {filteredItems.length === 0 && (
+                <div className="text-center py-16">
+                  <ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                  <h3 className="text-lg font-bold text-gray-500 mb-2">未找到匹配的物品</h3>
+                  <p className="text-gray-400">请尝试调整搜索条件或筛选选项</p>
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
 
       <Dialog open={!!selectedItem} onOpenChange={() => setSelectedItem(null)}>

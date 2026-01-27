@@ -296,13 +296,14 @@ export function Kingdoms() {
           </Select>
         </div>
 
-        {isLoading ? (
-          <SkeletonCard count={9} />
-        ) : (
-          <>
-            <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-700 delay-400 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}>
+        <div className={`transition-all duration-700 delay-300 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
+          {isLoading ? (
+            <SkeletonCard count={9} />
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-700 delay-100">
               {displayKingdoms.map((kingdom, index) => (
                 <Card
                   key={kingdom.id}
@@ -377,7 +378,8 @@ export function Kingdoms() {
               </div>
             )}
           </>
-        )}
+          )}
+        </div>
       </div>
 
       <Dialog open={!!selectedKingdom} onOpenChange={() => setSelectedKingdom(null)}>

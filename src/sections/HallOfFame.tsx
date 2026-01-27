@@ -214,13 +214,14 @@ export function HallOfFame() {
           </Select>
         </div>
 
-        {isLoading ? (
-          <SkeletonCard count={9} />
-        ) : (
-          <>
-            <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-700 delay-400 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}>
+        <div className={`transition-all duration-700 delay-300 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
+          {isLoading ? (
+            <SkeletonCard count={9} />
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-700 delay-100">
               {displayPlayers.map((player, index) => (
                 <Card
                   key={player.id}
@@ -282,7 +283,8 @@ export function HallOfFame() {
               </div>
             )}
           </>
-        )}
+          )}
+        </div>
       </div>
 
       <Dialog open={!!selectedPlayer} onOpenChange={() => setSelectedPlayer(null)}>
