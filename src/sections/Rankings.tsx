@@ -10,11 +10,11 @@ import {
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Search, Trophy, Shield, Sword, Scale, HelpCircle, TrendingUp, Crown, Coins, ShieldCheck } from 'lucide-react';
-import type { 
-  RankType, 
-  PlayerRankSort, 
-  RankRegionFilter, 
-  RankFactionFilter, 
+import type {
+  RankType,
+  PlayerRankSort,
+  RankRegionFilter,
+  RankFactionFilter,
   RankKingdomLevelFilter,
   KingdomRank,
   PlayerRank
@@ -61,20 +61,20 @@ const playerRankSortConfig: Record<PlayerRankSort, { label: string; icon: typeof
 
 export function Rankings() {
   const [activeTab, setActiveTab] = useState<RankType>('kingdom');
-  
+
   const [kingdomSearchTerm, setKingdomSearchTerm] = useState('');
   const [kingdomRegionFilter, setKingdomRegionFilter] = useState<RankRegionFilter>('all');
   const [kingdomFactionFilter, setKingdomFactionFilter] = useState<RankFactionFilter>('all');
   const [kingdomLevelFilter, setKingdomLevelFilter] = useState<RankKingdomLevelFilter>('all');
-  
+
   const [playerSearchTerm, setPlayerSearchTerm] = useState('');
   const [playerRegionFilter, setPlayerRegionFilter] = useState<RankRegionFilter>('all');
   const [playerFactionFilter, setPlayerFactionFilter] = useState<RankFactionFilter>('all');
   const [playerRankSort, setPlayerRankSort] = useState<PlayerRankSort>('gold');
-  
+
   const [kingdomRankingsData, setKingdomRankingsData] = useState<KingdomRank[]>([]);
   const [playerRankingsData, setPlayerRankingsData] = useState<PlayerRank[]>([]);
-  
+
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -204,11 +204,11 @@ export function Rankings() {
   };
 
   return (
-    <section 
+    <section
       ref={sectionRef}
-      id="rankings" 
+      id="rankings"
       className="py-20 min-h-screen relative overflow-hidden"
-      style={{ 
+      style={{
         imageRendering: 'pixelated',
         backgroundImage: 'linear-gradient(to bottom, #f8f9fa 0%, #e8e8e8 100%)'
       }}
@@ -250,8 +250,8 @@ export function Rankings() {
           </p>
         </div>
 
-        <Tabs 
-          value={activeTab} 
+        <Tabs
+          value={activeTab}
           onValueChange={(v) => setActiveTab(v as RankType)}
           className={`w-full transition-all duration-700 delay-300 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
@@ -282,7 +282,7 @@ export function Rankings() {
                   />
                 </div>
                 <Select value={kingdomRegionFilter} onValueChange={(v) => setKingdomRegionFilter(v as RankRegionFilter)}>
-                  <SelectTrigger 
+                  <SelectTrigger
                     className="w-[140px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#FFD700] transition-all duration-300"
                     style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
                   >
@@ -297,7 +297,7 @@ export function Rankings() {
                   </SelectContent>
                 </Select>
                 <Select value={kingdomFactionFilter} onValueChange={(v) => setKingdomFactionFilter(v as RankFactionFilter)}>
-                  <SelectTrigger 
+                  <SelectTrigger
                     className="w-[140px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#FFD700] transition-all duration-300"
                     style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
                   >
@@ -315,7 +315,7 @@ export function Rankings() {
                   </SelectContent>
                 </Select>
                 <Select value={kingdomLevelFilter} onValueChange={(v) => setKingdomLevelFilter(v as RankKingdomLevelFilter)}>
-                  <SelectTrigger 
+                  <SelectTrigger
                     className="w-[140px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#FFD700] transition-all duration-300"
                     style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
                   >
@@ -349,7 +349,7 @@ export function Rankings() {
                     <Card
                       key={kingdom.id}
                       className="mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#FFD700] hover:-translate-y-1"
-                      style={{ 
+                      style={{
                         boxShadow: '4px 4px 0 #2A2A2A'
                       }}
                     >
@@ -413,7 +413,7 @@ export function Rankings() {
                   />
                 </div>
                 <Select value={playerRegionFilter} onValueChange={(v) => setPlayerRegionFilter(v as RankRegionFilter)}>
-                  <SelectTrigger 
+                  <SelectTrigger
                     className="w-[140px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#FFD700] transition-all duration-300"
                     style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
                   >
@@ -428,7 +428,7 @@ export function Rankings() {
                   </SelectContent>
                 </Select>
                 <Select value={playerFactionFilter} onValueChange={(v) => setPlayerFactionFilter(v as RankFactionFilter)}>
-                  <SelectTrigger 
+                  <SelectTrigger
                     className="w-[140px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#FFD700] transition-all duration-300"
                     style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
                   >
@@ -446,7 +446,7 @@ export function Rankings() {
                   </SelectContent>
                 </Select>
                 <Select value={playerRankSort} onValueChange={(v) => setPlayerRankSort(v as PlayerRankSort)}>
-                  <SelectTrigger 
+                  <SelectTrigger
                     className="w-[160px] h-12 bg-white border-4 border-[#4A4A4A] hover:border-[#6A6A6A] focus:border-[#FFD700] transition-all duration-300"
                     style={{ boxShadow: '4px 4px 0 #2A2A2A' }}
                   >
@@ -484,7 +484,7 @@ export function Rankings() {
                     <Card
                       key={player.id}
                       className="mc-card group cursor-pointer overflow-hidden transition-all duration-500 bg-white border-4 border-[#4A4A4A] hover:border-[#FFD700] hover:-translate-y-1"
-                      style={{ 
+                      style={{
                         boxShadow: '4px 4px 0 #2A2A2A'
                       }}
                     >

@@ -17,6 +17,7 @@ import HallOfFamePage from './pages/HallOfFamePage';
 import KingdomsPage from './pages/KingdomsPage';
 import DailyNewsPage from './pages/DailyNewsPage';
 import RankingsPage from './pages/RankingsPage';
+import LogsReaderIntroPage from './pages/LogsReaderIntroPage';
 import './App.css';
 
 function HomePage() {
@@ -171,6 +172,7 @@ function App() {
             <Route path="/kingdoms" element={<KingdomsPage />} />
             <Route path="/daily-news" element={<DailyNewsPage />} />
             <Route path="/rankings" element={<RankingsPage />} />
+            <Route path="/logs-reader" element={<LogsReaderIntroPage />} />
           </Routes>
         </main>
       </div>

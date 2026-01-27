@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Store, Users, Building2, Newspaper, ShoppingBag, Trophy } from 'lucide-react';
+import { Menu, X, Store, Users, Building2, Newspaper, ShoppingBag, Trophy, Terminal } from 'lucide-react';
 import { OptimizedImage } from '@/components/OptimizedImage';
 
 interface NavbarProps {
@@ -15,6 +15,7 @@ const navItems = [
   { id: 'kingdoms', label: '王国传', icon: Building2, path: '/kingdoms' },
   { id: 'daily', label: '日报', icon: Newspaper, path: '/daily-news' },
   { id: 'rankings', label: '排行榜', icon: Trophy, path: '/rankings' },
+  { id: 'logs', label: '日志分析器', icon: Terminal, path: '/logs-reader' },
 ];
 
 export function Navbar({ onSectionChange }: NavbarProps) {
