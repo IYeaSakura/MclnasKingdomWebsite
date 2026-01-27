@@ -18,10 +18,14 @@ interface OptimizedImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElem
   onLoad?: (event: React.SyntheticEvent<HTMLImageElement>) => void;
   onError?: (event: React.SyntheticEvent<HTMLImageElement>) => void;
   onLoadingComplete?: (img: HTMLImageElement) => void;
-  placeholder?: 'blur' | 'empty' | 'color';
+  placeholder?: 'blur' | 'empty' | 'color' | 'skeleton' | 'none';
   placeholderColor?: string;
   blurDataURL?: string;
   disableOptimization?: boolean;
+  fadeIn?: boolean;
+  fadeInDuration?: number;
+  blurTransition?: boolean;
+  blurTransitionDuration?: number;
 }
 
 const OptimizedImage = forwardRef<OptimizedImageHandle, OptimizedImageProps>(({
@@ -37,10 +41,14 @@ const OptimizedImage = forwardRef<OptimizedImageHandle, OptimizedImageProps>(({
   onLoad,
   onError,
   onLoadingComplete,
-  placeholder = 'empty',
-  placeholderColor = 'transparent',
+  placeholder = 'skeleton',
+  placeholderColor = '#f3f4f6',
   blurDataURL,
   disableOptimization = false,
+  fadeIn = true,
+  fadeInDuration = 300,
+  blurTransition = true,
+  blurTransitionDuration = 300,
   style,
   ...restProps
 }, ref) => {
@@ -151,40 +159,47 @@ const OptimizedImage = forwardRef<OptimizedImageHandle, OptimizedImageProps>(({
     onError?.(event);
   };
 
-  const getPlaceholderStyle = () => {
-    if (placeholder === 'blur' && blurDataURL) {
-      return {
-        backgroundImage: `url(${blurDataURL})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        filter: 'blur(10px)',
-      };
-    }
-    if (placeholder === 'color') {
-      return {
-        backgroundColor: placeholderColor,
-      };
-    }
-    return {};
-  };
-
-  const getOpacity = () => {
-    if (placeholder === 'empty') {
-      return isLoaded ? 1 : 0;
-    }
-    return 1;
-  };
-
-  const imgStyle = {
-    ...getPlaceholderStyle(),
-    opacity: getOpacity(),
-    transition: placeholder === 'blur' ? 'filter 0.3s ease-in-out' : 'opacity 0.3s ease-in-out',
-    ...style,
-  };
-
   if (!src) {
     return null;
   }
+
+  const containerStyle: React.CSSProperties = {
+    position: 'relative',
+    width: width || '100%',
+    height: height || '100%',
+    overflow: 'hidden',
+    ...style,
+  };
+
+  const placeholderStyle: React.CSSProperties = {
+    position: 'absolute',
+    inset: 0,
+    zIndex: 0,
+    transition: 'opacity 0.2s ease-in-out',
+    opacity: isLoaded ? 0 : 1,
+  };
+
+  if (placeholder === 'blur' && blurDataURL) {
+    placeholderStyle.backgroundImage = `url(${blurDataURL})`;
+    placeholderStyle.backgroundSize = 'cover';
+    placeholderStyle.backgroundPosition = 'center';
+    placeholderStyle.filter = isLoaded && blurTransition ? `blur(0px)` : `blur(10px)`;
+    placeholderStyle.transition = isLoaded && blurTransition 
+      ? `opacity ${fadeInDuration}ms ease-in-out, filter ${blurTransitionDuration}ms ease-in-out`
+      : 'opacity 0.2s ease-in-out';
+  } else if (placeholder === 'color' || placeholder === 'skeleton') {
+    placeholderStyle.backgroundColor = placeholderColor;
+  }
+
+  const imgStyle: React.CSSProperties = {
+    position: 'relative',
+    zIndex: 1,
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    transition: fadeIn ? `opacity ${fadeInDuration}ms ease-in-out` : 'none',
+    opacity: isLoaded ? 1 : 0,
+  };
 
   const commonImgProps = {
     ref: imgRef,
@@ -206,35 +221,40 @@ const OptimizedImage = forwardRef<OptimizedImageHandle, OptimizedImageProps>(({
   }
 
   return (
-    <picture>
-      {isHighPriority && (
-        <source
-          srcSet={generateSrcset('avif')}
-          type="image/avif"
-          sizes={sizes}
-        />
+    <div style={containerStyle}>
+      {(placeholder !== 'none' && placeholder !== 'empty') && (
+        <div style={placeholderStyle} />
       )}
-      {isHighPriority && (
-        <source
-          srcSet={generateSrcset('webp')}
-          type="image/webp"
-          sizes={sizes}
-        />
-      )}
-      {!isHighPriority && (
-        <source
-          srcSet={generateSrcset('avif')}
-          type="image/avif"
-        />
-      )}
-      {!isHighPriority && (
-        <source
-          srcSet={generateSrcset('webp')}
-          type="image/webp"
-        />
-      )}
-      <img {...commonImgProps} />
-    </picture>
+      <picture>
+        {isHighPriority && (
+          <source
+            srcSet={generateSrcset('avif')}
+            type="image/avif"
+            sizes={sizes}
+          />
+        )}
+        {isHighPriority && (
+          <source
+            srcSet={generateSrcset('webp')}
+            type="image/webp"
+            sizes={sizes}
+          />
+        )}
+        {!isHighPriority && (
+          <source
+            srcSet={generateSrcset('avif')}
+            type="image/avif"
+          />
+        )}
+        {!isHighPriority && (
+          <source
+            srcSet={generateSrcset('webp')}
+            type="image/webp"
+          />
+        )}
+        <img {...commonImgProps} />
+      </picture>
+    </div>
   );
 });
 
