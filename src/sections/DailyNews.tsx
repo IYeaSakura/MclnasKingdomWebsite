@@ -19,8 +19,9 @@ import { Search, Newspaper, Calendar, Clock, ChevronRight, Sparkles } from 'luci
 import ReactMarkdown from 'react-markdown';
 import type { DailyNews, DateFilter } from '@/types';
 import { loadDailyNewsData } from '@/data';
-import { preloadImages } from '@/utils/imageCache';
 import { createCachedDataLoader } from '@/utils/dataCache';
+import { getOptimalImageQuality } from '@/utils/networkOptimization';
+import { imageLoader } from '@/utils/imageLoader';
 import { usePagination } from '@/hooks/usePagination';
 import { Pagination } from '@/components/Pagination';
 import { FirstLetterIcon } from '@/components/FirstLetterIcon';
@@ -46,13 +47,14 @@ export function DailyNews() {
   const [isLoading, setIsLoading] = useState(true);
   const [dailyNewsData, setDailyNewsData] = useState<DailyNews[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const imageQuality = getOptimalImageQuality();
 
   useEffect(() => {
     async function loadData() {
       try {
         const data = await cachedLoadDailyNewsData();
         setDailyNewsData(data);
-        preloadImages(data.map(news => news.image));
+        imageLoader.preloadImages(data.map(news => news.image), imageQuality, 'low');
       } catch (error) {
         console.error('Failed to load daily news data:', error);
       } finally {
@@ -60,7 +62,7 @@ export function DailyNews() {
       }
     }
     loadData();
-  }, []);
+  }, [imageQuality]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

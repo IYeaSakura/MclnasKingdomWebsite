@@ -2,7 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Play, Shield, Crown, RefreshCw, Sparkles } from 'lucide-react';
 import { VideoModal } from '@/components/VideoModal';
-import { preloadImage, preloadImages, getOptimizedImageUrl } from '@/utils/imageCache';
+import { BackgroundSkeleton } from '@/components/BackgroundSkeleton';
+import { getOptimizedImageUrl } from '@/utils/imageCache';
+import { getOptimalImageQuality } from '@/utils/networkOptimization';
+import { imageLoader } from '@/utils/imageLoader';
 import { useSeason } from '@/contexts/SeasonContext';
 
 interface HeroProps {
@@ -34,10 +37,24 @@ export function Hero({ onNavigate, isCurrentSection }: HeroProps) {
   const [currentImage, setCurrentImage] = useState<string>(SEASON_IMAGES[currentSeason]);
   const [nextImage, setNextImage] = useState<string>('');
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const imageQuality = getOptimalImageQuality();
 
   useEffect(() => {
-    preloadImages(Object.values(SEASON_IMAGES));
-  }, []);
+    const loadCurrentImage = async () => {
+      setIsLoading(true);
+      try {
+        const optimizedSrc = getOptimizedImageUrl(SEASON_IMAGES[currentSeason], imageQuality);
+        await imageLoader.preloadImage(optimizedSrc, imageQuality, 'high').promise;
+        setCurrentImage(SEASON_IMAGES[currentSeason]);
+      } catch (error) {
+        console.error('Failed to load hero background:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadCurrentImage();
+  }, [currentSeason, imageQuality]);
 
   useEffect(() => {
     if (isCurrentSection) {
@@ -58,7 +75,8 @@ export function Hero({ onNavigate, isCurrentSection }: HeroProps) {
     setIsTransitioning(true);
     setNextImage(nextSeasonImage);
 
-    await preloadImage(nextSeasonImage);
+    const optimizedSrc = getOptimizedImageUrl(nextSeasonImage, imageQuality);
+    await imageLoader.preloadImage(optimizedSrc, imageQuality, 'high').promise;
 
     setTimeout(() => {
       setCurrentImage(nextSeasonImage);
@@ -93,6 +111,8 @@ export function Hero({ onNavigate, isCurrentSection }: HeroProps) {
       ref={heroRef}
       className="relative h-screen flex items-center justify-center overflow-hidden"
     >
+      {isLoading && <BackgroundSkeleton />}
+
       {/* Background Image with Parallax */}
       <div
         className="absolute inset-0 z-0 pointer-events-none"
@@ -102,24 +122,22 @@ export function Hero({ onNavigate, isCurrentSection }: HeroProps) {
         }}
       >
         <div
-          className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
+          className="absolute inset-0 bg-cover bg-center transition-opacity duration-500 ease-in-out"
           style={{
-            backgroundImage: `url(${getOptimizedImageUrl(currentImage)})`,
-            opacity: isTransitioning ? 0 : 1
+            backgroundImage: `url(${getOptimizedImageUrl(currentImage, imageQuality)})`,
+            opacity: isLoading ? 0 : isTransitioning ? 0 : 1
           }}
         />
         {nextImage && (
           <div
-            className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
+            className="absolute inset-0 bg-cover bg-center transition-opacity duration-500 ease-in-out"
             style={{
-              backgroundImage: `url(${getOptimizedImageUrl(nextImage)})`,
+              backgroundImage: `url(${getOptimizedImageUrl(nextImage, imageQuality)})`,
               opacity: isTransitioning ? 1 : 0
             }}
           />
         )}
-        {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
-        {/* Vignette Effect */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
       </div>
 

@@ -18,8 +18,9 @@ import {
 import { Search, Trophy, Shield, Sword, Scale, HelpCircle, Star, Sparkles } from 'lucide-react';
 import type { Player, FactionType } from '@/types';
 import { loadHallOfFameData } from '@/data';
-import { preloadImages } from '@/utils/imageCache';
 import { createCachedDataLoader } from '@/utils/dataCache';
+import { getOptimalImageQuality } from '@/utils/networkOptimization';
+import { imageLoader } from '@/utils/imageLoader';
 import { usePagination } from '@/hooks/usePagination';
 import { Pagination } from '@/components/Pagination';
 import { FirstLetterIcon } from '@/components/FirstLetterIcon';
@@ -44,13 +45,14 @@ export function HallOfFame() {
   const [isLoading, setIsLoading] = useState(true);
   const [hallOfFameData, setHallOfFameData] = useState<Player[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const imageQuality = getOptimalImageQuality();
 
   useEffect(() => {
     async function loadData() {
       try {
         const data = await cachedLoadHallOfFameData();
         setHallOfFameData(data);
-        preloadImages(data.map(item => item.image));
+        imageLoader.preloadImages(data.map(item => item.image), imageQuality, 'low');
       } catch (error) {
         console.error('Failed to load hall of fame data:', error);
       } finally {
@@ -58,7 +60,7 @@ export function HallOfFame() {
       }
     }
     loadData();
-  }, []);
+  }, [imageQuality]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

@@ -29,8 +29,9 @@ import { Search, TrendingUp, ShoppingCart, Coins, ArrowUpDown, Sparkles } from '
 import type { SystemShopItem, ShopItemType, PriceSort } from '@/types';
 import { loadSystemShopData } from '@/data';
 import { OptimizedImage } from '@/components/OptimizedImage';
-import { preloadImages } from '@/utils/imageCache';
 import { createCachedDataLoader } from '@/utils/dataCache';
+import { getOptimalImageQuality } from '@/utils/networkOptimization';
+import { imageLoader } from '@/utils/imageLoader';
 import { usePagination } from '@/hooks/usePagination';
 import { Pagination } from '@/components/Pagination';
 import { FirstLetterIcon } from '@/components/FirstLetterIcon';
@@ -47,13 +48,14 @@ export function SystemShop() {
   const [isLoading, setIsLoading] = useState(true);
   const [systemShopData, setSystemShopData] = useState<SystemShopItem[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const imageQuality = getOptimalImageQuality();
 
   useEffect(() => {
     async function loadData() {
       try {
         const data = await cachedLoadSystemShopData();
         setSystemShopData(data);
-        preloadImages(data.map(item => item.image));
+        imageLoader.preloadImages(data.map(item => item.image), imageQuality, 'low');
       } catch (error) {
         console.error('Failed to load system shop data:', error);
       } finally {
@@ -61,7 +63,7 @@ export function SystemShop() {
       }
     }
     loadData();
-  }, []);
+  }, [imageQuality]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

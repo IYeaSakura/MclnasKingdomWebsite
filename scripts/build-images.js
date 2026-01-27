@@ -26,7 +26,8 @@ const IMAGE_CONFIG = {
   'kingdom-': { type: 'game', priority: 'high' },
   'item-': { type: 'item', priority: 'low' },
   'player-': { type: 'player', priority: 'high' },
-  'daily-': { type: 'news', priority: 'high' }
+  'daily-': { type: 'news', priority: 'high' },
+  'mc-logo': { type: 'game', priority: 'high' }
 };
 
 function getImageConfig(filename) {

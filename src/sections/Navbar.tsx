@@ -62,7 +62,7 @@ export function Navbar({ onSectionChange }: NavbarProps) {
           className="flex items-center gap-2 group cursor-pointer"
         >
           <div className="w-20 h-10 aspect-[2/1] rounded-lg flex items-center justify-center transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 overflow-hidden">
-            <OptimizedImage src="/images/mc-logo.png" alt="MC Logo" className="w-full h-full object-contain" />
+            <OptimizedImage src="/images/raw/mc-logo.png" alt="MC Logo" className="w-full h-full object-contain" priority="high" />
           </div>
           <span className={`font-bold text-lg transition-colors duration-300 ${
             shouldShowSolidBackground ? 'text-gray-800' : 'text-white'

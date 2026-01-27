@@ -105,7 +105,7 @@ export function Footer() {
           }`}>
             <div className="flex items-center gap-3 mb-6">
               <div className="border-4 border-[#4A4A4A] flex items-center justify-center overflow-hidden" style={{ boxShadow: '4px 4px 0 #2A2A2A', boxSizing: 'border-box' }}>
-                <OptimizedImage src="/images/mc-logo.png" alt="MC Logo" className="w-auto h-auto object-contain" />
+                <OptimizedImage src="/images/raw/mc-logo.png" alt="MC Logo" className="w-auto h-auto object-contain" priority="high" />
               </div>
               <span className="font-black text-2xl text-white tracking-wider" style={{ textShadow: '3px 3px 0 #2A2A2A' }}>王国之争 × SAKURAIN</span>
             </div>

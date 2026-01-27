@@ -29,8 +29,9 @@ import { Search, TrendingUp, Flower2, Coins, Info, ArrowUpDown, Sparkles } from 
 import type { GuildShopItem, ShopItemType, PriceSort } from '@/types';
 import { loadGuildShopData } from '@/data';
 import { OptimizedImage } from '@/components/OptimizedImage';
-import { preloadImages } from '@/utils/imageCache';
 import { createCachedDataLoader } from '@/utils/dataCache';
+import { getOptimalImageQuality } from '@/utils/networkOptimization';
+import { imageLoader } from '@/utils/imageLoader';
 import { usePagination } from '@/hooks/usePagination';
 import { Pagination } from '@/components/Pagination';
 import { FirstLetterIcon } from '@/components/FirstLetterIcon';
@@ -47,13 +48,14 @@ export function GuildShop() {
   const [isLoading, setIsLoading] = useState(true);
   const [guildShopData, setGuildShopData] = useState<GuildShopItem[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const imageQuality = getOptimalImageQuality();
 
   useEffect(() => {
     async function loadData() {
       try {
         const data = await cachedLoadGuildShopData();
         setGuildShopData(data);
-        preloadImages(data.map(item => item.image));
+        imageLoader.preloadImages(data.map(item => item.image), imageQuality, 'low');
       } catch (error) {
         console.error('Failed to load guild shop data:', error);
       } finally {
@@ -61,7 +63,7 @@ export function GuildShop() {
       }
     }
     loadData();
-  }, []);
+  }, [imageQuality]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

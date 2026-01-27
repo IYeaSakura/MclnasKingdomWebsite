@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import type { Season } from '@/contexts/SeasonContext';
-import { preloadImage, preloadImages, getOptimizedImageUrl } from '@/utils/imageCache';
+import { getOptimizedImageUrl } from '@/utils/imageCache';
+import { BackgroundSkeleton } from '@/components/BackgroundSkeleton';
+import { getOptimalImageQuality } from '@/utils/networkOptimization';
+import { imageLoader } from '@/utils/imageLoader';
 
 const SEASON_IMAGES: Record<Season, string> = {
   spring: '/images/hero-landscape-1',
@@ -19,15 +22,15 @@ interface SeasonBackgroundProps {
 export function SeasonBackground({ season, className = '', children }: SeasonBackgroundProps) {
   const [currentImage, setCurrentImage] = useState<string>(SEASON_IMAGES[season]);
   const [isLoading, setIsLoading] = useState(true);
+  const imageQuality = getOptimalImageQuality();
 
   useEffect(() => {
     const loadImage = async () => {
-      console.log('Loading season background:', season, SEASON_IMAGES[season]);
       setIsLoading(true);
       try {
-        await preloadImage(SEASON_IMAGES[season]);
+        const optimizedSrc = getOptimizedImageUrl(SEASON_IMAGES[season], imageQuality);
+        await imageLoader.preloadImage(optimizedSrc, imageQuality, 'high').promise;
         setCurrentImage(SEASON_IMAGES[season]);
-        console.log('Background loaded successfully:', SEASON_IMAGES[season]);
       } catch (error) {
         console.error('Failed to load background image:', error);
       } finally {
@@ -36,31 +39,24 @@ export function SeasonBackground({ season, className = '', children }: SeasonBac
     };
 
     loadImage();
-  }, [season]);
-
-  useEffect(() => {
-    preloadImages(Object.values(SEASON_IMAGES));
-  }, []);
+  }, [season, imageQuality]);
 
   return (
     <div className={`relative w-full h-full overflow-hidden ${className}`}>
-      {/* Background Image - 确保正确显示 */}
+      {isLoading && <BackgroundSkeleton />}
+      
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ 
-          backgroundImage: `url(${getOptimizedImageUrl(currentImage)})`,
+          backgroundImage: `url(${getOptimizedImageUrl(currentImage, imageQuality)})`,
           opacity: isLoading ? 0 : 1,
-          transition: 'opacity 1s ease-in-out'
+          transition: 'opacity 0.5s ease-in-out'
         }}
       />
       
-      {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
-      
-      {/* Vignette Effect */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
       
-      {/* Content - 确保可以交互 */}
       <div className="relative z-10 w-full h-full pointer-events-auto">
         {children}
       </div>
