@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/dialog';
 import { Search, Newspaper, Calendar, Clock, ChevronRight, Sparkles } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import rehypeSanitize from 'rehype-sanitize';
 import type { DailyNews, DateFilter } from '@/types';
 import { loadDailyNewsData } from '@/data';
 import { createCachedDataLoader } from '@/utils/dataCache';
@@ -264,7 +265,7 @@ export function DailyNews() {
                   </div>
                   <CardContent className="p-4">
                     <div className="prose prose-sm max-w-none text-gray-600 line-clamp-3">
-                      <ReactMarkdown>{news.content.substring(0, 150) + '...'}</ReactMarkdown>
+                      <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{news.content.substring(0, 150) + '...'}</ReactMarkdown>
                     </div>
                     <Button
                       variant="ghost"
@@ -322,7 +323,7 @@ export function DailyNews() {
           </DialogHeader>
           <div className="mt-4">
             <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-              <ReactMarkdown>{selectedNews?.content || ''}</ReactMarkdown>
+              <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{selectedNews?.content || ''}</ReactMarkdown>
             </div>
           </div>
         </DialogContent>

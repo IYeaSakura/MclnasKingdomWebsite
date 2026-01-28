@@ -3,8 +3,6 @@ import type { DailyNews, GuildShopItem, Player, Kingdom, KingdomRank, PlayerRank
 async function fetchData<T>(fileName: string): Promise<T> {
   try {
     const url = `/data/${fileName}`;
-    console.log(`Fetching data from: ${url}`);
-
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -12,8 +10,6 @@ async function fetchData<T>(fileName: string): Promise<T> {
     }
 
     const data = await response.json();
-    console.log(`Successfully loaded ${fileName}, ${Array.isArray(data) ? data.length : 'object'} items`);
-
     return data as T;
   } catch (error) {
     console.error(`Error loading ${fileName}:`, error);

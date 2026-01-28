@@ -11,6 +11,7 @@ import { SeasonBackground } from './components/SeasonBackground';
 import { useSeason } from './contexts/SeasonContext';
 import { useMobileDetection } from './hooks/useMobileDetection';
 import { MobileWarning } from './components/MobileWarning';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import SystemShopPage from './pages/SystemShopPage';
 import GuildShopPage from './pages/GuildShopPage';
 import HallOfFamePage from './pages/HallOfFamePage';
@@ -163,28 +164,30 @@ function App() {
   const { isMobile, isDetected } = useMobileDetection();
 
   return (
-    <SeasonProvider>
-      <div className="min-h-screen bg-[#f8f9fa]">
-        <MobileWarning isOpen={isDetected && isMobile} />
-        <Navbar onSectionChange={() => {}} />
-        <main>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/system-shop" element={<SystemShopPage />} />
-            <Route path="/guild-shop" element={<GuildShopPage />} />
-            <Route path="/hall-of-fame" element={<HallOfFamePage />} />
-            <Route path="/kingdoms" element={<KingdomsPage />} />
-            <Route path="/daily-news" element={<DailyNewsPage />} />
-            <Route path="/rankings" element={<RankingsPage />} />
-            <Route path="/logs-reader" element={<LogsReaderIntroPage />} />
-            <Route path="/privacy" element={<PrivacyPage />} />
-            <Route path="/terms" element={<TermsPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </main>
-      </div>
-    </SeasonProvider>
+    <ErrorBoundary>
+      <SeasonProvider>
+        <div className="min-h-screen bg-[#f8f9fa]">
+          <MobileWarning isOpen={isDetected && isMobile} />
+          <Navbar onSectionChange={() => {}} />
+          <main>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/system-shop" element={<SystemShopPage />} />
+              <Route path="/guild-shop" element={<GuildShopPage />} />
+              <Route path="/hall-of-fame" element={<HallOfFamePage />} />
+              <Route path="/kingdoms" element={<KingdomsPage />} />
+              <Route path="/daily-news" element={<DailyNewsPage />} />
+              <Route path="/rankings" element={<RankingsPage />} />
+              <Route path="/logs-reader" element={<LogsReaderIntroPage />} />
+              <Route path="/privacy" element={<PrivacyPage />} />
+              <Route path="/terms" element={<TermsPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </main>
+        </div>
+      </SeasonProvider>
+    </ErrorBoundary>
   );
 }
 

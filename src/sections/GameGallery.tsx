@@ -107,7 +107,7 @@ export function GameGallery({ isCurrentSection }: GameGalleryProps) {
     }
 
     return () => {
-      if (animationFrameRef.current) {
+      if (animationFrameRef.current !== null) {
         cancelAnimationFrame(animationFrameRef.current);
         animationFrameRef.current = null;
       }
