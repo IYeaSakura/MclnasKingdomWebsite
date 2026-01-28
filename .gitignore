@@ -2,6 +2,7 @@ node_modules
 dist
 .vscode
 .VSCodeCounter
+reports
 
 # 忽略 public/images 目录中的所有生成的文件
 /public/images/*.avif
