@@ -1,6 +1,16 @@
 import type { DailyNews, GuildShopItem, Player, Kingdom, KingdomRank, PlayerRank, SystemShopItem } from '@/types';
+import {
+  DailyNewsDataSchema,
+  GuildShopDataSchema,
+  HallOfFameDataSchema,
+  KingdomsDataSchema,
+  KingdomRankingsDataSchema,
+  PlayerRankingsDataSchema,
+  SystemShopDataSchema,
+} from '@/schemas';
+import { z } from 'zod';
 
-async function fetchData<T>(fileName: string): Promise<T> {
+async function fetchData<T>(fileName: string, schema: z.ZodSchema<T>): Promise<T> {
   try {
     const url = `/data/${fileName}`;
     const response = await fetch(url);
@@ -10,7 +20,7 @@ async function fetchData<T>(fileName: string): Promise<T> {
     }
 
     const data = await response.json();
-    return data as T;
+    return schema.parse(data);
   } catch (error) {
     console.error(`Error loading ${fileName}:`, error);
     throw error;
@@ -18,29 +28,29 @@ async function fetchData<T>(fileName: string): Promise<T> {
 }
 
 export async function loadDailyNewsData(): Promise<DailyNews[]> {
-  return fetchData<DailyNews[]>('dailyNewsData.json');
+  return fetchData('dailyNewsData.json', DailyNewsDataSchema);
 }
 
 export async function loadGuildShopData(): Promise<GuildShopItem[]> {
-  return fetchData<GuildShopItem[]>('guildShopData.json');
+  return fetchData('guildShopData.json', GuildShopDataSchema);
 }
 
 export async function loadHallOfFameData(): Promise<Player[]> {
-  return fetchData<Player[]>('hallOfFameData.json');
+  return fetchData('hallOfFameData.json', HallOfFameDataSchema);
 }
 
 export async function loadKingdomsData(): Promise<Kingdom[]> {
-  return fetchData<Kingdom[]>('kingdomsData.json');
+  return fetchData('kingdomsData.json', KingdomsDataSchema);
 }
 
 export async function loadKingdomRankingsData(): Promise<KingdomRank[]> {
-  return fetchData<KingdomRank[]>('kingdomRankingsData.json');
+  return fetchData('kingdomRankingsData.json', KingdomRankingsDataSchema);
 }
 
 export async function loadPlayerRankingsData(): Promise<PlayerRank[]> {
-  return fetchData<PlayerRank[]>('playerRankingsData.json');
+  return fetchData('playerRankingsData.json', PlayerRankingsDataSchema);
 }
 
 export async function loadSystemShopData(): Promise<SystemShopItem[]> {
-  return fetchData<SystemShopItem[]>('systemShopData.json');
+  return fetchData('systemShopData.json', SystemShopDataSchema);
 }
