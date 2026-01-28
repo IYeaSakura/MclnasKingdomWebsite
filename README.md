@@ -60,7 +60,7 @@
 
 ```bash
 # 1. 克隆仓库
-git clone https://gitee.com/IYeaSakura/mclans-kingdom-wars-website.git
+git clone https://github.com/IYeaSakura/MclnasKingdomWebsite.git
 
 # 2. 进入项目目录
 cd mclans-kingdom-wars-website
@@ -588,7 +588,7 @@ export default async function handler() {
 
 1. **Fork 本仓库**
    ```bash
-   git clone https://gitee.com/IYeaSakura/mclans-kingdom-wars-website.git
+   git clone https://github.com/IYeaSakura/MclnasKingdomWebsite.git
    ```
 
 2. **创建特性分支**
@@ -654,8 +654,8 @@ limitations under the License.
 
 ## 📞 联系方式
 
-- **GitHub Issues**: [提交问题](https://gitee.com/IYeaSakura/mclans-kingdom-wars-website/issues)
-- **Pull Requests**: [提交代码](https://gitee.com/IYeaSakura/mclans-kingdom-wars-website/pulls)
+- **GitHub Issues**: [提交问题](https://github.com/IYeaSakura/MclnasKingdomWebsite/issues)
+- **Pull Requests**: [提交代码](https://github.com/IYeaSakura/MclnasKingdomWebsite/pulls)
 - **Email**: wangyuyang2004@foxmail.com
 
 ---

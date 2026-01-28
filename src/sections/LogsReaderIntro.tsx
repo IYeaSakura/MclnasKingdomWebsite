@@ -120,7 +120,7 @@ export function LogsReaderIntro() {
                     访问日志分析器
                   </button>
                   <button
-                    onClick={() => window.open('https://gitee.com/IYeaSakura/mclans-log-analyzer', '_blank')}
+                    onClick={() => window.open('https://github.com/IYeaSakura/MclansLogsAnalyzer', '_blank')}
                     className="group px-6 py-3 text-base font-bold rounded-lg border-4 border-[#2A2A2A] text-white bg-[#6A6A6A] hover:bg-[#7A7A7A] hover:border-[#4A4A4A] hover:-translate-y-0.5 transition-all duration-200"
                     style={{ boxShadow: '6px 6px 0 #2A2A2A' }}
                   >
@@ -356,7 +356,7 @@ export function LogsReaderIntro() {
                     <ArrowRight className="w-4 h-4 ml-2 inline" />
                   </button>
                   <button
-                    onClick={() => window.open('https://gitee.com/IYeaSakura/mclans-log-analyzer', '_blank')}
+                    onClick={() => window.open('https://github.com/IYeaSakura/MclansLogsAnalyzer', '_blank')}
                     className="group px-8 py-4 text-base font-bold rounded-lg border-4 border-[#2A2A2A] text-white bg-[#6A6A6A] hover:bg-[#7A7A7A] hover:border-[#4A4A4A] hover:-translate-y-0.5 transition-all duration-200"
                     style={{ boxShadow: '6px 6px 0 #2A2A2A' }}
                   >

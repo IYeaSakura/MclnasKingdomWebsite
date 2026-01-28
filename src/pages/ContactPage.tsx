@@ -175,14 +175,14 @@ export default function ContactPage() {
               开源项目
             </h2>
             <div className="text-gray-700 space-y-2 leading-relaxed">
-              <p>本网站的开源代码托管在Gitee平台，欢迎访问和贡献：</p>
+              <p>本网站的开源代码托管在GitHub平台，欢迎访问和贡献：</p>
               <a
-                href="https://gitee.com/IYeaSakura/mclans-kingdom-wars-website"
+                href="https://github.com/IYeaSakura/MclnasKingdomWebsite"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-[#FFD700] hover:text-[#CC9900] font-medium transition-colors mt-4"
               >
-                <span>https://gitee.com/IYeaSakura/mclans-kingdom-wars-website</span>
+                <span>https://github.com/IYeaSakura/MclnasKingdomWebsite</span>
                 <ExternalLink className="w-4 h-4" />
               </a>
             </div>

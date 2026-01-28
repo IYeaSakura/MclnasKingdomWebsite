@@ -221,7 +221,7 @@ export function Footer() {
               © 2026 王国之争 × SAKURAIN。保留所有权利。
             </p>
             <a
-              href="https://gitee.com/IYeaSakura/mclans-kingdom-wars-website"
+              href="https://github.com/IYeaSakura/MclnasKingdomWebsite"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-[#E8E8E8] hover:text-[#FFD700] transition-colors font-medium"
